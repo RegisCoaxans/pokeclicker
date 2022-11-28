@@ -20,6 +20,7 @@ class Pokeballs implements Feature {
 
     public selectedSelection: KnockoutObservable<KnockoutObservable<GameConstants.Pokeball>>;
     public selectedTitle: KnockoutObservable<string>;
+    public pokeballTabToggle: KnockoutObservable<boolean>;
 
     constructor() {
         this.pokeballs = [
@@ -109,6 +110,7 @@ class Pokeballs implements Feature {
         this._notCaughtShinySelection = ko.observable(this.defaults.notCaughtShinySelection);
         this.selectedTitle = ko.observable('');
         this.selectedSelection = ko.observable(this._alreadyCaughtSelection);
+        this.pokeballTabVisible = ko.observable(true);
     }
 
     initialize(): void {
@@ -145,7 +147,20 @@ class Pokeballs implements Feature {
         const alreadyCaught = App.game.party.alreadyCaughtPokemon(id);
         const alreadyCaughtShiny = App.game.party.alreadyCaughtPokemon(id, true);
         const pokemon = PokemonHelper.getPokemonById(id);
+        const typeSetting = Settings.getSetting('catchingTypeFilter');
+        const pokerusSetting = Settings.getSetting('catchingPokerusFilter');
         let pref: GameConstants.Pokeball;
+
+        // Check weither or not the type and pokerus requirements are met.
+        if (typeSetting.value !== typeSetting.defaultValue && pokemon.type1 !== typeSetting.value && pokemon.type2 !== typeSetting.value) {
+            return GameConstants.Pokeball.None;
+        }
+        if (alreadyCaught && pokerusSetting.value !== pokerusSetting.defaultValue) {
+            const partyPokemon = App.game.party.getPokemon(id);
+            if (pokerusSetting.value !== partyPokemon.pokerus) {
+                return GameConstants.Pokeball.None;
+            }
+        }
 
         // just check against alreadyCaughtShiny as this returns false when you don't have the pokemon yet.
 
@@ -287,4 +302,8 @@ class Pokeballs implements Feature {
     set alreadyCaughtShinySelection(ball: GameConstants.Pokeball) {
         this._alreadyCaughtShinySelection(ball);
     }
+
+    public togglePokeballList() {
+        this.pokeballTabVisible(!this.pokeballTabVisible());
+	}
 }

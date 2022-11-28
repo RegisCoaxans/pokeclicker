@@ -31,6 +31,19 @@
             </thead>
         </table>
     </div>
+	<div class="card-footer" data-bind="visible : App.game.quests.isDailyQuestsUnlocked()">
+		<knockout class="mr-auto">
+			<span class="badge text-light"
+				data-bind="if: Settings.getSetting('catchingTypeFilter').observableValue() !== Settings.getSetting('catchingTypeFilter').defaultValue,
+				style: { 'background-color': TypeColor[Settings.getSetting('catchingTypeFilter').observableValue()] }" style="line-height : 12px;">
+				<small><strong data-bind="text: PokemonType[Settings.getSetting('catchingTypeFilter').observableValue()].toUpperCase()"></strong></small>
+			</span>
+			<img data-bind="visible : Settings.getSetting('catchingPokerusFilter').observableValue() !== Settings.getSetting('catchingPokerusFilter').defaultValue, attr : {src: `assets/images/breeding/pokerus/${GameConstants.Pokerus[Settings.getSetting('catchingPokerusFilter').observableValue()]}.png`}"/>
+		</knockout>
+		<button class="btn btn-primary" data-bind="click : function(){ return App.game.pokeballs.togglePokeballList(); }">
+			Filters
+		</button>
+	</div>
 
     <script type="text/html" id="selectedPokeballDisplayTemplate">
         <img class="pokeball-small clickable pokeball-selected"

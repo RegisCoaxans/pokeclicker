@@ -15,6 +15,7 @@ import {
     DAY,
     ExtraAchievementCategories,
     camelCaseToString,
+    Pokerus,
 } from '../GameConstants';
 import HotkeySetting from './HotkeySetting';
 import Language, { LanguageNames } from '../translation/Language';
@@ -215,6 +216,10 @@ Object.keys(BreedingFilters).forEach((key) => {
     const filter = BreedingFilters[key];
     Settings.add(new Setting<string>(filter.optionName, filter.displayName, filter.options || [], filter.value().toString()));
 });
+
+// Catching Filers
+Settings.add(new Setting<number>('catchingPokerusFilter', 'Pokerus', [new SettingOption('All', -2), ...Settings.enumToNumberSettingOptionArray(Pokerus, (p) => p !== 'Infected' && p !== 'Uninfected')], -2));
+Settings.add(new Setting<number>('catchingTypeFilter', 'Type', [new SettingOption('All', -2), ...Settings.enumToNumberSettingOptionArray(PokemonType, (t) => t !== 'None')], -2));
 
 // Pokedex Filters
 Object.keys(PokedexFilters).forEach((key) => {
