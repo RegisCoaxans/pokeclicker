@@ -110,7 +110,7 @@ class Pokeballs implements Feature {
         this._notCaughtShinySelection = ko.observable(this.defaults.notCaughtShinySelection);
         this.selectedTitle = ko.observable('');
         this.selectedSelection = ko.observable(this._alreadyCaughtSelection);
-        this.pokeballTabVisible = ko.observable(true);
+        this.pokeballTabToggle = ko.observable(true);
     }
 
     initialize(): void {
@@ -303,7 +303,7 @@ class Pokeballs implements Feature {
         this._alreadyCaughtShinySelection(ball);
     }
 
-    public togglePokeballList() {
-        this.pokeballTabVisible(!this.pokeballTabVisible());
+    public togglePokeballTab() {
+        this.pokeballTabToggle(!this.pokeballTabToggle());
 	}
 }
