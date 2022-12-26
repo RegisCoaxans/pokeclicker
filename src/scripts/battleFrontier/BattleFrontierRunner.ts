@@ -6,6 +6,9 @@ class BattleFrontierRunner {
     static stage: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
     public static checkpoint: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
     public static highest: KnockoutObservable<number> = ko.observable(1);
+	public static runDeductedBP: KnockOutObservable<number> = ko.observable(0);
+
+	public static tempDeductedBP: KnockOutComputed<number> = ko.pureComputed(() => )
 
     public static counter = 0;
 
@@ -121,6 +124,14 @@ class BattleFrontierRunner {
             }
         });
     }
+	
+	public static computeStageBP(stage : number, initStage = 0, deductedBP = 0) {
+		let baseBP = Math.round(Math.max(1, stage / 100) * stage);
+		const initBP = Math.round(Math.max(1, initStage / 100) * initStage);
+		baseBP -= initBP;
+		baseBP -= deductedBP;
+		return baseBP;
+	}
 
     public static timeLeftSeconds = ko.pureComputed(() => {
         return (Math.ceil(BattleFrontierRunner.timeLeft() / 100) / 10).toFixed(1);
@@ -137,4 +148,11 @@ class BattleFrontierRunner {
     public static hasCheckpoint = ko.computed(() => {
         return BattleFrontierRunner.checkpoint() > 1;
     })
+	
+	public static stagesToSkip = ko.computed(() => {
+		const step = 0.05;
+		const stage = BattleFrontierRunner.stage();
+		const finalStage = Math.min(0.9 * BattleFrontierRunner.highest(), stage + Math.floor(step * BattleFrontierRunner.highest()));
+		return finalStage -
+	})
 }

@@ -55,5 +55,6 @@ class BattleFrontier implements Feature {
         });
 
         BattleFrontierRunner.checkpoint(json.checkpoint);
+		BattleFrontierRunner.runDeductedBP(json.runDeductedBP);
     }
 }

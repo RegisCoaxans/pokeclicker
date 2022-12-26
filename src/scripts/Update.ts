@@ -1894,6 +1894,11 @@ class Update implements Saveable {
             }
             //Red Gyarados
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 22);
+
+			//Battle Frontier penalty.
+			if (saveData.battleFrontier) {
+				saveData.battleFrontier.runDeductedBP = 0;
+			}
         },
     };
 
