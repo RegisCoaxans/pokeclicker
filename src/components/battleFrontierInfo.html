@@ -1,8 +1,15 @@
 
 <!-- ko if: App.game.gameState === GameConstants.GameState.battleFrontier -->
 <div id="battleFrontierInformation" class="card sortable-disabled border-secondary mb-3 battle-frontier no-select">
-    <div class="card-header p-0" data-toggle="collapse" href="#battleFrontierRewards">
-        <span>Battle Frontier</span>
+    <div class="card-header p-0">
+        <span data-toggle="collapse" href="#battleFrontierRewards">Battle Frontier</span>
+		<button class="btn btn-primary pt-0"
+            style="position: absolute; right: 0px; top: 0px; width: auto; height: 41px;"
+            data-bind="visible : BattleFrontierRunner.started,
+			tooltip: { title: 'Yes', trigger: 'hover', placement:'bottom' },
+			template : {name: 'currencyTemplate', data: {'amount': BattleFrontierRunner.battlePointEarnings(), 'currency': GameConstants.Currency.battlePoint}}">
+			?
+		</button>
     </div>
     <!-- ko ifnot: BattleFrontierRunner.started -->
     <div class="card-body text-center">
@@ -14,9 +21,12 @@
             When you are ready, click Start!<br/>
             <i>Note: there is no click damage in the Battle Frontier.</i>
         </p>
-        <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start(false)">Start</a>
+        <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start()">Start</a>
+		<!-- ko if: BattleFrontierRunner.hasWaypoint() -->
+            <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start(GameConstants.BattleFrontierStartMode.Waypoint)">Start at highest waypoint (Stage <knockout data-bind="text: BattleFrontierRunner.availableWaypoint">0</knockout>)</a>
+        <!-- /ko -->
         <!-- ko if: BattleFrontierRunner.hasCheckpoint() -->
-            <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start(true)">Start at latest checkpoint (Stage <knockout data-bind="text: BattleFrontierRunner.checkpoint">0</knockout>)</a>
+            <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start(GameConstants.BattleFrontierStartMode.Checkpoint)">Start at latest checkpoint (Stage <knockout data-bind="text: BattleFrontierRunner.checkpoint">0</knockout>)</a>
         <!-- /ko -->
         <a class="btn btn-block btn-danger text-light" onclick="App.game.battleFrontier.leave()">Leave</a>
     </div>

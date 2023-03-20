@@ -79,6 +79,7 @@ class Game {
         EffectEngineRunner.initialize(this.multiplier, GameHelper.enumStrings(GameConstants.BattleItemType).map((name) => ItemList[name]));
         FluteEffectRunner.initialize(this.multiplier);
         ItemHandler.initilizeEvoStones();
+        BattleFrontierRunner.initialize();
         this.profile.initialize();
         this.breeding.initialize();
         this.pokeballs.initialize();
@@ -87,6 +88,7 @@ class Game {
         this.underground.initialize();
         this.farming.initialize();
         this.specialEvents.initialize();
+        this.battleFrontier.initialize();
         this.load();
 
         // Update if the achievements are already completed

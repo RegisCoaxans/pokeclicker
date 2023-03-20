@@ -702,5 +702,10 @@ namespace GameConstants {
         [DayCyclePart.Day]: 6,
         [DayCyclePart.Dusk]: 17,
         [DayCyclePart.Night]: 18,
-    };
+    }
+	declare enum BattleFrontierStartMode {
+		None,
+		Checkpoint,
+		Waypoint,
+	};
 }

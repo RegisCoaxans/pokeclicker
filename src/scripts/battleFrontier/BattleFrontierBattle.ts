@@ -20,7 +20,7 @@ class BattleFrontierBattle extends Battle {
         }
         // Limit pokemon attack speed, Only allow 1 attack per 450ms
         const now = Date.now();
-        if (this.lastPokemonAttack > now - 450) {
+        if (this.lastPokemonAttack > now - 90) {
             return;
         }
         this.lastPokemonAttack = now;

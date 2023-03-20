@@ -21,8 +21,8 @@ class BattleFrontier implements Feature {
         App.game.gameState = GameConstants.GameState.battleFrontier;
     }
 
-    public start(useCheckpoint: boolean): void {
-        BattleFrontierRunner.start(useCheckpoint);
+    public start(mode : GameConstants.BattleFrontierStartMode = GameConstants.BattleFrontierStartMode.None): void {
+        BattleFrontierRunner.start(mode);
     }
 
     public leave(): void {
