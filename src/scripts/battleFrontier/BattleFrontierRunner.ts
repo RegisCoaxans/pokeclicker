@@ -6,12 +6,12 @@ class BattleFrontierRunner {
     static stage: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
     public static checkpoint: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
     public static highest: KnockoutObservable<number> = ko.observable(1);
-	public static waypointUsed: KnockoutObservable<number> = ko.observable(1);
+	public static breakpoint: KnockoutObservable<number> = ko.observable(0);
     public static availableWaypoint: KnockoutObservable<number>;
     public static hasWaypoint: KnockoutObservable<boolean>;
+    public static hasUsedWaypoint: KnockoutObservable<boolean>;
 
     public static counter = 0;
-	public static tickCount = 0;
     public static started = ko.observable(false);
 
     constructor() {}
@@ -23,13 +23,16 @@ class BattleFrontierRunner {
         BattleFrontierRunner.hasWaypoint = ko.computed(() => {
             return BattleFrontierRunner.availableWaypoint() > 1;
         })
+
+        BattleFrontierRunner.hasUsedWaypoint = ko.computed(() => {
+            return !!BattleFrontierRunner.breakpoint();
+        })
     }
 
     public static tick() {
         if (!BattleFrontierRunner.started()) {
             return;
         }
-		BattleFrontierRunner.tickCount++;
         if (BattleFrontierRunner.timeLeft() < 0) {
             BattleFrontierRunner.battleLost();
         }
@@ -56,11 +59,11 @@ class BattleFrontierRunner {
 				break;
 			case GameConstants.BattleFrontierStartMode.None :
 				BattleFrontierRunner.stage(1);
-				BattleFrontierRunner.waypointUsed(1);
+				BattleFrontierRunner.breakpoint(0);
 				break;
 			case GameConstants.BattleFrontierStartMode.Waypoint :
 				BattleFrontierRunner.stage(BattleFrontierRunner.availableWaypoint());
-				BattleFrontierRunner.waypointUsed(BattleFrontierRunner.availableWaypoint());
+				BattleFrontierRunner.breakpoint(App.game.statistics.battleFrontierHighestStageCompleted());
 				break;
 		}
         BattleFrontierRunner.highest(App.game.statistics.battleFrontierHighestStageCompleted());
@@ -97,9 +100,8 @@ class BattleFrontierRunner {
         // Current stage - 1 as the player didn't beat the current stage
         const stageBeaten = BattleFrontierRunner.stage() - 1;
         // Give Battle Points and Money based on how far the user got
-        const battleMultiplier = Math.max(stageBeaten / 100, 1);
-        let battlePointsEarned = BattleFrontierRunner.battlePointEarnings();
-        let moneyEarned = BattleFrontierRunner.battlePointEarnings() * 100;
+        let battlePointsEarned = Math.floor(BattleFrontierRunner.computeEarnings(stageBeaten));
+        let moneyEarned = Math.floor(BattleFrontierRunner.computeEarnings(stageBeaten) * 100);
 
         // Award battle points and dollars and retrieve their computed values
         battlePointsEarned = App.game.wallet.gainBattlePoints(battlePointsEarned).amount;
@@ -107,7 +109,7 @@ class BattleFrontierRunner {
 
         Notifier.notify({
             title: 'Battle Frontier',
-            message: `You managed to beat stage ${stageBeaten.toLocaleString('en-US')}.\nYou received <img src="./assets/images/currency/battlePoint.svg" height="24px"/> ${battlePointsEarned.toLocaleString('en-US')}.\nYou received <img src="./assets/images/currency/money.svg" height="24px"/> ${moneyEarned.toLocaleString('en-US')}.`,
+            message: `You managed to reach stage ${stageBeaten.toLocaleString('en-US')}.\nYou received <img src="./assets/images/currency/battlePoint.svg" height="24px"/> ${battlePointsEarned.toLocaleString('en-US')}.\nYou received <img src="./assets/images/currency/money.svg" height="24px"/> ${moneyEarned.toLocaleString('en-US')}.`,
             strippedMessage: `You managed to beat stage ${stageBeaten.toLocaleString('en-US')}.\nYou received ${battlePointsEarned.toLocaleString('en-US')} Battle Points.\nYou received ${moneyEarned.toLocaleString('en-US')} Pokédollars.`,
             type: NotificationConstants.NotificationOption.success,
             setting: NotificationConstants.NotificationSetting.General.battle_frontier,
@@ -147,13 +149,20 @@ class BattleFrontierRunner {
         });
     }
     
-    public static computeEarnings(beatenStage : number) {
+    public static computeEarnings(beatenStage : number, includesBreakpoint : boolean = false) {
+        if (beatenStage < BattleFrontierRunner.breakpoint()) {
+            return 1;
+        }
         const multiplier = Math.max(1, beatenStage / 100);
-        return multiplier * beatenStage;
+        const raw = multiplier * beatenStage;
+        if (includesBreakpoint) {
+            return raw * 0.75;
+        }
+        return raw - (BattleFrontierRunner.hasUsedWaypoint() ? BattleFrontierRunner.computeEarnings(beatenStage, true) : 0);
     }
 	
 	public static computeWaypoint(stage : number) {
-		const waypoint = 0.9 * stage;
+		const waypoint = Math.floor(0.9 * stage / 200) * 200;
 		if (waypoint < 1000) {
 			return 1;
 		}
@@ -174,11 +183,5 @@ class BattleFrontierRunner {
 
     public static hasCheckpoint = ko.computed(() => {
         return BattleFrontierRunner.checkpoint() > 1;
-    })
-
-    public static battlePointEarnings = ko.computed(() => {
-        const beatenStage = BattleFrontierRunner.stage() - 1;
-		const waypointStage = BattleFrontierRunner.waypointUsed() - 1;
-        return Math.floor(BattleFrontierRunner.computeEarnings(beatenStage)) - Math.floor(BattleFrontierRunner.computeEarnings(waypointStage));
     })
 }
