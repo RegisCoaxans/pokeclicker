@@ -16,7 +16,7 @@
         </p>
         <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start()">Start</a>
 		<!-- ko if: BattleFrontierRunner.hasWaypoint() -->
-            <a class="btn btn-block btn-success text-light" data-bind="tooltip : { title: 'Earnings are adjusted for the run.\nYou will get nothing from losing below your highest stage reached.',trigger: 'hover', placement:'bottom' }" onclick="BattleFrontierRunner.start(GameConstants.BattleFrontierStartMode.Waypoint)">Start at highest waypoint (Stage <knockout data-bind="text: BattleFrontierRunner.availableWaypoint">0</knockout>)</a>
+            <a class="btn btn-block btn-success text-light" data-bind="tooltip : { title: 'Earnings are adjusted for the run.\nYou will get nothing from losing below your highest stage reached.',trigger: 'hover', placement:'top' }" onclick="BattleFrontierRunner.start(GameConstants.BattleFrontierStartMode.Waypoint)">Start at highest waypoint (Stage <knockout data-bind="text: BattleFrontierRunner.availableWaypoint">0</knockout>)</a>
             <!-- <span class="btn btn-block btn-info text-light" data-bind="tooltip : { title: 'Earnings are adjusted for the run.\nYou will get nothing from losing below your highest stage reached.', trigger: 'hover', placement:'left' }">?</span> -->
         <!-- /ko -->
         <!-- ko if: BattleFrontierRunner.hasCheckpoint() -->
