@@ -6,7 +6,7 @@ class BattleFrontierRunner {
     static stage: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
     public static checkpoint: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
     public static highest: KnockoutObservable<number> = ko.observable(1);
-	public static breakpoint: KnockoutObservable<number> = ko.observable(0);
+    public static breakpoint: KnockoutObservable<number> = ko.observable(0);
     public static availableWaypoint: KnockoutObservable<number>;
     public static hasWaypoint: KnockoutObservable<boolean>;
     public static hasUsedWaypoint: KnockoutObservable<boolean>;
@@ -19,14 +19,14 @@ class BattleFrontierRunner {
     public static initialize() {
         BattleFrontierRunner.availableWaypoint = ko.computed(() => {
             return BattleFrontierRunner.computeWaypoint(App.game.statistics.battleFrontierHighestStageCompleted());
-        })
+        });
         BattleFrontierRunner.hasWaypoint = ko.computed(() => {
             return BattleFrontierRunner.availableWaypoint() > 1;
-        })
+        });
 
         BattleFrontierRunner.hasUsedWaypoint = ko.computed(() => {
             return !!BattleFrontierRunner.breakpoint();
-        })
+        });
     }
 
     public static tick() {
@@ -36,7 +36,7 @@ class BattleFrontierRunner {
         if (BattleFrontierRunner.timeLeft() < 0) {
             BattleFrontierRunner.battleLost();
         }
-        BattleFrontierRunner.timeLeft(BattleFrontierRunner.timeLeft() - GameConstants.GYM_TICK * 5);
+        BattleFrontierRunner.timeLeft(BattleFrontierRunner.timeLeft() - GameConstants.GYM_TICK);
         BattleFrontierRunner.timeLeftPercentage(Math.floor(BattleFrontierRunner.timeLeft() / GameConstants.GYM_TIME * 100));
     }
 
@@ -53,19 +53,19 @@ class BattleFrontierRunner {
         }
 
         BattleFrontierRunner.started(true);
-		switch(mode) {
-			case GameConstants.BattleFrontierStartMode.Checkpoint :
-				BattleFrontierRunner.stage(BattleFrontierRunner.checkpoint());
-				break;
-			case GameConstants.BattleFrontierStartMode.None :
-				BattleFrontierRunner.stage(1);
-				BattleFrontierRunner.breakpoint(0);
-				break;
-			case GameConstants.BattleFrontierStartMode.Waypoint :
-				BattleFrontierRunner.stage(BattleFrontierRunner.availableWaypoint());
-				BattleFrontierRunner.breakpoint(App.game.statistics.battleFrontierHighestStageCompleted());
-				break;
-		}
+        switch (mode) {
+            case GameConstants.BattleFrontierStartMode.Checkpoint :
+                BattleFrontierRunner.stage(BattleFrontierRunner.checkpoint());
+                break;
+            case GameConstants.BattleFrontierStartMode.None :
+                BattleFrontierRunner.stage(1);
+                BattleFrontierRunner.breakpoint(0);
+                break;
+            case GameConstants.BattleFrontierStartMode.Waypoint :
+                BattleFrontierRunner.stage(BattleFrontierRunner.availableWaypoint());
+                BattleFrontierRunner.breakpoint(App.game.statistics.battleFrontierHighestStageCompleted());
+                break;
+        }
         BattleFrontierRunner.highest(App.game.statistics.battleFrontierHighestStageCompleted());
         BattleFrontierBattle.pokemonIndex(0);
         BattleFrontierBattle.generateNewEnemy();
@@ -80,6 +80,15 @@ class BattleFrontierRunner {
         if (App.game.statistics.battleFrontierHighestStageCompleted() < BattleFrontierRunner.stage()) {
             // Update our highest stage
             App.game.statistics.battleFrontierHighestStageCompleted(BattleFrontierRunner.stage());
+            if (BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage()) !== BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage() - 1)) {
+                Notifier.notify({
+                    title: 'Battle Frontier',
+                    message: `You have unlocked stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())} as a waypoint.`,
+                    type: NotificationConstants.NotificationOption.info,
+                    setting: NotificationConstants.NotificationSetting.General.battle_frontier,
+                    timeout: 1e4,
+                });
+            }
         }
         // Move on to the next stage
         GameHelper.incrementObservable(BattleFrontierRunner.stage);
@@ -125,6 +134,7 @@ class BattleFrontierRunner {
         );
 
         BattleFrontierRunner.checkpoint(1);
+        BattleFrontierRunner.breakpoint(0);
 
         BattleFrontierRunner.end();
     }
@@ -148,8 +158,8 @@ class BattleFrontierRunner {
             }
         });
     }
-    
-    public static computeEarnings(beatenStage : number, includesBreakpoint : boolean = false) {
+
+    public static computeEarnings(beatenStage : number, includesBreakpoint = false) {
         if (beatenStage < BattleFrontierRunner.breakpoint()) {
             return 1;
         }
@@ -158,16 +168,16 @@ class BattleFrontierRunner {
         if (includesBreakpoint) {
             return raw * 0.75;
         }
-        return raw - (BattleFrontierRunner.hasUsedWaypoint() ? BattleFrontierRunner.computeEarnings(beatenStage, true) : 0);
+        return raw - (BattleFrontierRunner.hasUsedWaypoint() ? BattleFrontierRunner.computeEarnings(BattleFrontierRunner.breakpoint(), true) : 0);
     }
-	
-	public static computeWaypoint(stage : number) {
-		const waypoint = Math.floor(0.9 * stage / 200) * 200;
-		if (waypoint < 1000) {
-			return 1;
-		}
-		return Math.floor(waypoint) + 1;
-	}
+
+    public static computeWaypoint(stage : number) {
+        const waypoint = Math.floor(0.9 * stage / 200) * 200;
+        if (waypoint < 1000) {
+            return 1;
+        }
+        return Math.floor(waypoint) + 1;
+    }
 
     public static timeLeftSeconds = ko.pureComputed(() => {
         return (Math.ceil(BattleFrontierRunner.timeLeft() / 100) / 10).toFixed(1);
