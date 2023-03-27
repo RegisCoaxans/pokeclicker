@@ -708,4 +708,9 @@ namespace GameConstants {
         Checkpoint,
         Waypoint,
     }
+    declare enum ShadowStatus {
+        None,
+        Shadow,
+        Purified,
+    }
 }
