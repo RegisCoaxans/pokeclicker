@@ -2013,9 +2013,14 @@ class Update implements Saveable {
 
             //Joey
             saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 31);
-
-            saveData.battleFrontier.breakpoint = 0;
         },
+
+        '0.10.11': ({ saveData }) => {
+
+            // BF waypoint data
+            saveData.battleFrontier.highest = saveData.statistics.battleFrontierHighestStageCompleted;
+            saveData.battleFrontier.waypoint = 0;
+        }
     };
 
     constructor() {

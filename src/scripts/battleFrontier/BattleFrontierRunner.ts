@@ -6,10 +6,9 @@ class BattleFrontierRunner {
     static stage: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
     public static checkpoint: KnockoutObservable<number> = ko.observable(1); // Start at stage 1
     public static highest: KnockoutObservable<number> = ko.observable(1);
-    public static breakpoint: KnockoutObservable<number> = ko.observable(0);
+    public static waypoint: KnockoutObservable<number> = ko.observable(0);
     public static availableWaypoint: KnockoutObservable<number>;
     public static hasWaypoint: KnockoutObservable<boolean>;
-    public static hasUsedWaypoint: KnockoutObservable<boolean>;
 
     public static counter = 0;
     public static started = ko.observable(false);
@@ -22,10 +21,6 @@ class BattleFrontierRunner {
         });
         BattleFrontierRunner.hasWaypoint = ko.computed(() => {
             return BattleFrontierRunner.availableWaypoint() > 1;
-        });
-
-        BattleFrontierRunner.hasUsedWaypoint = ko.computed(() => {
-            return !!BattleFrontierRunner.breakpoint();
         });
     }
 
@@ -59,14 +54,14 @@ class BattleFrontierRunner {
                 break;
             case GameConstants.BattleFrontierStartMode.None :
                 BattleFrontierRunner.stage(1);
-                BattleFrontierRunner.breakpoint(0);
+                BattleFrontierRunner.waypoint(0);
                 break;
             case GameConstants.BattleFrontierStartMode.Waypoint :
                 BattleFrontierRunner.stage(BattleFrontierRunner.availableWaypoint());
-                BattleFrontierRunner.breakpoint(App.game.statistics.battleFrontierHighestStageCompleted());
+                BattleFrontierRunner.waypoint(BattleFrontierRunner.availableWaypoint());
                 break;
         }
-        BattleFrontierRunner.highest(App.game.statistics.battleFrontierHighestStageCompleted());
+        BattleFrontierRunner.highest(BattleFrontierRunner.highest() || App.game.statistics.battleFrontierHighestStageCompleted());
         BattleFrontierBattle.pokemonIndex(0);
         BattleFrontierBattle.generateNewEnemy();
         BattleFrontierRunner.timeLeft(GameConstants.GYM_TIME);
@@ -83,10 +78,10 @@ class BattleFrontierRunner {
             if (BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage()) !== BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage() - 1)) {
                 Notifier.notify({
                     title: 'Battle Frontier',
-                    message: `You have unlocked stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())} as a waypoint.`,
+                    message: `You unlocked stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())} as a waypoint.`,
                     type: NotificationConstants.NotificationOption.info,
                     setting: NotificationConstants.NotificationSetting.General.battle_frontier,
-                    timeout: 1e4,
+                    timeout: 5 * GameConstants.MINUTE,
                 });
             }
         }
@@ -118,7 +113,7 @@ class BattleFrontierRunner {
 
         Notifier.notify({
             title: 'Battle Frontier',
-            message: `You managed to reach stage ${stageBeaten.toLocaleString('en-US')}.\nYou received <img src="./assets/images/currency/battlePoint.svg" height="24px"/> ${battlePointsEarned.toLocaleString('en-US')}.\nYou received <img src="./assets/images/currency/money.svg" height="24px"/> ${moneyEarned.toLocaleString('en-US')}.`,
+            message: `You managed to beat stage ${stageBeaten.toLocaleString('en-US')}.\nYou received <img src="./assets/images/currency/battlePoint.svg" height="24px"/> ${battlePointsEarned.toLocaleString('en-US')}.\nYou received <img src="./assets/images/currency/money.svg" height="24px"/> ${moneyEarned.toLocaleString('en-US')}.`,
             strippedMessage: `You managed to beat stage ${stageBeaten.toLocaleString('en-US')}.\nYou received ${battlePointsEarned.toLocaleString('en-US')} Battle Points.\nYou received ${moneyEarned.toLocaleString('en-US')} Pokédollars.`,
             type: NotificationConstants.NotificationOption.success,
             setting: NotificationConstants.NotificationSetting.General.battle_frontier,
@@ -134,7 +129,8 @@ class BattleFrontierRunner {
         );
 
         BattleFrontierRunner.checkpoint(1);
-        BattleFrontierRunner.breakpoint(0);
+        BattleFrontierRunner.highest(0);
+        BattleFrontierRunner.waypoint(0);
 
         BattleFrontierRunner.end();
     }
@@ -159,21 +155,26 @@ class BattleFrontierRunner {
         });
     }
 
-    public static computeEarnings(beatenStage : number, includesBreakpoint = false) {
-        if (beatenStage < BattleFrontierRunner.breakpoint()) {
+    public static computeEarnings(beatenStage : number) {
+        if (beatenStage < BattleFrontierRunner.highest() && BattleFrontierRunner.hasUsedWaypoint()) {
             return 1;
         }
-        const multiplier = Math.max(1, beatenStage / 100);
-        const raw = multiplier * beatenStage;
-        if (includesBreakpoint) {
-            return raw * 0.75;
+        const multiplier1 = Math.max(1, beatenStage / 100);
+        const raw1 = multiplier1 * beatenStage;
+        if (BattleFrontierRunner.hasUsedWaypoint()) {
+            const multiplier2 = BattleFrontierRunner.highest() / 100;
+            const raw2 = multiplier2 * BattleFrontierRunner.highest();
+            // ~-75% when skipping 90% stages, only ~-55% when skipping 80%.
+            const penalty = ((BattleFrontierRunner.waypoint() - 1) / BattleFrontierRunner.highest()) ** 2.53;
+            console.log(penalty);
+            return raw1 - Math.floor(100 * raw2 * penalty) / 100;
         }
-        return raw - (BattleFrontierRunner.hasUsedWaypoint() ? BattleFrontierRunner.computeEarnings(BattleFrontierRunner.breakpoint(), true) : 0);
+        return raw1;
     }
 
     public static computeWaypoint(stage : number) {
         const waypoint = Math.floor(0.9 * stage / 200) * 200;
-        if (waypoint < 1000) {
+        if (waypoint < 2000) {
             return 1;
         }
         return Math.floor(waypoint) + 1;
@@ -193,5 +194,9 @@ class BattleFrontierRunner {
 
     public static hasCheckpoint = ko.computed(() => {
         return BattleFrontierRunner.checkpoint() > 1;
+    })
+
+    public static hasUsedWaypoint = ko.computed(() => {
+        return !!BattleFrontierRunner.waypoint();
     })
 }

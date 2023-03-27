@@ -15,19 +15,22 @@
             <i>Note: there is no click damage in the Battle Frontier.</i>
         </p>
         <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start()">Start</a>
-		<!-- ko if: BattleFrontierRunner.hasWaypoint() -->
-            <a class="btn btn-block btn-success text-light" data-bind="tooltip : { title: 'Earnings are adjusted for the run.\nYou will get nothing from losing below your highest stage reached.',trigger: 'hover', placement:'top' }" onclick="BattleFrontierRunner.start(GameConstants.BattleFrontierStartMode.Waypoint)">Start at highest waypoint (Stage <knockout data-bind="text: BattleFrontierRunner.availableWaypoint">0</knockout>)</a>
-            <!-- <span class="btn btn-block btn-info text-light" data-bind="tooltip : { title: 'Earnings are adjusted for the run.\nYou will get nothing from losing below your highest stage reached.', trigger: 'hover', placement:'left' }">?</span> -->
-        <!-- /ko -->
         <!-- ko if: BattleFrontierRunner.hasCheckpoint() -->
             <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start(GameConstants.BattleFrontierStartMode.Checkpoint)">Start at latest checkpoint (Stage <knockout data-bind="text: BattleFrontierRunner.checkpoint">0</knockout>)</a>
+        <!-- /ko -->
+		<!-- ko if: BattleFrontierRunner.hasWaypoint() -->
+            <a class="btn btn-block btn-success text-light"
+                data-bind="tooltip : { title: 'Adjusted earnings.\nNo gain on losing before previous highest stage.', trigger: 'hover', placement:'top' }"
+                onclick="BattleFrontierRunner.start(GameConstants.BattleFrontierStartMode.Waypoint)">
+                Start at highest waypoint (Stage <knockout data-bind="text: BattleFrontierRunner.availableWaypoint">0</knockout>)
+            </a>
         <!-- /ko -->
         <a class="btn btn-block btn-danger text-light" onclick="App.game.battleFrontier.leave()">Leave</a>
     </div>
     <!-- /ko -->
     <!-- ko if: BattleFrontierRunner.started -->
     <div id="battleFrontierRewards" class="card-body text-center p-0 show">
-        <p class="bg-info" data-bind="visible : BattleFrontierRunner.hasUsedWaypoint(), text : `This run has been started from stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.breakpoint())} waypoint.`"></p>
+        <p class="bg-info" data-bind="visible : BattleFrontierRunner.hasUsedWaypoint(), text : `This run has been started from waypoint at stage ${BattleFrontierRunner.waypoint()}.`"></p>
         <table class="table table-hover table-striped table-bordered table-sm m-0">
             <thead>
                 <tr>
