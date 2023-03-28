@@ -9,6 +9,7 @@ class BattleFrontierRunner {
     public static waypoint: KnockoutObservable<number> = ko.observable(0);
     public static availableWaypoint: KnockoutObservable<number>;
     public static hasWaypoint: KnockoutObservable<boolean>;
+    public static nextWaypointMilestone: KnockoutObservable<number>;
 
     public static counter = 0;
     public static started = ko.observable(false);
@@ -21,6 +22,13 @@ class BattleFrontierRunner {
         });
         BattleFrontierRunner.hasWaypoint = ko.computed(() => {
             return BattleFrontierRunner.availableWaypoint() > 1;
+        });
+        BattleFrontierRunner.nextWaypointMilestone = ko.computed(() => {
+            const waypoint = BattleFrontierRunner.availableWaypoint();
+            if (waypoint == 1) {
+                return BattleFrontierRunner.computeWaypointMilestone(2001);
+            }
+            return BattleFrontierRunner.computeWaypointMilestone(waypoint + 200);
         });
     }
 
@@ -78,7 +86,7 @@ class BattleFrontierRunner {
             if (BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage()) !== BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage() - 1)) {
                 Notifier.notify({
                     title: 'Battle Frontier',
-                    message: `You unlocked stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())} as a waypoint.`,
+                    message: `<img src="assets/images/waypointFlag.svg" height="24px"/> You unlocked stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())} as a waypoint.`,
                     type: NotificationConstants.NotificationOption.info,
                     setting: NotificationConstants.NotificationSetting.General.battle_frontier,
                     timeout: 5 * GameConstants.MINUTE,
@@ -108,8 +116,10 @@ class BattleFrontierRunner {
         let moneyEarned = Math.floor(BattleFrontierRunner.computeEarnings(stageBeaten) * 100);
 
         // Award battle points and dollars and retrieve their computed values
-        battlePointsEarned = App.game.wallet.gainBattlePoints(battlePointsEarned).amount;
-        moneyEarned = App.game.wallet.gainMoney(moneyEarned, true).amount;
+        if (battlePointsEarned) {
+            battlePointsEarned = App.game.wallet.gainBattlePoints(battlePointsEarned).amount;
+            moneyEarned = App.game.wallet.gainMoney(moneyEarned, true).amount;
+        }
 
         Notifier.notify({
             title: 'Battle Frontier',
@@ -157,7 +167,7 @@ class BattleFrontierRunner {
 
     public static computeEarnings(beatenStage : number) {
         if (beatenStage < BattleFrontierRunner.highest() && BattleFrontierRunner.hasUsedWaypoint()) {
-            return 1;
+            return 0;
         }
         const multiplier1 = Math.max(1, beatenStage / 100);
         const raw1 = multiplier1 * beatenStage;
@@ -178,6 +188,10 @@ class BattleFrontierRunner {
             return 1;
         }
         return Math.floor(waypoint) + 1;
+    }
+
+    public static computeWaypointMilestone(waypoint : number) {
+        return Math.ceil((waypoint - 1) / 0.9);
     }
 
     public static timeLeftSeconds = ko.pureComputed(() => {

@@ -17,7 +17,10 @@ class BattleFrontierMilestones {
     }
 
     public static availableMilestones() {
-        return BattleFrontierMilestones.milestoneRewards.filter(r => r.isUnlocked() && !r.obtained() && r.stage > (BattleFrontierRunner.checkpoint() - 1));
+        const rewards = BattleFrontierMilestones.milestoneRewards.filter(r => r.isUnlocked() && !r.obtained() && r.stage > (BattleFrontierRunner.checkpoint() - 1));
+        const nextWaypoint = new BattleFrontierMilestone(BattleFrontierRunner.nextWaypointMilestone(), () => {}, undefined, 'assets/images/waypointFlag.svg', `Stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.nextWaypointMilestone())} waypoint`);
+        rewards.push(nextWaypoint);
+        return rewards.sort((a, b) => a.stage - b.stage);
     }
 
     public static nextMileStoneStage(): number {

@@ -2020,7 +2020,7 @@ class Update implements Saveable {
             // BF waypoint data
             saveData.battleFrontier.highest = saveData.statistics.battleFrontierHighestStageCompleted;
             saveData.battleFrontier.waypoint = 0;
-        }
+        },
     };
 
     constructor() {
