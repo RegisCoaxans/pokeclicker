@@ -63,13 +63,14 @@ class BattleFrontierRunner {
             case GameConstants.BattleFrontierStartMode.None :
                 BattleFrontierRunner.stage(1);
                 BattleFrontierRunner.waypoint(0);
+                BattleFrontierRunner.highest(App.game.statistics.battleFrontierHighestStageCompleted());
                 break;
             case GameConstants.BattleFrontierStartMode.Waypoint :
                 BattleFrontierRunner.stage(BattleFrontierRunner.availableWaypoint());
                 BattleFrontierRunner.waypoint(BattleFrontierRunner.availableWaypoint());
+                BattleFrontierRunner.highest(App.game.statistics.battleFrontierHighestStageCompleted());
                 break;
         }
-        BattleFrontierRunner.highest(BattleFrontierRunner.highest() || App.game.statistics.battleFrontierHighestStageCompleted());
         BattleFrontierBattle.pokemonIndex(0);
         BattleFrontierBattle.generateNewEnemy();
         BattleFrontierRunner.timeLeft(GameConstants.GYM_TIME);
@@ -86,7 +87,7 @@ class BattleFrontierRunner {
             if (BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage()) !== BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage() - 1)) {
                 Notifier.notify({
                     title: 'Battle Frontier',
-                    message: `<img src="assets/images/waypointFlag.svg" height="24px"/> You unlocked stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())} as a waypoint.`,
+                    message: `<img src="assets/images/waypointFlag.svg" height="24px"/> Waypoint pushed forward to stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())}.`,
                     type: NotificationConstants.NotificationOption.info,
                     setting: NotificationConstants.NotificationSetting.General.battle_frontier,
                     timeout: 5 * GameConstants.MINUTE,
@@ -139,7 +140,6 @@ class BattleFrontierRunner {
         );
 
         BattleFrontierRunner.checkpoint(1);
-        BattleFrontierRunner.highest(0);
         BattleFrontierRunner.waypoint(0);
 
         BattleFrontierRunner.end();

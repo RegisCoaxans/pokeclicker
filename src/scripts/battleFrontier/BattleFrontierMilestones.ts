@@ -6,14 +6,14 @@ class BattleFrontierMilestones {
     public static milestoneRewards = [];
 
     public static addMilestone(milestone: BattleFrontierMilestone) {
-        this.milestoneRewards.push(milestone);
+        BattleFrontierMilestones.milestoneRewards.push(milestone);
         // Sort the milestones by lowest to highest stage incase they are added out of order
-        this.milestoneRewards.sort((a, b) => a.stage - b.stage);
+        BattleFrontierMilestones.milestoneRewards.sort((a, b) => a.stage - b.stage);
     }
 
     public static nextMileStone() {
         // Get next reward that is unlocked, not obtained, and earned past the latest stage beaten in the active run.
-        return this.milestoneRewards.find(r => r.isUnlocked() && !r.obtained() && (r.stage > (BattleFrontierRunner.checkpoint() - 1)));
+        return BattleFrontierMilestones.milestoneRewards.find(r => r.isUnlocked() && !r.obtained() && (r.stage > (BattleFrontierRunner.checkpoint() - 1)));
     }
 
     public static availableMilestones() {
@@ -25,7 +25,7 @@ class BattleFrontierMilestones {
 
     public static nextMileStoneStage(): number {
         // Return the stage number the next reward is unlocked at
-        const reward = this.nextMileStone();
+        const reward = BattleFrontierMilestones.nextMileStone();
         if (reward) {
             return reward.stage;
         } else {
@@ -35,7 +35,7 @@ class BattleFrontierMilestones {
 
     public static nextMileStoneRewardDescription(): string {
         // Return the description of the next reward
-        const reward = this.nextMileStone();
+        const reward = BattleFrontierMilestones.nextMileStone();
         if (reward) {
             return reward.description;
         } else {
@@ -44,7 +44,7 @@ class BattleFrontierMilestones {
     }
 
     public static gainReward(defeatedStage: number): void {
-        const reward = this.nextMileStone();
+        const reward = BattleFrontierMilestones.nextMileStone();
         if (reward && reward.stage == defeatedStage) {
             Notifier.notify({
                 title: 'Battle Frontier',
