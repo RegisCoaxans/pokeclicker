@@ -1886,6 +1886,9 @@ export enum BattleFrontierStartMode {
     Waypoint,
 }
 
+export const battleFrontierLowestWaypoint = 2000;
+export const battleFrontierWaypointDistance = 200;
+
 export enum ShadowStatus {
     None,
     Shadow,

@@ -26,9 +26,9 @@ class BattleFrontierRunner {
         BattleFrontierRunner.nextWaypointMilestone = ko.computed(() => {
             const waypoint = BattleFrontierRunner.availableWaypoint();
             if (waypoint == 1) {
-                return BattleFrontierRunner.computeWaypointMilestone(2001);
+                return BattleFrontierRunner.computeWaypointMilestone(GameConstants.battleFrontierLowestWaypoint + 1);
             }
-            return BattleFrontierRunner.computeWaypointMilestone(waypoint + 200);
+            return BattleFrontierRunner.computeWaypointMilestone(waypoint + GameConstants.battleFrontierWaypointDistance);
         });
     }
 
@@ -113,8 +113,8 @@ class BattleFrontierRunner {
         // Current stage - 1 as the player didn't beat the current stage
         const stageBeaten = BattleFrontierRunner.stage() - 1;
         // Give Battle Points and Money based on how far the user got
-        let battlePointsEarned = Math.floor(BattleFrontierRunner.computeEarnings(stageBeaten));
-        let moneyEarned = Math.floor(BattleFrontierRunner.computeEarnings(stageBeaten) * 100);
+        let battlePointsEarned = Math.round(BattleFrontierRunner.computeEarnings(stageBeaten));
+        let moneyEarned = Math.round(BattleFrontierRunner.computeEarnings(stageBeaten) * 100);
 
         // Award battle points and dollars and retrieve their computed values
         if (battlePointsEarned) {
@@ -183,8 +183,8 @@ class BattleFrontierRunner {
     }
 
     public static computeWaypoint(stage : number) {
-        const waypoint = Math.floor(0.9 * stage / 200) * 200;
-        if (waypoint < 2000) {
+        const waypoint = Math.floor(0.9 * stage / GameConstants.battleFrontierWaypointDistance) * GameConstants.battleFrontierWaypointDistance;
+        if (waypoint < GameConstants.battleFrontierLowestWaypoint) {
             return 1;
         }
         return Math.floor(waypoint) + 1;

@@ -708,6 +708,8 @@ namespace GameConstants {
         Checkpoint,
         Waypoint,
     }
+    declare const battleFrontierLowestWaypoint;
+    declare const battleFrontierWaypointDistance;
     declare enum ShadowStatus {
         None,
         Shadow,
