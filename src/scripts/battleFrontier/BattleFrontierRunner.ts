@@ -87,7 +87,7 @@ class BattleFrontierRunner {
             if (BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage()) !== BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage() - 1)) {
                 Notifier.notify({
                     title: 'Battle Frontier',
-                    message: `<img src="assets/images/waypointFlag.svg" height="24px"/> Waypoint pushed forward to stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())}.`,
+                    message: `<img src="assets/images/waypointFlag.svg" height="24px"/> Highest waypoint pushed forward to stage ${BattleFrontierRunner.computeWaypoint(BattleFrontierRunner.stage())}.`,
                     type: NotificationConstants.NotificationOption.info,
                     setting: NotificationConstants.NotificationSetting.General.battle_frontier,
                     timeout: 5 * GameConstants.MINUTE,
@@ -176,7 +176,6 @@ class BattleFrontierRunner {
             const raw2 = multiplier2 * BattleFrontierRunner.highest();
             // ~-75% when skipping 90% stages, only ~-55% when skipping 80%.
             const penalty = ((BattleFrontierRunner.waypoint() - 1) / BattleFrontierRunner.highest()) ** 2.53;
-            console.log(penalty);
             return raw1 - Math.floor(100 * raw2 * penalty) / 100;
         }
         return raw1;
