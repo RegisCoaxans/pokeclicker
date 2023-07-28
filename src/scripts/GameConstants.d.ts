@@ -173,7 +173,8 @@ namespace GameConstants {
         town,
         shop,
         battleFrontier,
-        temporaryBattle
+        temporaryBattle,
+        mountBattle
     }
     declare enum Pokeball {
         'None',
