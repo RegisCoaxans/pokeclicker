@@ -8,8 +8,8 @@ class DungeonMap {
 
     constructor(
         size: number,
-        private generateChestLoot: () => { loot: Loot, tier: LootTier },
-        private flash?: DungeonFlash
+        protected generateChestLoot: () => { loot: Loot, tier: LootTier },
+        protected flash?: DungeonFlash
     ) {
         if (size <= GameConstants.MAX_DUNGEON_SIZE) {
             this.floorSizes = [size];

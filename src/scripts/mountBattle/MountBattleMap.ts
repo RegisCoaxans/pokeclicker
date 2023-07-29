@@ -6,79 +6,30 @@ class MountBattleMap extends DungeonMap {
     totalChests: KnockoutObservable<number>;
     floorSizes: number[];
 
-    public moveToCoordinates(x: number, y: number, floor = undefined) {
-        if (this.moveToTile(new Point(x, y, floor ?? this.playerPosition().floor))) {
-            this.playerMoved(true);
-        }
-    }
-
-    public moveUp() {
-        this.moveToCoordinates(this.playerPosition().x, this.playerPosition().y - 1);
-    }
-
-    public moveRight() {
-        this.moveToCoordinates(this.playerPosition().x + 1, this.playerPosition().y);
-    }
-
-    public moveDown() {
-        this.moveToCoordinates(this.playerPosition().x, this.playerPosition().y + 1);
-    }
-
-    public moveLeft() {
-        this.moveToCoordinates(this.playerPosition().x - 1, this.playerPosition().y);
+    constructor() {
+        super(5, () => {return {loot: null, tier : null};});
     }
 
     public moveToTile(point: Point): boolean {
         if (this.hasAccessToTile(point)) {
             this.currentTile().hasPlayer = false;
             this.playerPosition(point);
-            this.flash?.apply(this.board(), this.playerPosition());
+            super.flash?.apply(this.board(), this.playerPosition());
 
             this.currentTile().hasPlayer = true;
             this.currentTile().isVisible = true;
             this.currentTile().isVisited = true;
             if (this.currentTile().type() == GameConstants.DungeonTile.enemy) {
-                DungeonBattle.generateNewEnemy();
+                //MountBattleBattle.generateNewEnemy();
             }
             return true;
         }
         return false;
     }
 
-    public showChestTiles(): void {
-        for (let i = 0; i < this.board()[this.playerPosition().floor].length; i++) {
-            for (let j = 0; j < this.board()[this.playerPosition().floor][i].length; j++) {
-                if (this.board()[this.playerPosition().floor][i][j].type() == GameConstants.DungeonTile.chest) {
-                    this.board()[this.playerPosition().floor][i][j].isVisible = true;
-                }
-            }
-        }
-    }
-
-    public showAllTiles(): void {
-        for (let i = 0; i < this.board()[this.playerPosition().floor].length; i++) {
-            for (let j = 0; j < this.board()[this.playerPosition().floor][i].length; j++) {
-                this.board()[this.playerPosition().floor][i][j].isVisible = true;
-            }
-        }
-    }
-
-    public currentTile(): DungeonTile {
-        return this.board()[this.playerPosition().floor][this.playerPosition().y][this.playerPosition().x];
-    }
-
-    public nearbyTiles(point: Point): DungeonTile[] {
-        const tiles = [];
-        tiles.push(this.board()[point.floor][point.y - 1]?.[point.x]);
-        tiles.push(this.board()[point.floor][point.y + 1]?.[point.x]);
-        tiles.push(this.board()[point.floor][point.y]?.[point.x - 1]);
-        tiles.push(this.board()[point.floor][point.y]?.[point.x + 1]);
-        return tiles.filter(t => t);
-    }
-
     public hasAccessToTile(point: Point): boolean {
         // If player fighting/catching they cannot move right now
-        if (DungeonRunner.fighting() || DungeonBattle.catching()) {
+        if (MOUNTBATTLERUNNER.fighting() || MountBattleBattle.catching()) {
             return false;
         }
 
@@ -140,18 +91,3 @@ class MountBattleMap extends DungeonMap {
         });
         return map;
     }
-
-    /**
-     * Shuffles array in place.
-     * @param {Array} a items The array containing the items.
-     */
-    public shuffle(a): void {
-        let j, x, i;
-        for (i = a.length; i; i--) {
-            j = Rand.floor(i);
-            x = a[i - 1];
-            a[i - 1] = a[j];
-            a[j] = x;
-        }
-    }
-}
