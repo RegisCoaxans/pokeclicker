@@ -17,10 +17,10 @@
     <script src="libs/Sortable.min.js"></script>
 
     <!-- New module-based code from './modules' -->
-    <script src="scripts/modules.min.js?v=0.10.16"></script>
+    <script src="scripts/modules.min.js?v=0.10.18"></script>
 
     <!--Minified scripts-->
-    <script src="scripts/script.min.js?v=0.10.16"></script>
+    <script src="scripts/script.min.js?v=0.10.18"></script>
 
     <!--Popper.js-->
     <script src="libs/popper.min.js"></script>
@@ -38,7 +38,7 @@
     <link href="libs/introjs-modern.css" rel="stylesheet">
 
     <!--Minified styles-->
-    <link href="styles/styles.min.css?v=0.10.16" rel="stylesheet">
+    <link href="styles/styles.min.css?v=0.10.18" rel="stylesheet">
 
     <!-- Google Analytics-->
     <style>
@@ -1205,7 +1205,7 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                 <img src="" data-bind="attr: { src: ItemList[GameConstants.zCrystalItemType[App.game.zMoves.type()]].image,  }">
               </td>
               <td class="p-0 bg-secondary" colspan="4" rowspan="2">
-                <p class="mb-0" data-bind="text: `${App.game.zMoves.getMultiplier() < 1 ? '' : '+'}${(App.game.zMoves.getMultiplier() - 1) * 100}% Attack to all your ${PokemonType[App.game.zMoves.type()]}-type Pokémon`">bonus</p>
+                <p class="mb-0" data-bind="text: `${App.game.zMoves.getMultiplier() < 1 ? '' : '+'}${(App.game.zMoves.getMultiplier() - 1).toLocaleString('en-US', { style: 'percent' })} Attack to all your ${PokemonType[App.game.zMoves.type()]}-type Pokémon`">bonus</p>
               </td>
             </tr>
             <tr></tr>
@@ -1890,7 +1890,7 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
         </div>
         <h2 class="pageItemFooter" style="display: block; font-size: 1rem;">
             <knockout>
-                Stage <knockout data-bind="text: BattleFrontierRunner.computedDifficultyStage">0</knockout> / <knockout data-bind="text: BattleFrontierRunner.highest">0</knockout>
+                Stage <knockout data-bind="text: BattleFrontierRunner.stage">0</knockout> / <knockout data-bind="text: BattleFrontierRunner.highest">0</knockout>
             </knockout>
             <table width="100%">
                 <tr>
@@ -2037,7 +2037,7 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                 hidden: !$data.lock,
                 tooltip: {
                     title: $data.lockMessage,
-                    placement: 'bottom',
+                    placement: 'left',
                     trigger: 'hover'
                 }" />
           </li>
@@ -2064,7 +2064,7 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
                 }" />
           </li>
           <!-- /ko -->
-          <!-- ko if: player.town().dungeon.allAvailableShadowPokemon().some(p => App.game.party.getPokemonByName(p)?.shadow < GameConstants.ShadowStatus.Shadow) -->
+          <!-- ko if: player.town().dungeon.allAvailableShadowPokemon().some(p => (App.game.party.getPokemonByName(p)?.shadow ?? GameConstants.ShadowStatus.None) < GameConstants.ShadowStatus.Shadow) -->
           <li class="list-inline-item">
             <img class="boss" src="assets/images/status/shadow.svg"/>
             <img class="dungeon-pokemon-preview dungeon-pokemon-locked" src="assets/images/npcs/specialNPCs/Mysterious Trainer.png"/>
@@ -2123,7 +2123,7 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
         </p>
         <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start(false)">Start</a>
         <!-- ko if: BattleFrontierRunner.hasCheckpoint() -->
-            <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start(true)">Start at latest checkpoint (Stage <knockout data-bind="text: BattleFrontierRunner.computedDifficultyCheckpoint">0</knockout>)</a>
+            <a class="btn btn-block btn-success text-light" onclick="BattleFrontierRunner.start(true)">Start at latest checkpoint (Stage <knockout data-bind="text: BattleFrontierRunner.checkpoint">0</knockout>)</a>
         <!-- /ko -->
         <a class="btn btn-block btn-danger text-light" onclick="App.game.battleFrontier.leave()">Leave</a>
     </div>
@@ -2231,8 +2231,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Kanto').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/kanto-kanto.png?v=0.10.16',
-            href:'assets/images/kanto-kanto.png?v=0.10.16'
+            'xlink:href':'assets/images/kanto-kanto.png?v=0.10.18',
+            href:'assets/images/kanto-kanto.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -4794,8 +4794,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Sevii Islands 123').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/kanto-sevii123.png?v=0.10.16',
-            href:'assets/images/kanto-sevii123.png?v=0.10.16'
+            'xlink:href':'assets/images/kanto-sevii123.png?v=0.10.18',
+            href:'assets/images/kanto-sevii123.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -5363,8 +5363,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.kanto, 'Sevii Islands 4567').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/kanto-sevii4567.png?v=0.10.16',
-            href:'assets/images/kanto-sevii4567.png?v=0.10.16'
+            'xlink:href':'assets/images/kanto-sevii4567.png?v=0.10.18',
+            href:'assets/images/kanto-sevii4567.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -6960,8 +6960,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
                             <g data-bind='visible: player.region == GameConstants.Region.johto'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/johto.png?v=0.10.16',
-        href:'assets/images/johto.png?v=0.10.16'
+        'xlink:href':'assets/images/johto.png?v=0.10.18',
+        href:'assets/images/johto.png?v=0.10.18'
     }"></image>
 
     <!-- ------ -->
@@ -9592,8 +9592,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
                             <g data-bind='visible: player.region == GameConstants.Region.hoenn'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/hoenn.png?v=0.10.16',
-        href:'assets/images/hoenn.png?v=0.10.16'
+        'xlink:href':'assets/images/hoenn.png?v=0.10.18',
+        href:'assets/images/hoenn.png?v=0.10.18'
     }"></image>
 
     <!-- ------ -->
@@ -13083,8 +13083,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
      <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.hoenn, 'Orre').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/orre.png?v=0.10.16',
-            href:'assets/images/orre.png?v=0.10.16'
+            'xlink:href':'assets/images/orre.png?v=0.10.18',
+            href:'assets/images/orre.png?v=0.10.18'
         }"></image>
 
     <!-- ------ -->
@@ -14443,8 +14443,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
                             <g data-bind='visible: player.region == GameConstants.Region.sinnoh'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/sinnoh.png?v=0.10.16',
-        href:'assets/images/sinnoh.png?v=0.10.16'
+        'xlink:href':'assets/images/sinnoh.png?v=0.10.18',
+        href:'assets/images/sinnoh.png?v=0.10.18'
     }"></image>
 
     <!-- ------ -->
@@ -17539,8 +17539,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
                             <g data-bind='visible: player.region == GameConstants.Region.unova'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/unova.png?v=0.10.16',
-        href:'assets/images/unova.png?v=0.10.16'
+        'xlink:href':'assets/images/unova.png?v=0.10.18',
+        href:'assets/images/unova.png?v=0.10.18'
     }"></image>
 
     <!-- ------ -->
@@ -20718,8 +20718,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
                             <g data-bind='visible: player.region == GameConstants.Region.kalos'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/kalos.png?v=0.10.16',
-        href:'assets/images/kalos.png?v=0.10.16'
+        'xlink:href':'assets/images/kalos.png?v=0.10.18',
+        href:'assets/images/kalos.png?v=0.10.18'
     }"></image>
 
     <!-- ------ -->
@@ -23339,8 +23339,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Melemele Island').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-melemele.png?v=0.10.16',
-            href:'assets/images/alola-melemele.png?v=0.10.16'
+            'xlink:href':'assets/images/alola-melemele.png?v=0.10.18',
+            href:'assets/images/alola-melemele.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -26566,6 +26566,19 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
         
 
+<rect class="city"
+    data-town="Farm" 
+    x="208"
+    y="256"
+    height="48"
+    width="48"
+    data-bind="click:function(){FarmController.openFarmModal()}, attr: { class: App.game.farming.canAccess() ? &#39;completed&#39; : &#39;locked&#39; },
+		playerSpriteMove">
+</rect>
+
+
+        
+
 <image href="assets/images/map/blimp_empty.png" xlink:href="assets/images/map/blimp_empty.png"
     x="1152"
     y="480"
@@ -26697,8 +26710,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Akala Island').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-akala.png?v=0.10.16',
-            href:'assets/images/alola-akala.png?v=0.10.16'
+            'xlink:href':'assets/images/alola-akala.png?v=0.10.18',
+            href:'assets/images/alola-akala.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -28949,8 +28962,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Ula\'ula Island').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-ulaula.png?v=0.10.16',
-            href:'assets/images/alola-ulaula.png?v=0.10.16'
+            'xlink:href':'assets/images/alola-ulaula.png?v=0.10.18',
+            href:'assets/images/alola-ulaula.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -31671,8 +31684,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Poni Island').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-poni.png?v=0.10.16',
-            href:'assets/images/alola-poni.png?v=0.10.16'
+            'xlink:href':'assets/images/alola-poni.png?v=0.10.18',
+            href:'assets/images/alola-poni.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -33766,8 +33779,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.alola, 'Magikarp Jump').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/alola-magikarp-jump.png?v=0.10.16',
-            href:'assets/images/alola-magikarp-jump.png?v=0.10.16'
+            'xlink:href':'assets/images/alola-magikarp-jump.png?v=0.10.18',
+            href:'assets/images/alola-magikarp-jump.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -35865,8 +35878,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.galar, 'South Galar').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/galar-south.png?v=0.10.16',
-            href:'assets/images/galar-south.png?v=0.10.16'
+            'xlink:href':'assets/images/galar-south.png?v=0.10.18',
+            href:'assets/images/galar-south.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -38347,8 +38360,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
     </g>
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.galar, 'North Galar').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/galar-north.png?v=0.10.16',
-            href:'assets/images/galar-north.png?v=0.10.16'
+            'xlink:href':'assets/images/galar-north.png?v=0.10.18',
+            href:'assets/images/galar-north.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -39434,8 +39447,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
     </g>
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.galar, 'Isle of Armor').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/galar-isle-of-armor.png?v=0.10.16',
-            href:'assets/images/galar-isle-of-armor.png?v=0.10.16'
+            'xlink:href':'assets/images/galar-isle-of-armor.png?v=0.10.18',
+            href:'assets/images/galar-isle-of-armor.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -42316,8 +42329,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
     </g>
     <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.galar, 'Crown Tundra').id">
         <image width="1600" height="960" data-bind="attr: {
-            'xlink:href':'assets/images/galar-crown-tundra.png?v=0.10.16',
-            href:'assets/images/galar-crown-tundra.png?v=0.10.16'
+            'xlink:href':'assets/images/galar-crown-tundra.png?v=0.10.18',
+            href:'assets/images/galar-crown-tundra.png?v=0.10.18'
         }"></image>
 
         <!-- ------ -->
@@ -44344,8 +44357,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
                             <g data-bind='visible: player.region == GameConstants.Region.hisui'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/hsiui.png?v=0.10.16',
-        href:'assets/images/hisui.png?v=0.10.16'
+        'xlink:href':'assets/images/hsiui.png?v=0.10.18',
+        href:'assets/images/hisui.png?v=0.10.18'
     }"></image>
 
     <!-- ------ -->
@@ -53105,8 +53118,8 @@ selectAllClick - (Optional) Function called when the Select All button is clicke
 
                             <g data-bind='visible: player.region == GameConstants.Region.paldea'>
     <image width="1600" height="960" data-bind="attr: {
-        'xlink:href':'assets/images/paldea.png?v=0.10.16',
-        href:'assets/images/paldea.png?v=0.10.16'
+        'xlink:href':'assets/images/paldea.png?v=0.10.18',
+        href:'assets/images/paldea.png?v=0.10.18'
     }"></image>
 
     <!-- ------ -->
@@ -54762,7 +54775,7 @@ aria-labelledby="AchievementsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 data-bind="tooltip: { title: 'As you earn achievements, you gain up to: 150% (global), 100% (per region), and from 25% to 50% (per special subregion). Earning bonuses to Click Attack, Flute Effects, Pokédollar / Dungeon Token gains, and Experience earned from all sources.', trigger: 'hover', placement:'right' }">Achievements Bonus: <u class="text-primary" data-bind="text: AchievementHandler.achievementBonusPercent()"></u></h5>
+                <h5 data-bind="tooltip: { title: 'As you earn achievements, you gain up to: 150% (global), 100% (per region), and from 25% to 75% (per special subregion). Earning bonuses to Click Attack, Flute Effects, Pokédollar / Dungeon Token gains, and Experience earned from all sources.', trigger: 'hover', placement:'right' }">Achievements Bonus: <u class="text-primary" data-bind="text: AchievementHandler.achievementBonusPercent()"></u></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -56467,7 +56480,7 @@ aria-labelledby="hallOfFameModalLabel" aria-hidden="true">
                    <strong>There are a few things you should know before you depart:</strong><br/>
                    You will gain <strong data-bind="text: App.game.breeding.queueSlotsGainedFromRegion(player.highestRegion())"></strong> queue slots in the Hatchery.<br/><br/>
                    <!-- ko if: App.game.challenges.list.regionalAttackDebuff.active() -->
-                   When Pokémon are in a Region they're not native to, they will only retain <strong data-bind="text: App.game.party.getRegionAttackMultiplier(player.highestRegion() + 1).toLocaleString(undefined,{style: 'percent'})"></strong> of their total attack.<br/><br/>
+                   When Pokémon are in a Region they're not native to, they will only retain <strong data-bind="text: App.game.party.getRegionAttackMultiplier(player.highestRegion() + 1).toLocaleString('en-US',{style: 'percent'})"></strong> of their total attack.<br/><br/>
                    <!-- /ko -->
                    <!-- ko if: player.highestRegion() - 2 >= GameConstants.Region.kanto -->
                    Dungeons in the <strong data-bind="text: GameConstants.camelCaseToString(GameConstants.Region[player.highestRegion() - 2])"></strong> Region will be significantly less likely to drop Epic, Legendary, and Mythic loot.<br /><br/>
@@ -57289,9 +57302,9 @@ aria-labelledby="breedingModalLabel" aria-hidden="true">
                                             <div class="dropdown-menu text-center p-0">
                                                 <p class="small py-2 m-0">Set Trade Amount</p>
                                                 <div class="dropdown-divider m-0"></div>
-                                                <!-- ko foreach: [10, 25, 50, 75, 100] -->
-                                                <button class="dropdown-item small py-1" type="button" data-bind="text: `${$data}%`,
-                                                    click: () => { App.game.underground.tradeAmount(Math.floor(player.getUndergroundItemAmount($parent.item1.id) * ($data / 100) / $parent.amount1)) }"></button>
+                                                <!-- ko foreach: [0.1, 0.25, 0.5, 0.75, 1] -->
+                                                <button class="dropdown-item small py-1" type="button" data-bind="text: `${$data.toLocaleString('en-US', { style: 'percent' })}`,
+                                                    click: () => { App.game.underground.tradeAmount(Math.floor(player.getUndergroundItemAmount($parent.item1.id) * ($data) / $parent.amount1)) }"></button>
                                                 <!-- /ko -->
                                             </div>
                                         </div>
@@ -57499,7 +57512,7 @@ aria-labelledby="pokedexModalLabel">
 
                         <!-- ko if: PokedexHelper.filteredList().length != 0 -->
                         <div class="pokedex-border-bottom pt-2">
-                            <h4 data-bind="text: `Showing ${PokedexHelper.filteredList().length} Pokémon`"></h4>
+                            <h4 data-bind="text: `Showing ${PokedexHelper.filteredList().length.toLocaleString('en-US')} Pokémon`"></h4>
                         </div>
                         <!-- /ko -->
                     </div>
@@ -57686,7 +57699,7 @@ aria-labelledby="pokedexModalLabel">
 
                         <!-- ko if: PokedexHelper.filteredList().length != 0 -->
                         <div class="pokedex-border-bottom pt-2 d-lg-none d-block">
-                            <h4 data-bind="text: `Showing ${PokedexHelper.filteredList().length} Pokémon`"></h4>
+                            <h4 data-bind="text: `Showing ${PokedexHelper.filteredList().length.toLocaleString('en-US')} Pokémon`"></h4>
                         </div>
                         <!-- /ko -->
                         <div class="scrolling-div-pokedex">
@@ -59684,41 +59697,43 @@ aria-labelledby="badgeCaseModalLabel">
                                 </tr>
                             </thead>
                             <tbody data-bind='foreach: ShardDeal.getDeals(ShopHandler.shopObservable().location)'>
-                                <!-- ko foreach: shards -->
-                                <tr>
-                                    <td data-bind="text: player.getUndergroundItemAmount($data.shardType.id).toLocaleString('en-US')"></td>
-                                    <td class='vertical-middle'>
-                                        <img class='mineInventoryItem' data-bind='attr: {src: $data.shardType.image }'>
-                                    </td>
-                                    <td data-bind="text: amount.toLocaleString('en-US') + ' x ' + $data.shardType.name"></td>
-                                    <!-- ko if: $index() === 0 -->
-                                    <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }, text: $parent.questPointCost.toLocaleString('en-US')"></td>
-                                    <!-- TODO: Make the QP symbol appear in the same TD as the QP Cost -->
-                                    <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }">
-                                          <img src='assets/images/currency/questPoint.svg' width="20px'">
-                                    </td>
-                                    <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }">→</td>
-                                    <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }">
-                                          <img class='mineInventoryItem' data-bind="attr: {
-                                            src: $parent.item.itemType.image
-                                          }">
-                                    </td>
-                                    <td class='vertical-middle' data-bind='attr: { rowspan: $parent.shards.length }, text: $parent.item.amount + " × " + $parent.item.itemType.displayName'></td>
-                                    <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length, hidden: ShopHandler.shopObservable().hidePlayerInventory }, text: player.itemList[$parent.item.itemType.name]().toLocaleString('en-US')"></td>
-                                    <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }">
-                                        <div class="btn-group btn-block" data-bind="let: { tradeAmount: ko.observable(1) }">
-                                            <button class='btn btn-success btn-block' data-bind='click: function(){ShardDeal.use(ShopHandler.shopObservable()?.location, $parentContext.$index(), tradeAmount())}, css: { disabled: !ShardDeal.canUse(ShopHandler.shopObservable()?.location, $parentContext.$index()) }'>
-                                                <knockout data-bind="text: !ItemList[$parent.item.itemType.name].isSoldOut() ? 'Trade' : 'Sold out'"></knockout>
-                                            </button>
-                                            <button type="button" data-bind="visible: ItemList[$parent.item.itemType.name].maxAmount > 1, text: tradeAmount() + '&nbsp;'" class="btn btn-success dropdown-toggle dropdown-toggle-split active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            </button>
-                                            <div class="dropdown-menu" data-bind="foreach: [1, 10, 100]">
-                                                <button class="dropdown-item" type="button" data-bind="visible: ItemList[$parents[1].item.itemType.name].maxAmount > 1, click: function(){tradeAmount($data)}, text: $data"></button>
+                                <!-- ko if: $data.isVisible() -->
+                                    <!-- ko foreach: shards -->
+                                    <tr>
+                                        <td data-bind="text: player.getUndergroundItemAmount($data.shardType.id).toLocaleString('en-US')"></td>
+                                        <td class='vertical-middle'>
+                                            <img class='mineInventoryItem' data-bind='attr: {src: $data.shardType.image }'>
+                                        </td>
+                                        <td data-bind="text: amount.toLocaleString('en-US') + ' x ' + $data.shardType.name"></td>
+                                        <!-- ko if: $index() === 0 -->
+                                        <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }, text: $parent.questPointCost.toLocaleString('en-US')"></td>
+                                        <!-- TODO: Make the QP symbol appear in the same TD as the QP Cost -->
+                                        <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }">
+                                            <img src='assets/images/currency/questPoint.svg' width="20px'">
+                                        </td>
+                                        <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }">→</td>
+                                        <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }">
+                                            <img class='mineInventoryItem' data-bind="attr: {
+                                                src: $parent.item.itemType.image
+                                            }">
+                                        </td>
+                                        <td class='vertical-middle' data-bind='attr: { rowspan: $parent.shards.length }, text: $parent.item.amount + " × " + $parent.item.itemType.displayName'></td>
+                                        <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length, hidden: ShopHandler.shopObservable().hidePlayerInventory }, text: player.itemList[$parent.item.itemType.name]().toLocaleString('en-US')"></td>
+                                        <td class='vertical-middle' data-bind="attr: { rowspan: $parent.shards.length }">
+                                            <div class="btn-group btn-block" data-bind="let: { tradeAmount: ko.observable(1) }">
+                                                <button class='btn btn-success btn-block' data-bind='click: function(){ShardDeal.use(ShopHandler.shopObservable()?.location, $parentContext.$index(), tradeAmount())}, css: { disabled: !ShardDeal.canUse(ShopHandler.shopObservable()?.location, $parentContext.$index()) }'>
+                                                    <knockout data-bind="text: !ItemList[$parent.item.itemType.name].isSoldOut() ? 'Trade' : 'Sold out'"></knockout>
+                                                </button>
+                                                <button type="button" data-bind="visible: ItemList[$parent.item.itemType.name].maxAmount > 1, text: tradeAmount() + '&nbsp;'" class="btn btn-success dropdown-toggle dropdown-toggle-split active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </button>
+                                                <div class="dropdown-menu" data-bind="foreach: [1, 10, 100]">
+                                                    <button class="dropdown-item" type="button" data-bind="visible: ItemList[$parents[1].item.itemType.name].maxAmount > 1, click: function(){tradeAmount($data)}, text: $data"></button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                        <!-- /ko -->
+                                    </tr>
                                     <!-- /ko -->
-                                </tr>
                                 <!-- /ko -->
                             </tbody>
                         </table>
@@ -59874,26 +59889,31 @@ aria-labelledby="badgeCaseModalLabel">
                                 <img class='fit-width' src="assets/images/safari/area1.png" />
                             </div>
 
-                            <div style="position: relative; overflow-x: hidden;">
-                                <div id="safariBody"
-                                    class='container-fluid'
-                                    data-bind="visible: Safari.inProgress()">
+                            <div class='container-fluid' data-bind="if: Safari.inProgress()" style="overflow-x: auto; padding: 0px;">
+                                <div id="safariBody" style="position: relative; width: max-content; overflow-x: hidden;">
+                                    <div data-bind="foreach: Safari.grid, childrenComplete: () => Safari.addPlayer()">
+                                        <div class="row flex-nowrap" data-bind="foreach: $data" style="margin: 0 -1px !important;">
+                                            <div class="safariSquare" data-bind="attr: { id: `safari-${$parentContext.$index()}-${$context.$index()}` }, style: { 'background-image': `url('assets/images/safari/tiles/${GameConstants.SafariTile[$data]}.png')`, 'z-index': ([GameConstants.SafariTile.treeTopL, GameConstants.SafariTile.treeTopC, GameConstants.SafariTile.treeTopR].includes($data) ? '3' : 'auto') } ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="sprite" style="position: absolute;"></div>
+                                    <!-- ko foreach: Safari.pokemonGrid -->
+                                        <div class="pokemonSprite walkDown" data-bind="css: { shiny: $data.shiny },
+                                        style: {
+                                            backgroundImage: `${$data.shiny ? 'url(\'assets/images/dynamic-background/pokemon/sparkle.png\'), ' : ''}url('assets/images/dynamic-background/pokemon/${Math.floor($data.id).toString().padStart(3, '0')}${$data.shiny ? 's' : ''}.png')`,
+                                            top: `${32 * $data.y - 8}px`,
+                                            left: `${32 * $data.x - 4}px`,
+                                        }"></div>
+                                    <!-- /ko -->
+                                    <!-- ko foreach: Safari.itemGrid -->
+                                        <div class="safari-item" data-bind="
+                                        style: {
+                                            top: `${32 * $data.y}px`,
+                                            left: `${32 * $data.x}px`,
+                                        }"></div>
+                                    <!-- /ko -->
                                 </div>
-                                <!-- ko foreach: Safari.pokemonGrid -->
-                                    <div class="pokemonSprite walkDown" data-bind="css: { shiny: $data.shiny },
-                                    style: {
-                                        backgroundImage: `${$data.shiny ? 'url(\'assets/images/dynamic-background/pokemon/sparkle.png\'), ' : ''}url('assets/images/dynamic-background/pokemon/${Math.floor($data.id).toString().padStart(3, '0')}${$data.shiny ? 's' : ''}.png')`,
-                                        top: `${32 * $data.y - 8}px`,
-                                        left: `${32 * $data.x - 4}px`,
-                                    }"></div>
-                                <!-- /ko -->
-                                <!-- ko foreach: Safari.itemGrid -->
-                                    <div class="safari-item" data-bind="
-                                    style: {
-                                        top: `${32 * $data.y}px`,
-                                        left: `${32 * $data.x}px`,
-                                    }"></div>
-                                <!-- /ko -->
                             </div>
                         </div>
                     </div>
