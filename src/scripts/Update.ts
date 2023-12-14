@@ -2537,6 +2537,9 @@ class Update implements Saveable {
                 saveData.statistics.temporaryBattleDefeated[223] = 0;
             }
         },
+        '0.10.18': ({ saveData }) => {
+            saveData.farming.wanderers = [];
+        },
     };
 
     constructor() {

@@ -1604,6 +1604,14 @@
           })
         %>
 
+        <%- include('templates/mapPOI',
+            { name: "Farm"
+            , x: 13, y: 16
+            , width: 3, height: 3
+            , databind: "click:function(){FarmController.openFarmModal()}, attr: { class: App.game.farming.canAccess() ? 'completed' : 'locked' }"
+            })
+        %>
+
         <%- include('templates/mapOverlay',
             { name: "Professor Kukui's Blimp"
             , x: 72, y: 30

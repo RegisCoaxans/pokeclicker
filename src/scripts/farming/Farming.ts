@@ -1,6 +1,12 @@
 /// <reference path="../../declarations/GameHelper.d.ts" />
 /// <reference path="../../declarations/DataStore/common/Feature.d.ts" />
 
+interface WandererData {
+    pokemonName: PokemonNameType,
+    berry: BerryType,
+    shiny: boolean,
+}
+
 class Farming implements Feature {
     name = 'Farming';
     saveKey = 'farming';
@@ -8,6 +14,7 @@ class Farming implements Feature {
     berryData: Berry[] = [];
     mutations: Mutation[] = [];
     farmHands = new FarmHands();
+    wanderers: WandererData[] = [];
 
     externalAuras: KnockoutObservable<number>[];
 
@@ -2160,6 +2167,27 @@ class Farming implements Feature {
         return this.plotList.some(plot => plot.berry == berry && plot.stage() >= stage && (!ignoreFrozen || plot.mulch !== MulchType.Freeze_Mulch));
     }
 
+    queueWanderer(pokemonName: PokemonNameType, berry: BerryType, shiny: boolean) {
+        this.wanderers.push({pokemonName, berry, shiny});
+    }
+
+    generateWandererEncounter(region: GameConstants.Region, route: number): boolean {
+        if (!GameConstants.FarmRoutes[region].includes(route)) {
+            return false;
+        }
+        // 1 chance out of 5 so wanderers do not overcrowd the route instead of normal encounters.
+        return this.wanderers.length && Rand.chance(5);
+    }
+
+    pullWandererData(): WandererData {
+        const wi = Rand.intBetween(0, this.wanderers.length - 1);
+        return this.wanderers.splice(wi, 1)[0];
+    }
+
+    isBaseWanderer(pokemon: PokemonNameType): boolean {
+        return Berry.baseWander.includes(pokemon);
+    }
+
     toJSON(): Record<string, any> {
         return {
             berryList: this.berryList.map(ko.unwrap),
@@ -2170,6 +2198,7 @@ class Farming implements Feature {
             mulchShovelAmt: this.mulchShovelAmt(),
             mutations: this.mutations.map(mutation => mutation.toJSON()),
             farmHands: this.farmHands.toJSON(),
+            wanderers: this.wanderers,
         };
     }
 
@@ -2237,6 +2266,8 @@ class Farming implements Feature {
         }
 
         this.farmHands.fromJSON(json.farmHands);
+
+        this.wanderers = json.wanderers;
     }
 
     public static genBounds = [8, 20, 36, 54, Infinity];

@@ -14,10 +14,14 @@ class PokemonFactory {
             return new BattlePokemon('MissingNo.', 0, PokemonType.None, PokemonType.None, 0, 0, 0, 0, new Amount(0, GameConstants.Currency.money), false, 0, GameConstants.BattlePokemonGender.NoGender, GameConstants.ShadowStatus.None, EncounterType.route);
         }
         let name: PokemonNameType;
+        let wandererData: WandererData;
 
         const roaming = PokemonFactory.roamingEncounter(route, region, subRegion);
         if (roaming) {
             name = PokemonFactory.generateRoamingEncounter(region, subRegion);
+        } else if (App.game.farming.generateWandererEncounter(region, route)) {
+            wandererData = App.game.farming.pullWandererData();
+            name = wandererData.pokemonName;
         } else {
             name = Rand.fromArray(RouteHelper.getAvailablePokemonList(route, region));
         }
@@ -36,10 +40,9 @@ class PokemonFactory {
         const exp: number = basePokemon.exp;
         const level: number = this.routeLevel(route, region);
         const heldItem: BagItem = this.generateHeldItem(basePokemon.heldItem, GameConstants.ROUTE_HELD_ITEM_MODIFIER);
-        const money: number = this.routeMoney(route,region);
-        const shiny: boolean = this.generateShiny(GameConstants.SHINY_CHANCE_BATTLE);
+        const shiny: boolean =  wandererData ? wandererData.shiny : this.generateShiny(GameConstants.SHINY_CHANCE_BATTLE);
         const gender = this.generateGender(basePokemon.gender.femaleRatio, basePokemon.gender.type);
-        const encounterType = roaming ? EncounterType.roamer : EncounterType.route;
+        const encounterType = roaming ? EncounterType.roamer : (wandererData ? EncounterType.wanderer : EncounterType.route);
 
         if (shiny) {
             Notifier.notify({
@@ -75,8 +78,15 @@ class PokemonFactory {
                 })
             );
         }
-        const ep = GameConstants.BASE_EP_YIELD * (roaming ? GameConstants.ROAMER_EP_MODIFIER : 1);
-        return new BattlePokemon(name, id, basePokemon.type1, basePokemon.type2, maxHealth, level, catchRate, exp, new Amount(money, GameConstants.Currency.money), shiny, 1, gender, GameConstants.ShadowStatus.None, encounterType, heldItem, ep);
+        let ep = GameConstants.BASE_EP_YIELD * (roaming ? GameConstants.ROAMER_EP_MODIFIER : 1);
+        let value = this.routeMoney(route,region);
+        let currency = GameConstants.Currency.money;
+        if (wandererData) {
+            value = Math.round(Math.sqrt(App.game.farming.berryData.find(b => b.type === wandererData.berry).farmValue));
+            currency = GameConstants.Currency.farmPoint;
+            ep *= App.game.farming.isBaseWanderer(name) ? GameConstants.BASE_WANDERER_EP_MODIFIER : GameConstants.WANDERER_EP_MODIFIER;
+        }
+        return new BattlePokemon(name, id, basePokemon.type1, basePokemon.type2, maxHealth, level, catchRate, exp, new Amount(value, currency), shiny, 1, gender, GameConstants.ShadowStatus.None, encounterType, heldItem, ep);
     }
 
     public static routeLevel(route: number, region: GameConstants.Region): number {
