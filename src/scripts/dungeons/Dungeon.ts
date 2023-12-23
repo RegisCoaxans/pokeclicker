@@ -95,6 +95,7 @@ const DungeonGainGymBadge = (gym: Gym) => {
  */
  interface optionalDungeonParameters {
     dungeonRegionalDifficulty?: GameConstants.Region,
+    townName?: string,
 }
 class Dungeon {
     private mimicList: PokemonNameType[] = [];
@@ -314,6 +315,14 @@ class Dungeon {
         }, {} as Record<LootTier, number>);
 
         return updatedChances;
+    }
+
+    get regionalDifficulty(): GameConstants.Region {
+        return this.optionalParameters.dungeonRegionalDifficulty ?? GameConstants.getDungeonRegion(this.name);
+    }
+
+    get townName(): string {
+        return this.optionalParameters.townName ?? this.name;
     }
 
     /**
@@ -6601,6 +6610,23 @@ dungeonList['Citadark Isle Dome'] = new Dungeon('Citadark Isle Dome', // Difficu
     615000, 134,
     () => {},
     {dungeonRegionalDifficulty: GameConstants.Region.unova});
+
+// Needed for technical reason.
+// Uses fillers.
+dungeonList['Mt. Battle Facility'] = new Dungeon('Mt. Battle Facility',
+    ['Pikachu'],
+    {
+        common: [{loot: 'xAttack'}],
+    },
+    1,
+    [new DungeonBossPokemon('Pikachu', 1, 1)],
+    0, 134,
+    () => {
+        MapHelper.moveToTown('Mt. Battle');
+    },
+    // Cancel
+    { dungeonRegionalDifficulty: GameConstants.Region.none });
+
 // Sinnoh
 
 // Sinnoh Dungeons

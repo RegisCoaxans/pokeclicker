@@ -2542,6 +2542,8 @@ class Update implements Saveable {
             if ((saveData.quests.questLines.find(ql => ql.name === 'An Unrivaled Power')?.state ?? 0) !== 2) {
                 saveData.statistics.temporaryBattleDefeated[223] = 0;
             }
+
+            saveData.statistics.dungeonsCleared = Update.moveIndex(saveData.statistics.dungeonsCleared, 77);
         },
     };
 

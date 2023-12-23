@@ -18,12 +18,14 @@ class DungeonRunner {
     public static dungeonFinished: KnockoutObservable<boolean> = ko.observable(false);
     public static fightingLootEnemy: boolean;
     public static continuousInteractionInput = false;
+    public static regionalDifficulty: GameConstants.Region;
 
     public static initializeDungeon(dungeon: Dungeon) {
         if (!dungeon.isUnlocked()) {
             return false;
         }
         DungeonRunner.dungeon = dungeon;
+        DungeonRunner. regionalDifficulty = dungeon.regionalDifficulty;
 
         if (!DungeonRunner.hasEnoughTokens()) {
             Notifier.notify({
@@ -42,13 +44,13 @@ class DungeonRunner {
 
         DungeonRunner.timeLeftPercentage(100);
         // Dungeon size increases with each region
-        let dungeonSize = GameConstants.BASE_DUNGEON_SIZE + (dungeon.optionalParameters.dungeonRegionalDifficulty ?? player.region);
+        let dungeonSize = GameConstants.BASE_DUNGEON_SIZE + dungeon.regionalDifficulty;
         // Decrease dungeon size by 1 for every 10, 100, 1000 etc completes
         dungeonSize -= Math.max(0, App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(DungeonRunner.dungeon.name)]().toString().length - 1);
         const flash = DungeonRunner.getFlash(DungeonRunner.dungeon.name);
         const generateChestLoot = () => {
             const clears = App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(dungeon.name)]();
-            const debuffed = (dungeon.optionalParameters?.dungeonRegionalDifficulty ?? GameConstants.getDungeonRegion(dungeon.name)) < player.highestRegion() - 2;
+            const debuffed = dungeon.regionalDifficulty < player.highestRegion() - 2;
             // Ignores debuff on first attempt to get loot that ignores debuff.
             let tier = dungeon.getRandomLootTier(clears);
             let loot = dungeon.getRandomLoot(tier);
@@ -151,7 +153,7 @@ class DungeonRunner {
             const magnetChance = 0.5 / (4 / (tierWeight + 1));
             if (Rand.chance(magnetChance)) {
                 // Gain more items in higher regions
-                amount += Math.max(1, Math.round(Math.max(tierWeight, 2) / 8 * (GameConstants.getDungeonRegion(DungeonRunner.dungeon.name) + 1)));
+                amount += Math.max(1, Math.round(Math.max(tierWeight, 2) / 8 * (DungeonRunner.dungeon.regionalDifficulty + 1)));
             }
         }
 
@@ -261,7 +263,7 @@ class DungeonRunner {
             DungeonRunner.dungeonFinished(true);
             DungeonRunner.fighting(false);
             DungeonRunner.fightingBoss(false);
-            MapHelper.moveToTown(DungeonRunner.dungeon.name);
+            MapHelper.moveToTown(DungeonRunner.dungeon.townName);
         }
     }
 
@@ -270,7 +272,7 @@ class DungeonRunner {
             DungeonRunner.dungeonFinished(true);
             DungeonRunner.fighting(false);
             DungeonRunner.fightingBoss(false);
-            MapHelper.moveToTown(DungeonRunner.dungeon.name);
+            MapHelper.moveToTown(DungeonRunner.dungeon.townName);
             Notifier.notify({
                 message: 'You could not complete the dungeon in time.',
                 type: NotificationConstants.NotificationOption.danger,
@@ -285,7 +287,7 @@ class DungeonRunner {
                 DungeonRunner.dungeon.rewardFunction();
             }
             GameHelper.incrementObservable(App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(DungeonRunner.dungeon.name)]);
-            MapHelper.moveToTown(DungeonRunner.dungeon.name);
+            MapHelper.moveToTown(DungeonRunner.dungeon.townName);
             Notifier.notify({
                 message: 'You have successfully completed the dungeon.',
                 type: NotificationConstants.NotificationOption.success,

@@ -202,6 +202,9 @@ class MapHelper {
     }
 
     public static moveToTown(townName: string) {
+        if (!TownList[townName]) {
+            return;
+        }
         if (MapHelper.accessToTown(townName)) {
             App.game.gameState = GameConstants.GameState.idle;
             player.route(0);
