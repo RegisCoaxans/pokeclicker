@@ -10,7 +10,7 @@ class DungeonRunner {
     public static fighting: KnockoutObservable<boolean> = ko.observable(false);
     public static map: DungeonMap;
     public static chestsOpened: KnockoutObservable<number> = ko.observable(0);
-    private static chestsOpenedPerFloor: number[];
+    public static chestsOpenedPerFloor: number[];
     public static currentTileType;
     public static encountersWon: KnockoutObservable<number> = ko.observable(0);
     public static fightingBoss: KnockoutObservable<boolean> = ko.observable(false);
@@ -62,7 +62,7 @@ class DungeonRunner {
             return { tier, loot };
         };
         // Dungeon size minimum of MIN_DUNGEON_SIZE
-        DungeonRunner.map = new DungeonMap(Math.max(GameConstants.MIN_DUNGEON_SIZE, dungeonSize), generateChestLoot, flash);
+        DungeonRunner.map = new DungeonMap(Math.max(dungeonSize, GameConstants.MIN_DUNGEON_SIZE), generateChestLoot, flash);
 
         DungeonRunner.chestsOpened(0);
         DungeonRunner.encountersWon(0);
@@ -237,14 +237,14 @@ class DungeonRunner {
         DungeonBattle.generateNewBoss();
     }
 
-    public static nextFloor() {
+    public static nextFloor(bonusTime = GameConstants.DUNGEON_LADDER_BONUS) {
         DungeonRunner.map.moveToCoordinates(
             Math.floor(DungeonRunner.map.floorSizes[DungeonRunner.map.playerPosition().floor + 1] / 2),
             DungeonRunner.map.floorSizes[DungeonRunner.map.playerPosition().floor + 1] - 1,
             DungeonRunner.map.playerPosition().floor + 1
         );
         DungeonRunner.map.playerPosition.notifySubscribers();
-        DungeonRunner.timeLeft(DungeonRunner.timeLeft() + GameConstants.DUNGEON_LADDER_BONUS);
+        DungeonRunner.timeLeft(DungeonRunner.timeLeft() + bonusTime);
         DungeonRunner.map.playerMoved(false);
     }
 
@@ -263,7 +263,7 @@ class DungeonRunner {
             DungeonRunner.dungeonFinished(true);
             DungeonRunner.fighting(false);
             DungeonRunner.fightingBoss(false);
-            MapHelper.moveToTown(DungeonRunner.dungeon.townName);
+            MapHelper.moveToTown(DungeonRunner.dungeon.town);
         }
     }
 
@@ -272,7 +272,7 @@ class DungeonRunner {
             DungeonRunner.dungeonFinished(true);
             DungeonRunner.fighting(false);
             DungeonRunner.fightingBoss(false);
-            MapHelper.moveToTown(DungeonRunner.dungeon.townName);
+            MapHelper.moveToTown(DungeonRunner.dungeon.town);
             Notifier.notify({
                 message: 'You could not complete the dungeon in time.',
                 type: NotificationConstants.NotificationOption.danger,
@@ -287,7 +287,7 @@ class DungeonRunner {
                 DungeonRunner.dungeon.rewardFunction();
             }
             GameHelper.incrementObservable(App.game.statistics.dungeonsCleared[GameConstants.getDungeonIndex(DungeonRunner.dungeon.name)]);
-            MapHelper.moveToTown(DungeonRunner.dungeon.townName);
+            MapHelper.moveToTown(DungeonRunner.dungeon.town);
             Notifier.notify({
                 message: 'You have successfully completed the dungeon.',
                 type: NotificationConstants.NotificationOption.success,

@@ -95,7 +95,8 @@ const DungeonGainGymBadge = (gym: Gym) => {
  */
  interface optionalDungeonParameters {
     dungeonRegionalDifficulty?: GameConstants.Region,
-    townName?: string,
+    ignoreAchievements?: boolean,
+    returnTown?: string,
 }
 class Dungeon {
     private mimicList: PokemonNameType[] = [];
@@ -321,10 +322,6 @@ class Dungeon {
         return this.optionalParameters.dungeonRegionalDifficulty ?? GameConstants.getDungeonRegion(this.name);
     }
 
-    get townName(): string {
-        return this.optionalParameters.townName ?? this.name;
-    }
-
     /**
      * Retrieves the weights for all the possible enemies
      */
@@ -486,6 +483,10 @@ class Dungeon {
             });
         });
         return res;
+    }
+
+    get town(): string {
+        return this.optionalParameters.returnTown ?? this.name;
     }
 }
 
@@ -6620,12 +6621,11 @@ dungeonList['Mt. Battle Facility'] = new Dungeon('Mt. Battle Facility',
     },
     1,
     [new DungeonBossPokemon('Pikachu', 1, 1)],
-    0, 134,
-    () => {
-        MapHelper.moveToTown('Mt. Battle');
-    },
-    // Cancel
-    { dungeonRegionalDifficulty: GameConstants.Region.none });
+    // Free 1000 DT per trainer.
+    25000, 134,
+    undefined,
+    // Cancel items being multiplied.
+    { dungeonRegionalDifficulty: GameConstants.Region.none, ignoreAchievements: true });
 
 // Sinnoh
 

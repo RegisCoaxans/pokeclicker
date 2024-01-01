@@ -7,14 +7,18 @@ class DungeonMap {
     floorSizes: number[];
 
     constructor(
-        size: number,
-        private generateChestLoot: () => { loot: Loot, tier: LootTier },
+        size: number | Array<number>,
+        public generateChestLoot: () => { loot: Loot, tier: LootTier },
         private flash?: DungeonFlash
     ) {
-        if (size <= GameConstants.MAX_DUNGEON_SIZE) {
-            this.floorSizes = [size];
+        if (typeof size === 'number') {
+            if (size <= GameConstants.MAX_DUNGEON_SIZE) {
+                this.floorSizes = [size];
+            } else {
+                this.floorSizes = [GameConstants.MAX_DUNGEON_SIZE, size - GameConstants.MAX_DUNGEON_SIZE + GameConstants.MIN_DUNGEON_SIZE - 1];
+            }
         } else {
-            this.floorSizes = [GameConstants.MAX_DUNGEON_SIZE, size - GameConstants.MAX_DUNGEON_SIZE + GameConstants.MIN_DUNGEON_SIZE - 1];
+            this.floorSizes = size;
         }
 
         this.board = ko.observable(this.generateMap());
