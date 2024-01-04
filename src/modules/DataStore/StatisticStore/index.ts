@@ -107,6 +107,10 @@ export default class Statistics implements Saveable {
     safariShinyPokemonCaptured: KnockoutObservable<number>;
     safariStepsTaken: KnockoutObservable<number>;
     safariItemsObtained: KnockoutObservable<number>;
+    // Mt. Battle
+    'mt.BattleTotalTrialsCompleted': KnockoutObservable<number>;
+    'mt.BattleTotalFloorsCleared': KnockoutObservable<number>;
+    'mt.BattleTotalTrainersDefeated': KnockoutObservable<number>;
 
     /*
      * arrayObservables
@@ -241,6 +245,9 @@ export default class Statistics implements Saveable {
         'safariShinyPokemonCaptured',
         'safariStepsTaken',
         'safariItemsObtained',
+        'mt.BattleTotalTrialsCompleted',
+        'mt.BattleTotalFloorsCleared',
+        'mt.BattleTotalTrainersDefeated',
     ];
     arrayObservables = [
         'gymsDefeated',

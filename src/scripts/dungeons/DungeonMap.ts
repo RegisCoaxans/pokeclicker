@@ -66,6 +66,8 @@ class DungeonMap {
             this.currentTile().isVisited = true;
             if (this.currentTile().type() == GameConstants.DungeonTile.enemy) {
                 DungeonBattle.generateNewEnemy();
+            } else if (this.currentTile().type() == GameConstants.DungeonTile.mtBattleTrainer) {
+                MountBattleController.generateTrainer(point.floor);
             }
             return true;
         }

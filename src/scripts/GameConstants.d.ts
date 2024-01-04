@@ -904,4 +904,7 @@ namespace GameConstants {
         Clever,
         Tough,
     }
+    declare const MT_BATTLE_FLOORS: number;
+    declare const MT_BATTLE_TRAINERS_PER_FLOOR: number;
+    declare const MT_BATTLE_BONUS_TIME: number;
 }

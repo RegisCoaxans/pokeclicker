@@ -1445,7 +1445,7 @@ export const HoennDungeons = [
     'Cipher Key Lair',
     'Citadark Isle',
     'Citadark Isle Dome',
-    'Mt. Battle Facility', // 77
+    'Mt. Battle Trial', // 77
     // These aren't implemented anywhere yet
     /*
     "Island Cave",
@@ -2448,3 +2448,7 @@ export enum ContestStyle {
     Clever,
     Tough,
 }
+
+export const MT_BATTLE_FLOORS = 10;
+export const MT_BATTLE_TRAINERS_PER_FLOOR = 10;
+export const MT_BATTLE_BONUS_TIME = 60 * SECOND;

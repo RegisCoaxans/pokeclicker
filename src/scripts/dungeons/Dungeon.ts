@@ -13,9 +13,10 @@
 interface EnemyOptions {
     weight?: number,
     requirement?: MultiRequirement | OneFromManyRequirement | Requirement,
-    reward?: Amount,
+    reward?: () => void,
     hide?: boolean,
     hideTrainer?: boolean,
+    ignoreChests?: boolean,
 }
 
 interface DetailedPokemon {
@@ -6614,7 +6615,7 @@ dungeonList['Citadark Isle Dome'] = new Dungeon('Citadark Isle Dome', // Difficu
 
 // Needed for technical reason.
 // Uses fillers.
-dungeonList['Mt. Battle Facility'] = new Dungeon('Mt. Battle Facility',
+dungeonList['Mt. Battle Trial'] = new Dungeon('Mt. Battle Trial',
     ['Pikachu'],
     {
         common: [{loot: 'xAttack'}],
@@ -6625,7 +6626,7 @@ dungeonList['Mt. Battle Facility'] = new Dungeon('Mt. Battle Facility',
     25000, 134,
     undefined,
     // Cancel items being multiplied.
-    { dungeonRegionalDifficulty: GameConstants.Region.none, ignoreAchievements: true });
+    { dungeonRegionalDifficulty: GameConstants.Region.none, ignoreAchievements: true, returnTown: 'Mt. Battle' });
 
 // Sinnoh
 

@@ -112,10 +112,15 @@ class DungeonBattle extends Battle {
     private static nextTrainerPokemon() {
         // No Pokemon left, trainer defeated
         if (this.trainerPokemonIndex() >= this.trainer().getTeam().length) {
+            // Clearing Dungeon tile
+            DungeonRunner.map.currentTile().type(GameConstants.DungeonTile.empty);
+            DungeonRunner.map.currentTile().calculateCssClass();
+            DungeonRunner.fighting(false);
+
             // rewards for defeating trainer
-            if (this.trainer().options.reward) {
-                // Custom reward amount on defeat
-                App.game.wallet.addAmount(this.trainer().options.reward);
+            if (this.trainer().options?.reward) {
+                // Custom reward on defeat
+                this.trainer().options?.reward?.();
             } else {
                 const dungeonCost = DungeonRunner.dungeon.tokenCost;
                 // Reward back 50% or 100% (boss) of the total dungeon DT cost as money (excludes achievement multiplier)
@@ -125,18 +130,12 @@ class DungeonBattle extends Battle {
                 const tokens = Math.round(dungeonCost * (DungeonRunner.fightingBoss() ? 0.1 : 0.04));
                 App.game.wallet.gainDungeonTokens(tokens, true);
             }
-
-            DungeonRunner.fighting(false);
             GameHelper.incrementObservable(DungeonRunner.encountersWon);
             if (DungeonRunner.fightingBoss()) {
                 DungeonRunner.defeatedBoss(DungeonBattle.trainer().name);
             }
             this.trainer(null);
             this.trainerPokemonIndex(0);
-
-            // Clearing Dungeon tile
-            DungeonRunner.map.currentTile().type(GameConstants.DungeonTile.empty);
-            DungeonRunner.map.currentTile().calculateCssClass();
 
             // Update boss
             if (DungeonRunner.fightingBoss()) {
@@ -239,7 +238,8 @@ class DungeonBattle extends Battle {
         const pokemon = this.trainer().getTeam()[this.trainerPokemonIndex()];
         const baseHealth = DungeonRunner.fightingBoss() ? pokemon.maxHealth : DungeonRunner.dungeon.baseHealth;
         const level = DungeonRunner.fightingBoss() ? pokemon.level : DungeonRunner.dungeonLevel();
-        const enemyPokemon = PokemonFactory.generateDungeonTrainerPokemon(pokemon, DungeonRunner.chestsOpened(), baseHealth, level, DungeonRunner.fightingBoss());
+        const chestsAccounted = DungeonBattle.trainer().options?.ignoreChests ? 0 : DungeonRunner.chestsOpened();
+        const enemyPokemon = PokemonFactory.generateDungeonTrainerPokemon(pokemon, chestsAccounted, baseHealth, level, DungeonRunner.fightingBoss());
 
         this.enemyPokemon(enemyPokemon);
     }
