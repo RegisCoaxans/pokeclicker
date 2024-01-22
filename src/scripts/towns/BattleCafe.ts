@@ -20,8 +20,17 @@ class BattleCafeSaveObject implements Saveable {
     saveKey = 'BattleCafe';
     defaults: Record<string, any>;
     toJSON(): Record<string, any> {
+        const recipes = Object.entries(BattleCafeController.recipes).reduce((acc, e) => {
+            const v = ko.unwrap(e[1]);
+            if (v) {
+                acc[e[0]] = v;
+            }
+            return acc;
+        }, {});
         return {
             spinsLeft: BattleCafeController.spinsLeft(),
+            recipes,
+            history : ko.unwrap(BattleCafeController.history),
         };
     }
     fromJSON(json: Record<string, any>): void {
@@ -29,6 +38,10 @@ class BattleCafeSaveObject implements Saveable {
             return;
         }
         BattleCafeController.spinsLeft(json.spinsLeft ?? BattleCafeController.baseDailySpins);
+        BattleCafeController.history(json.history);
+        Object.entries(json.recipes).forEach(([id, recipe]) => {
+            BattleCafeController.recipes[id]?.(recipe);
+        })
     }
 
 }
@@ -79,13 +92,15 @@ class BattleCafeController {
 
     private static unlockAlcremie(clockwise: boolean, spinTime: number, sweet: GameConstants.AlcremieSweet) {
         let spin: GameConstants.AlcremieSpins;
+        const dayPart = DayCycle.currentDayCyclePart();
         if (spinTime == 3600) {
             (new PokemonItem('Milcery (Cheesy)', 0)).gain(1);
+            BattleCafeController.logSpin('Milcery (Cheesy)', clockwise, spinTime, sweet, dayPart);
             return;
         }
-        if (DayCycle.currentDayCyclePart() === DayCyclePart.Dusk && !clockwise && spinTime > 10) {
+        if (dayPart === DayCyclePart.Dusk && !clockwise && spinTime > 10) {
             spin = GameConstants.AlcremieSpins.at5Above10;
-        } else if ([DayCyclePart.Night, DayCyclePart.Dawn].includes(DayCycle.currentDayCyclePart())) {
+        } else if ([DayCyclePart.Night, DayCyclePart.Dawn].includes(dayPart)) {
             if (clockwise && spinTime < 5) {
                 spin = GameConstants.AlcremieSpins.nightClockwiseBelow5;
             } else if (clockwise && spinTime >= 5) {
@@ -106,7 +121,9 @@ class BattleCafeController {
                 spin = GameConstants.AlcremieSpins.dayCounterclockwiseAbove5;
             }
         }
-        BattleCafeController.evolutions[sweet][spin].gain(1);
+        const alcremie = BattleCafeController.evolutions[sweet][spin];
+        alcremie.gain(1);
+        BattleCafeController.logSpin(alcremie.name as PokemonNameType, clockwise, spinTime, sweet, dayPart);
     }
 
     private static canSpin() {
@@ -320,4 +337,37 @@ class BattleCafeController {
         },
 
     };
+
+    public static recipes: Record<number, KnockoutObservable<BattleCafeRecipe>> = Object.values(BattleCafeController.evolutions).map(e => Object.values(e)).flat().reduce((acc, p) => {
+        const id = pokemonMap[p.name].id;
+        acc[id] = ko.observable(null);
+        return acc;
+    }, { [pokemonMap['Milcery (Cheesy)'].id] : ko.observable(null) });
+
+    public static history: KnockoutObservableArray<BattleCafeRecipe> = ko.observableArray([]);
+
+    public static addToHistory(r: BattleCafeRecipe) {
+        if (BattleCafeController.history().length === 9) {
+            BattleCafeController.history.unshift();
+        }
+        BattleCafeController.history.push(r);
+    }
+
+    public static logSpin(name: PokemonNameType, clockwise: boolean, spinTime: number, sweet: GameConstants.AlcremieSweet, dayPart: DayCyclePart) {
+        const id = pokemonMap[name].id;
+        const recipe: BattleCafeRecipe = {p: id, t: dayPart, d: spinTime, s: sweet, c: clockwise};
+        BattleCafeController.addToHistory(recipe);
+        if (!BattleCafeController.recipes[id]()) {
+            BattleCafeController.recipes[id](recipe);
+        }
+    }
+}
+
+// Short keys to lower file size
+interface BattleCafeRecipe {
+    p: number, // (P)okemon ID
+    t: DayCyclePart, // (T)ime of the day
+    d: number, // (D)uration of the spin
+    s: GameConstants.AlcremieSweet, // (S)weet used
+    c: boolean, // Direction, (C)lockwise = true
 }
