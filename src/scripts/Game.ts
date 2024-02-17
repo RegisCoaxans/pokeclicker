@@ -416,6 +416,15 @@ class Game {
                 TemporaryBattleRunner.tick();
                 break;
             }
+
+            case GameConstants.GameState.voltorbFlip: {
+                VoltorbFlipBattle.counter += GameConstants.TICK_TIME;
+                if(VoltorbFlipBattle.counter >= GameConstants.BATTLE_TICK) {
+                    VoltorbFlipBattle.tick();
+                }
+                VoltorbFlipRunner.tick();
+                break;
+            }
         }
 
         // Auto Save

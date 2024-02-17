@@ -25,6 +25,8 @@ namespace GameConstants {
     declare const DUNGEON_TIME: number;
     declare const DUNGEON_TICK: number;
     declare const DUNGEON_LADDER_BONUS: number;
+    declare const VOLTORB_FLIP_TIME: number;
+    declare const VOLTORB_FLIP_TICK: number;
     declare const EFFECT_ENGINE_TICK: number;
     declare const SAVE_TICK: number;
     declare const GYM_TIME: number;
@@ -231,7 +233,8 @@ namespace GameConstants {
         town,
         shop,
         battleFrontier,
-        temporaryBattle
+        temporaryBattle,
+        voltorbFlip
     }
     declare enum Pokeball {
         'None',

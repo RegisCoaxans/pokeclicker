@@ -1,0 +1,44 @@
+<div class="row justify-content-center no-gutters" data-bind="if: App.game.gameState == GameConstants.GameState.voltorbFlip">
+    <div class="col no-gutters" data-bind="if: VoltorbFlipBattle.enemyPokemon" style="height: 280px; display: block;">
+        <h2 class="pageItemTitle mobileBattleTitle" style="display: block;">
+            <knockout>
+                <knockout data-bind="template: { name: 'pokemonNameTemplate', data: { 'pokemon': VoltorbFlipBattle.enemyPokemon() } }">Pokémon name</knockout>
+            </knockout>
+
+            <div class="progress timer">
+                <div class="progress-bar bg-danger" role="progressbar"
+                        data-bind="attr:{ style: 'width:' + VoltorbFlipRunner.timeLeftPercentage() + '%' },
+                        css: { 'bg-danger': VoltorbFlipRunner.timeLeftSeconds() < 100, 'bg-primary': VoltorbFlipRunner.timeLeftSeconds() >= 100 }"
+                        aria-valuemin="0" aria-valuemax="100">
+                        <span data-bind="text: VoltorbFlipRunner.timeLeftSeconds() + 's'" style="font-size: 12px;"></span>
+                </div>
+            </div>
+
+        </h2>
+
+        <div>
+            <knockout data-bind="template: { name: 'pokemonSpriteTemplate', data: { 'pokemon': VoltorbFlipBattle.enemyPokemon() } }">Pokémon sprite</knockout>
+        </div>
+        <div class="progress hitpoints trainerhitpoints">
+            <div class="progress-bar bg-danger" role="progressbar"
+                    data-bind="attr:{ style: 'width:' + VoltorbFlipBattle.enemyPokemon().healthPercentage() + '%' }"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <span data-bind="text: VoltorbFlipBattle.enemyPokemon().health().toLocaleString('en-US') + ' / ' + VoltorbFlipBattle.enemyPokemon().maxHealth().toLocaleString('en-US')" style="font-size: 12px;"></span>
+            </div>
+        </div>
+        <h2 class="pageItemFooter" style="display: block; font-size: 1rem;">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <span style="display: inline;">
+                            Flip Attack:
+                            <span data-bind="
+                            text: VoltorbFlipRunner.calculateFlipAttack().toLocaleString('en-US')">
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </h2>
+    </div>
+</div>

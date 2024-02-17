@@ -14,6 +14,8 @@ export const UNDERGROUND_TICK = 1 * SECOND;
 export const DUNGEON_TIME = 60 * SECOND;
 export const DUNGEON_TICK = 0.1 * SECOND;
 export const DUNGEON_LADDER_BONUS = 10 * SECOND;
+export const VOLTORB_FLIP_TIME = 5 * MINUTE;
+export const VOLTORB_FLIP_TICK = 0.1 * SECOND;
 export const EFFECT_ENGINE_TICK = 1 * SECOND;
 export const SAVE_TICK = 10 * SECOND;
 export const GYM_TIME = 30 * SECOND;
@@ -445,6 +447,7 @@ export enum GameState {
     shop = 7,
     battleFrontier = 8,
     temporaryBattle = 9,
+    voltorbFlip = 10
 }
 
 export enum Pokeball {
