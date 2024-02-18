@@ -1,0 +1,45 @@
+@import url("variables.less");
+
+#voltorbFlipGame, .flipTile {
+  background-color: #309f6a;
+}
+
+#voltorbFlipTiles {
+  position: sticky;
+  z-index: 2;
+}
+
+.flipTile {
+  border: 0.2rem solid #e8e0f0;
+  margin: 3%;
+  border-radius: 0.2rem;
+  
+  & .flipTileBox {
+
+    &:not(.flipTileIndicator) {
+      border: solid #303030;
+    }
+
+    &.indic-0 {
+      fill: #de7055;
+    }
+
+    &.indic-1 {
+      fill: #45a746;
+    }
+
+    &.indic-2 {
+      fill: #e69f43;
+    }
+
+    &.indic-3 {
+      fill: #3792f5;
+    }
+
+    &.indic-4 {
+      fill: #bf65dd;
+    }
+
+    width: 100%;
+  }
+}

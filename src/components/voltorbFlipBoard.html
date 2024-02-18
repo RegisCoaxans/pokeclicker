@@ -1,0 +1,55 @@
+
+<!-- ko if: App.game.gameState === GameConstants.GameState.voltorbFlip -->
+<div id="voltorbFlipBoard" class="card sortable-disabled border-secondary mb-3 battle-frontier no-select">
+    <div class="card-header p-0">
+        <span>Voltorb Flip</span>
+    </div>
+    <!-- ko ifnot: VoltorbFlipRunner.running -->
+    <div class="card-body text-center">
+        <h5>Play Voltorb Flip!</h5>
+        <p>
+            Defeat as many Voltorb as possible within 5 minutes using your Flip Attack only.<br/>
+            You will be presented with a board. Increase your Flip Attack by picking value cards.<br/>
+            If you flip a Voltorb, though, the attack bonus from the current level is lost.<br/>
+            Find all ×2 and ×3 to continue to the next level.
+        </p>
+        <a class="btn btn-block btn-success text-light" onclick="VoltorbFlipRunner.startGame()">Start</a>
+        <a class="btn btn-block btn-danger text-light" onclick="VoltorbFlipRunner.exit()">Exit</a>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: VoltorbFlipRunner.running -->
+    <div id="voltorbFlipGame" class="card-body text-center p-1">
+        <div class="m-0 col-9">
+            <div class="row">
+                <!-- ko foreach: VoltorbFlipRunner.board() -->
+                    <!-- ko foreach: $data -->
+                    <div class="col-2 p-0">
+                        <div class="flipTile">
+                            <img class="flipTileBox" src="assets/images/tileBack.svg"/>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+                    <div class="col-2 p-0">
+                        <div class="flipTile">
+                            <svg class="flipTileBox flipTileIndicator" viewBox="0 0 500 500" data-bind="class: `indic-${VoltorbFlipRunner.getXYPos($data[0].index).y}`">
+                                <rect x="0" y="0" width="500" height="500"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="w-100"></div>
+                <!-- /ko -->
+                <!-- ko foreach: new Array(5).fill(0) -->
+                <div class="col-2 p-0">
+                    <div class="flipTile">
+                        <svg class="flipTileBox flipTileIndicator" viewBox="0 0 500 500" data-bind="class: `indic-${$index()}`">
+                            <rect x="0" y="0" width="500" height="500"/>
+                        </svg>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+<!-- /ko -->

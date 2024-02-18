@@ -45,7 +45,7 @@ class VoltorbFlipBattle extends Battle {
         const shiny = PokemonFactory.generateShiny(GameConstants.SHINY_CHANCE_BATTLE);
         const gender = PokemonFactory.generateGender(enemy.gender.femaleRatio, enemy.gender.type);
 
-        const enemyPokemon = new BattlePokemon(enemy.name, enemy.id, enemy.type[0], enemy.type[1], health, level, 0, enemy.exp, new Amount(1, GameConstants.Currency.contestToken), shiny, 3, gender, GameConstants.ShadowStatus.None, EncounterType.trainer);
+        const enemyPokemon = new BattlePokemon(enemy.name, enemy.id, enemy.type[0], enemy.type[1], health, level, 0, enemy.exp, new Amount(0, GameConstants.Currency.contestToken), shiny, 3, gender, GameConstants.ShadowStatus.None, EncounterType.trainer);
         this.enemyPokemon(enemyPokemon);
     }
 }
