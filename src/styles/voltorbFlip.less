@@ -48,8 +48,8 @@
   position: absolute;
   top: 0px;
   margin: 10% auto 10% auto;
-  width: 90%;
-  font: 1.2rem pokemonFont,"Helvetica Neue",sans-serif;
+  width: calc(94% - 0.2rem);
+  font: calc(0.6vh + 0.6vw) pokemonFont,"Helvetica Neue",sans-serif;
   color: #303030;
   line-height: 100%;
 
@@ -57,18 +57,30 @@
     border: none;
     width: 100%;
     border-bottom: 0.2rem solid #e8e0f0;
-    height: 30%;
-    padding: 0 10% 10% 10%;
+    height: 40%;
+    overflow: visible;
+
+    & p {
+      padding: 0% 10% 10% 10%;
+      height: 100%;
+      margin-bottom: 0;
+    }
   }
 
   & .flipIndicatorBombDisplay {
     display: block;
-    font: 0.8rem;
-    padding: 5% 10% 0 0;
+    height: 100%;
+
+    & .flipIndicatorBomb {
+      padding: 10% 10% 10% 10%;
+    }
   }
 
   & .pokemonSprite {
+    position: absolute;
     height: 100%;
     width: 100%;
+    bottom: -7%;
+    left: -15%;
   }
 }
