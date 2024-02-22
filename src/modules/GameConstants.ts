@@ -266,6 +266,7 @@ export const GYM_GEMS = 5;
 
 // Safari Zone
 export const SAFARI_BATTLE_CHANCE = 5;
+export const SAFARI_MJ_BATTLE_CHANCE = SAFARI_BATTLE_CHANCE * 2;
 export const SAFARI_BASE_POKEBALL_COUNT = 30;
 
 export enum SafariTile {
@@ -318,6 +319,10 @@ export enum SafariTile {
     treeRootsC = 47,
     treeRootsR = 48,
     sign = 51,
+    waterULinverted = 52,
+    waterDLinverted = 53,
+    waterDRinverted = 54,
+    waterURinverted = 55,
 }
 
 export const SAFARI_LEGAL_WALK_BLOCKS = [
@@ -348,6 +353,10 @@ export const SAFARI_LEGAL_WALK_BLOCKS = [
     SafariTile.treeTopL,
     SafariTile.treeTopC,
     SafariTile.treeTopR,
+    SafariTile.waterULinverted,
+    SafariTile.waterDLinverted,
+    SafariTile.waterDRinverted,
+    SafariTile.waterURinverted,
 ];
 
 export const SAFARI_WATER_BLOCKS = [
@@ -360,6 +369,10 @@ export const SAFARI_WATER_BLOCKS = [
     SafariTile.waterDL,
     SafariTile.waterD,
     SafariTile.waterDR,
+    SafariTile.waterULinverted,
+    SafariTile.waterDLinverted,
+    SafariTile.waterDRinverted,
+    SafariTile.waterURinverted,
 ];
 
 export const SAFARI_OUT_OF_BALLS = 'Game Over!<br>You have run out of safari balls to use.';

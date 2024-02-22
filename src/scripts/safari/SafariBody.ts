@@ -378,6 +378,18 @@ class TreeBody extends SafariBody {
     }
 }
 
+class LandBody extends SafariBody {
+    constructor() {
+        super();
+        this.grid = [
+            [GameConstants.SafariTile.waterULinverted, GameConstants.SafariTile.waterD, GameConstants.SafariTile.waterURinverted],
+            [GameConstants.SafariTile.waterR, GameConstants.SafariTile.sandC, GameConstants.SafariTile.waterL],
+            [GameConstants.SafariTile.waterDLinverted, GameConstants.SafariTile.waterU, GameConstants.SafariTile.waterDRinverted],
+        ];
+        this.type = 'land';
+    }
+}
+
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
     if (!array) {

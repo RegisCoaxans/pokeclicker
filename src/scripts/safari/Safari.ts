@@ -68,15 +68,45 @@ class Safari {
         Safari.inBattle(false);
 
         Safari.balls(Safari.calculateStartPokeballs());
-        for ( let i = 0; i < Safari.sizeY(); i++) {
+
+        for (let i = 0; i < Safari.sizeY(); i++) {
             Safari.grid.push(Array(Safari.sizeX()).fill(GameConstants.SafariTile.ground));
         }
 
-        const bodyOrder = [
-            FenceBody, WaterBody, SandBody, WaterBody, WaterBody, SandBody, TreeBody, TreeBody, TreeBody, TreeBody, TreeBody, FenceBody,
-            SandBody, FenceBody, WaterBody, SandBody, WaterBody, WaterBody, SandBody, SandBody, GrassBody, GrassBody, GrassBody, GrassBody,
-        ];
-        bodyOrder.forEach((bodyType) => Safari.addRandomBody(new bodyType()));
+        if (Safari.activeRegion() === GameConstants.Region.alola) {
+            let land = new LandBody();
+            land.grid.pop();
+            const [spawnX, spawnY] = Safari.getPlayerStartCoords();
+
+            Safari.addBody(spawnX - 1, spawnY - 1, land);
+
+            // calculate the maximum amount of islands to be proportional to the size of the Safari map
+            // 25 is the minimum size
+            const islands = Math.floor(Safari.sizeX() * Safari.sizeY() / 25);
+            land = new LandBody();
+
+            for (let i = 0; i < islands; i++) {
+                Safari.addRandomBody(land);
+            }
+            // Transform every ground into water
+            for (let i = 0; i < Safari.grid.length; i++) {
+                for (let j = 0; j < Safari.grid[i].length; j++) {
+                    if (Safari.grid[i][j] === GameConstants.SafariTile.ground) {
+                        Safari.grid[i][j] = GameConstants.SafariTile.waterC;
+                    }
+                }
+            }
+
+
+        } else {
+    
+            const bodyOrder = [
+                FenceBody, WaterBody, SandBody, WaterBody, WaterBody, SandBody, TreeBody, TreeBody, TreeBody, TreeBody, TreeBody, FenceBody,
+                SandBody, FenceBody, WaterBody, SandBody, WaterBody, WaterBody, SandBody, SandBody, GrassBody, GrassBody, GrassBody, GrassBody,
+            ];
+            bodyOrder.forEach((bodyType) => Safari.addRandomBody(new bodyType()));
+
+        }
 
         Safari.calculateAccessibleTiles();
         Safari.inProgress(true);
@@ -255,6 +285,8 @@ class Safari {
                 return new Amount(750, GameConstants.Currency.questPoint);
             case GameConstants.Region.kalos:
                 return new Amount(1000, GameConstants.Currency.questPoint);
+                case GameConstants.Region.alola:
+                    return new Amount(1250, GameConstants.Currency.questPoint);
             default:
                 return new Amount(100, GameConstants.Currency.questPoint);
         }
@@ -444,8 +476,8 @@ class Safari {
     }
 
     private static canPlaceAtPosition(x: number, y: number, isItem = false) {
-        // Items don't spawn on water
-        const canPlace = !(isItem && GameConstants.SAFARI_WATER_BLOCKS.includes(Safari.grid[y][x]));
+        // Items don't spawn on water, except in MJ Safari
+        const canPlace = !(Safari.activeRegion() !== GameConstants.Region.alola && isItem && GameConstants.SAFARI_WATER_BLOCKS.includes(Safari.grid[y][x]));
         return Safari.canMove(x, y) && canPlace &&
             Safari.isAccessible(x, y) &&
             !(x == Safari.playerXY.x && y == Safari.playerXY.y) &&
@@ -517,7 +549,9 @@ class Safari {
         }
         const currentTile = Safari.grid[Safari.playerXY.y][Safari.playerXY.x];
         if (currentTile === GameConstants.SafariTile.grass || GameConstants.SAFARI_WATER_BLOCKS.includes(currentTile)) {
-            if (Rand.chance(GameConstants.SAFARI_BATTLE_CHANCE)) {
+            // Reduce encounter chances for Magikarp Jump Safari.
+            const chance = Safari.activeRegion() === GameConstants.Region.alola ? GameConstants.SAFARI_MJ_BATTLE_CHANCE : GameConstants.SAFARI_BATTLE_CHANCE;
+            if (Rand.chance(chance)) {
                 SafariBattle.load();
                 return true;
             }
@@ -617,6 +651,9 @@ $(document).ready(() => {
             case GameConstants.Region.kalos:
                 MapHelper.moveToTown('Friend Safari');
                 break;
+                case GameConstants.Region.alola:
+                    MapHelper.moveToTown('Hoppy Town');
+                    break;
             default:
                 MapHelper.moveToTown(GameConstants.DockTowns[player.region]);
                 break;
