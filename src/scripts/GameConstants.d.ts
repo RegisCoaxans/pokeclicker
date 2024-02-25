@@ -181,10 +181,10 @@ namespace GameConstants {
         treeRootsC,
         treeRootsR,
         sign,
-        waterULinverted,
-        waterDLinverted,
-        waterDRinverted,
-        waterURinverted,
+        waterULCorner,
+        waterDLCorner,
+        waterDRCorner,
+        waterURCorner,
     }
     declare const SAFARI_LEGAL_WALK_BLOCKS: number[];
     declare const SAFARI_WATER_BLOCKS: number[];
@@ -887,6 +887,9 @@ namespace GameConstants {
     declare const ModalCollapseList: string[];
     declare enum ConsumableType {
         Rare_Candy,
+        Lava_Cookie,
+        Magikarp_Biscuit,
+        Big_Malasada,
     }
     declare const zCrystalItemType: string[];
     declare enum ZMoveStatus {

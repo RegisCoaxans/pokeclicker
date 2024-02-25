@@ -379,14 +379,160 @@ class TreeBody extends SafariBody {
 }
 
 class LandBody extends SafariBody {
+    constructor(x: number, y: number) {
+        super()
+
+        this.grid = new Array(y - 2).fill(new Array(x - 2).fill(GameConstants.SafariTile.sandC));
+        this.grid[0].unshift(GameConstants.SafariTile.waterR);
+        this.grid[0].push(GameConstants.SafariTile.waterL);
+        this.grid.unshift([GameConstants.SafariTile.waterDRCorner, ...new Array(x - 2).fill(GameConstants.SafariTile.waterD), GameConstants.SafariTile.waterDLCorner]);
+        this.grid.push([GameConstants.SafariTile.waterURCorner, ...new Array(x - 2).fill(GameConstants.SafariTile.waterU), GameConstants.SafariTile.waterULCorner]);
+        this.type = 'land';
+    }
+}
+
+class ShapedLandBody extends SafariBody {
+
+    displayLand() {
+        this.grid.map(r => `${r.map(e => GameConstants.SafariTile[e]).join(' ')}`).join('\n');
+    }
+
+    displayTiles(mapValue: number) {
+        const map = [['X']];
+        const arr = mapValue.toString(2).split('').map(v => (!!+v) ? 'S' : 'W');
+        map.unshift(arr.splice(0, 3));
+        map[1].push(arr.shift());
+        map.push(arr.splice(0, 3).reverse());
+        map[1].unshift(arr.shift());
+        console.log(map.map(r => r.join('')).join('\n'));
+    }
+
     constructor() {
         super();
-        this.grid = [
-            [GameConstants.SafariTile.waterULinverted, GameConstants.SafariTile.waterD, GameConstants.SafariTile.waterURinverted],
-            [GameConstants.SafariTile.waterR, GameConstants.SafariTile.sandC, GameConstants.SafariTile.waterL],
-            [GameConstants.SafariTile.waterDLinverted, GameConstants.SafariTile.waterU, GameConstants.SafariTile.waterDRinverted],
-        ];
         this.type = 'land';
+        const tileArray = [GameConstants.SafariTile.sandC];
+        while (tileArray.length < 9 && Rand.chance(1.5)) {
+            tileArray.push(GameConstants.SafariTile.sandC);
+        }
+        console.log(`land ${tileArray.length}`);
+        while (tileArray.length < 9) {
+            tileArray.push(GameConstants.SafariTile.ground);
+        }
+        LandBody.shuffle(tileArray);
+        this.grid = [new Array(3).fill(GameConstants.SafariTile.ground)];
+        while (tileArray.length > 0) {
+            this.grid.push(tileArray.splice(0, 3));
+        }
+        this.grid.push(new Array(3).fill(GameConstants.SafariTile.ground));
+        // It actually pushes and unshifts in all arrays in this.grid...
+        this.grid.forEach(r => {
+            r.push(GameConstants.SafariTile.ground);
+            r.unshift(GameConstants.SafariTile.ground)
+        });
+        this.displayLand();
+        let change;
+        const UP = 1, UPRIGHT = 2, RIGHT = 4, DOWNRIGHT = 8, DOWN = 16, DOWNLEFT = 32, LEFT = 64, UPLEFT = 128;
+        console.log('toFill');
+        do {
+            change = false;
+            this.grid.forEach((row, y) => {
+                row.forEach((cell, x) => {
+                    if (cell === GameConstants.SafariTile.sandC) {
+                        return;
+                    }
+                    let mapValue = 0;
+                    let tile = cell;
+                    if (this.grid[y - 1]?.[x] === GameConstants.SafariTile.sandC) {
+                        mapValue += UP;
+                    }
+                    if (this.grid[y + 1]?.[x] === GameConstants.SafariTile.sandC) {
+                        mapValue += DOWN;
+                    }
+                    if (this.grid[y][x - 1] === GameConstants.SafariTile.sandC) {
+                        mapValue += LEFT;
+                    }
+                    if (this.grid[y][x + 1] === GameConstants.SafariTile.sandC) {
+                        mapValue += RIGHT;
+                    }
+
+                    if (this.grid[y - 1]?.[x - 1] === GameConstants.SafariTile.sandC && (mapValue & UP + LEFT) === 0) {
+                        mapValue += UPLEFT;
+                    }
+                    if (this.grid[y - 1]?.[x + 1] === GameConstants.SafariTile.sandC && (mapValue & UP + RIGHT) === 0) {
+                        mapValue += UPRIGHT;
+                    }
+                    if (this.grid[y + 1]?.[x + 1] === GameConstants.SafariTile.sandC && (mapValue & DOWN + RIGHT) === 0) {
+                        mapValue += DOWNRIGHT;
+                    }
+                    if (this.grid[y + 1]?.[x - 1] === GameConstants.SafariTile.sandC && (mapValue & DOWN + LEFT) === 0) {
+                        mapValue += DOWNLEFT;
+                    }
+                    
+                    switch (mapValue) {
+                        case 0: tile = GameConstants.SafariTile.ground;
+                            break;
+                        case UP: tile = GameConstants.SafariTile.waterU;
+                            break;
+                        case DOWN: tile = GameConstants.SafariTile.waterD;
+                            break;
+                        case LEFT: tile = GameConstants.SafariTile.waterL;
+                            break;
+                        case RIGHT: tile = GameConstants.SafariTile.waterR;
+                            break;
+                        case UP | LEFT: tile = GameConstants.SafariTile.waterUL;
+                            break;
+                        case UP | RIGHT: tile = GameConstants.SafariTile.waterUR;
+                            break;
+                        case DOWN | LEFT: tile = GameConstants.SafariTile.waterDL;
+                            break;
+                        case DOWN | RIGHT: tile = GameConstants.SafariTile.waterDR;
+                            break;
+                        case UPRIGHT: tile = GameConstants.SafariTile.waterURCorner;
+                            break;
+                        case UPLEFT: tile = GameConstants.SafariTile.waterULCorner;
+                            break;
+                        case DOWNRIGHT: tile = GameConstants.SafariTile.waterDRCorner;
+                            break;
+                        case DOWNLEFT: tile = GameConstants.SafariTile.waterDLCorner;
+                            break;
+                        default: change = true;
+                            tile = GameConstants.SafariTile.sandC;
+                            console.log(mapValue.toString(2));
+                            console.log(`${x}, ${y}`);
+                    }
+                    this.grid[y][x] = tile;
+                });
+            });
+            console.log(change ? 'redo' : 'done');
+        } while (change);
+        this.displayLand();
+        console.log('toTrimX');
+        do {
+            change = false;
+            if (this.grid[this.grid.length - 1].every(tile => tile === GameConstants.SafariTile.ground)) {
+                this.grid.pop();
+                change = true;
+            }
+            if (this.grid[0].every(tile => tile === GameConstants.SafariTile.ground)) {
+                this.grid.shift();
+                change = true
+            }
+        } while (change);
+        this.displayLand();
+        console.log('toTrimY');
+        do {
+            change = false;
+            if (this.grid.every(row => row[0] === GameConstants.SafariTile.ground)) {
+                this.grid.forEach(r => r.shift());
+                change = true;
+            }
+            if (this.grid.every(row => row[row.length - 1] === GameConstants.SafariTile.ground)) {
+                this.grid.forEach(r => r.pop());
+                change = true;
+            }
+        } while (change)
+        this.displayLand();
+        console.log('end');
     }
 }
 

@@ -319,10 +319,10 @@ export enum SafariTile {
     treeRootsC = 47,
     treeRootsR = 48,
     sign = 51,
-    waterULinverted = 52,
-    waterDLinverted = 53,
-    waterDRinverted = 54,
-    waterURinverted = 55,
+    waterULCorner = 52,
+    waterDLCorner = 53,
+    waterDRCorner = 54,
+    waterURCorner = 55,
 }
 
 export const SAFARI_LEGAL_WALK_BLOCKS = [
@@ -353,10 +353,10 @@ export const SAFARI_LEGAL_WALK_BLOCKS = [
     SafariTile.treeTopL,
     SafariTile.treeTopC,
     SafariTile.treeTopR,
-    SafariTile.waterULinverted,
-    SafariTile.waterDLinverted,
-    SafariTile.waterDRinverted,
-    SafariTile.waterURinverted,
+    SafariTile.waterULCorner,
+    SafariTile.waterDLCorner,
+    SafariTile.waterDRCorner,
+    SafariTile.waterURCorner,
 ];
 
 export const SAFARI_WATER_BLOCKS = [
@@ -369,10 +369,10 @@ export const SAFARI_WATER_BLOCKS = [
     SafariTile.waterDL,
     SafariTile.waterD,
     SafariTile.waterDR,
-    SafariTile.waterULinverted,
-    SafariTile.waterDLinverted,
-    SafariTile.waterDRinverted,
-    SafariTile.waterURinverted,
+    SafariTile.waterULCorner,
+    SafariTile.waterDLCorner,
+    SafariTile.waterDRCorner,
+    SafariTile.waterURCorner,
 ];
 
 export const SAFARI_OUT_OF_BALLS = 'Game Over!<br>You have run out of safari balls to use.';
@@ -2418,6 +2418,9 @@ export const ModalCollapseList = [
 
 export enum ConsumableType {
     Rare_Candy,
+    Lava_Cookie,
+    Magikarp_Biscuit,
+    Big_Malasada,
 }
 
 export const zCrystalItemType = [

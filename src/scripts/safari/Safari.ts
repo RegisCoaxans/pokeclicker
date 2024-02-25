@@ -74,25 +74,27 @@ class Safari {
         }
 
         if (Safari.activeRegion() === GameConstants.Region.alola) {
-            let land = new LandBody();
+            const land = new LandBody(5, 3);
             land.grid.pop();
             const [spawnX, spawnY] = Safari.getPlayerStartCoords();
 
-            Safari.addBody(spawnX - 1, spawnY - 1, land);
+            Safari.addBody(spawnX - 2, spawnY - 1, land);
 
             // calculate the maximum amount of islands to be proportional to the size of the Safari map
-            // 25 is the minimum size
-            const islands = Math.floor(Safari.sizeX() * Safari.sizeY() / 25);
-            land = new LandBody();
+            // 25 is the minimal number of tiles
+            const islands = 1 + Math.floor((Safari.sizeX() * Safari.sizeY() - 25) / 36);
 
             for (let i = 0; i < islands; i++) {
-                Safari.addRandomBody(land);
+                Safari.addRandomBody(new ShapedLandBody());
             }
-            // Transform every ground into water
+            // Transform every Ground into Water and Sand into Ground
             for (let i = 0; i < Safari.grid.length; i++) {
                 for (let j = 0; j < Safari.grid[i].length; j++) {
                     if (Safari.grid[i][j] === GameConstants.SafariTile.ground) {
                         Safari.grid[i][j] = GameConstants.SafariTile.waterC;
+                    }
+                    if (Safari.grid[i][j] === GameConstants.SafariTile.sandC) {
+                        Safari.grid[i][j] = Rand.chance(0.1) ? GameConstants.SafariTile.grass : GameConstants.SafariTile.ground;
                     }
                 }
             }
@@ -469,6 +471,10 @@ class Safari {
         while (!result && attempts++ < Safari.maxPlacementAttempts) {
             x = Rand.floor(Safari.grid[0].length);
             y = Rand.floor(Safari.grid.length);
+            // Ignore ground requirement if needed, for Alola
+            if (attempts == 16 && Safari.activeRegion() === GameConstants.Region.alola) {
+                isItem = false;
+            }
             result = Safari.canPlaceAtPosition(x, y, isItem);
         }
 
@@ -477,7 +483,7 @@ class Safari {
 
     private static canPlaceAtPosition(x: number, y: number, isItem = false) {
         // Items don't spawn on water, except in MJ Safari
-        const canPlace = !(Safari.activeRegion() !== GameConstants.Region.alola && isItem && GameConstants.SAFARI_WATER_BLOCKS.includes(Safari.grid[y][x]));
+        const canPlace = !(isItem && GameConstants.SAFARI_WATER_BLOCKS.includes(Safari.grid[y][x]));
         return Safari.canMove(x, y) && canPlace &&
             Safari.isAccessible(x, y) &&
             !(x == Safari.playerXY.x && y == Safari.playerXY.y) &&
