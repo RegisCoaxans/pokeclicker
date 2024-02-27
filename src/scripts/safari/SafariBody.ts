@@ -398,27 +398,7 @@ class ShapedLandBody extends SafariBody {
         console.log(this.grid.map(r => r.map(t => GameConstants.SafariTile[t].padStart(14, ' ')).join(', ')).join('\n'));
     }
 
-    constructor() {
-        super();
-        this.type = 'land';
-        const tileArray = [GameConstants.SafariTile.sandC];
-        while (tileArray.length < 9 && Rand.chance(1.5)) {
-            tileArray.push(GameConstants.SafariTile.sandC);
-        }
-        while (tileArray.length < 9) {
-            tileArray.push(GameConstants.SafariTile.ground);
-        }
-        LandBody.shuffle(tileArray);
-        this.grid = [new Array(3).fill(GameConstants.SafariTile.ground)];
-        while (tileArray.length > 0) {
-            this.grid.push(tileArray.splice(0, 3));
-        }
-        this.grid.push(new Array(3).fill(GameConstants.SafariTile.ground));
-        this.grid.forEach(r => {
-            r.push(GameConstants.SafariTile.ground);
-            r.unshift(GameConstants.SafariTile.ground);
-        });
-        this.displayLand();
+    fulfill() {
         let change = false;
         const UP = 1, UPRIGHT = 2, RIGHT = 4, DOWNRIGHT = 8, DOWN = 16, DOWNLEFT = 32, LEFT = 64, UPLEFT = 128;
         do {
@@ -490,7 +470,10 @@ class ShapedLandBody extends SafariBody {
                 });
             });
         } while (change);
-        this.displayLand();
+    }
+
+    trim() {
+        let change = false;
         do {
             change = false;
             if (this.grid[this.grid.length - 1].every(tile => tile === GameConstants.SafariTile.ground)) {
@@ -514,6 +497,40 @@ class ShapedLandBody extends SafariBody {
                 change = true;
             }
         } while (change);
+    }
+
+    constructor() {
+        super();
+        this.type = 'land';
+        const tileArray = [GameConstants.SafariTile.sandC];
+        while (tileArray.length < 9 && Rand.chance(1.5)) {
+            tileArray.push(GameConstants.SafariTile.sandC);
+        }
+        while (tileArray.length < 9) {
+            tileArray.push(GameConstants.SafariTile.ground);
+        }
+        LandBody.shuffle(tileArray);
+        this.grid = [];
+        while (tileArray.length > 0) {
+            this.grid.push(tileArray.splice(0, 3));
+        }
+        this.fulfill();
+        // Fulfill is directional so this will look more random
+        if (Rand.boolean()) {
+            this.grid.reverse();
+        }
+        if (Rand.boolean()) {
+            this.grid.forEach(r => r.reverse());
+        }
+        this.grid.push(new Array(3).fill(GameConstants.SafariTile.ground));
+        this.grid.unshift(new Array(3).fill(GameConstants.SafariTile.ground));
+        this.grid.forEach(r => {
+            r.push(GameConstants.SafariTile.ground);
+            r.unshift(GameConstants.SafariTile.ground);
+        });
+        this.fulfill();
+        this.displayLand();
+        this.trim();
         this.displayLand();
     }
 }
