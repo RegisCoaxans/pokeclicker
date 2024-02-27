@@ -200,10 +200,10 @@ class SafariPokemonList {
     private static generateAlolaSafariList() {
         // Lower weighted pokemon will appear less frequently, equally weighted are equally likely to appear
         const pokemon : SafariEncounter[] = [
-            // Grass, little Easter Egg
-            new SafariEncounter('Pidgeot', 1),
+            // Grass
+            new SafariEncounter('Pidgeot', 4.7),
             // Water
-            new SafariEncounter('Magikarp', 2, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp', 2.2, [SafariEnvironments.Water]),
             new SafariEncounter('Magikarp Skelly', 1, [SafariEnvironments.Water], true),
             new SafariEncounter('Magikarp Calico (White, Orange)', 1, [SafariEnvironments.Water], true),
             new SafariEncounter('Magikarp Pink Dapples', 1, [SafariEnvironments.Water], true),
@@ -214,6 +214,8 @@ class SafariPokemonList {
             new SafariEncounter('Magikarp Orange Forehead', 1, [SafariEnvironments.Water], true),
             new SafariEncounter('Magikarp Black Mask', 1, [SafariEnvironments.Water], true),
             new SafariEncounter('Magikarp Saucy Blue', 1, [SafariEnvironments.Water], true),
+            // Both, secret Pokémon
+            new SafariEncounter('Ditto (Transforming)', 0.3, [SafariEnvironments.Grass, SafariEnvironments.Water]),
         ];
 
         SafariPokemonList.list[GameConstants.Region.alola](pokemon);

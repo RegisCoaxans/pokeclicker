@@ -6055,6 +6055,26 @@ export const pokemonList = createPokemonArray(
         },
     },
     {
+        'id': 132.01,
+        'name': 'Ditto (Transforming)',
+        'catchRate': 35,
+        'type': [PokemonType.Normal, PokemonType.Water],
+        'levelType': LevelType.mediumfast,
+        'exp': 101,
+        'eggCycles': 20,
+        'base': {
+            'hitpoints': 48,
+            'attack': 48,
+            'specialAttack': 48,
+            'defense': 48,
+            'specialDefense': 48,
+            'speed': 48,
+        },
+        'gender': {
+            'visualDifference': true,
+        },
+    },
+    {
         'id': 133,
         'name': 'Eevee',
         'catchRate': 45,

@@ -2423,6 +2423,11 @@ export enum ConsumableType {
     Big_Malasada,
 }
 
+
+export const Lava_Cookie_Multiplier = 2;
+export const Magikarp_Biscuit_Multiplier = 4;
+export const Big_Malasada_Multiplier = 6;
+
 export const zCrystalItemType = [
     'Normalium Z',
     'Firium Z',

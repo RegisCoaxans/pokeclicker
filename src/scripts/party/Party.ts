@@ -172,8 +172,8 @@ class Party implements Feature {
         let attack = 0;
         for (const pokemon of this.caughtPokemon) {
             if (region == GameConstants.Region.alola && player.region == GameConstants.Region.alola && player.subregion == GameConstants.AlolaSubRegions.MagikarpJump &&
-                Math.floor(pokemon.id) != 129) {
-                // Only magikarps can attack in magikarp jump
+                Math.floor(pokemon.id) != 129 && pokemon.id != 132.01) {
+                // Only Magikarp can attack in Magikarp Jump
                 continue;
             }
             attack += this.calculateOnePokemonAttack(pokemon, type1, type2, region, ignoreRegionMultiplier, includeBreeding, useBaseAttack, overrideWeather, ignoreLevel, includeTempBonuses);

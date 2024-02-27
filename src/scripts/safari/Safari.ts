@@ -82,7 +82,7 @@ class Safari {
 
             // calculate the maximum amount of islands to be proportional to the size of the Safari map
             // 25 is the minimal number of tiles
-            const islands = 1 + Math.floor((Safari.sizeX() * Safari.sizeY() - 25) / 36);
+            const islands = Math.floor(Safari.sizeX() * Safari.sizeY() / 25);
 
             for (let i = 0; i < islands; i++) {
                 Safari.addRandomBody(new ShapedLandBody());
@@ -471,11 +471,12 @@ class Safari {
         while (!result && attempts++ < Safari.maxPlacementAttempts) {
             x = Rand.floor(Safari.grid[0].length);
             y = Rand.floor(Safari.grid.length);
-            // Ignore ground requirement if needed, for Alola
-            if (attempts == 16 && Safari.activeRegion() === GameConstants.Region.alola) {
-                isItem = false;
-            }
             result = Safari.canPlaceAtPosition(x, y, isItem);
+            // Ignore ground requirement if needed, for Alola
+            if (attempts == Safari.maxPlacementAttempts && Safari.activeRegion() === GameConstants.Region.alola && isItem) {
+                isItem = false;
+                attempts = 0;
+            }
         }
 
         return result ? {x: x, y: y} : null;

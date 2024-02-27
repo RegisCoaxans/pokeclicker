@@ -394,17 +394,8 @@ class LandBody extends SafariBody {
 class ShapedLandBody extends SafariBody {
 
     displayLand() {
-        this.grid.map(r => `${r.map(e => GameConstants.SafariTile[e]).join(' ')}`).join('\n');
-    }
-
-    displayTiles(mapValue: number) {
-        const map = [['X']];
-        const arr = mapValue.toString(2).split('').map(v => (!!+v) ? 'S' : 'W');
-        map.unshift(arr.splice(0, 3));
-        map[1].push(arr.shift());
-        map.push(arr.splice(0, 3).reverse());
-        map[1].unshift(arr.shift());
-        console.log(map.map(r => r.join('')).join('\n'));
+        console.log('New state: ')
+        console.log(this.grid.map(r => r.map(t => GameConstants.SafariTile[t].padStart(14, ' ')).join(', ')).join('\n'));
     }
 
     constructor() {
@@ -414,7 +405,6 @@ class ShapedLandBody extends SafariBody {
         while (tileArray.length < 9 && Rand.chance(1.5)) {
             tileArray.push(GameConstants.SafariTile.sandC);
         }
-        console.log(`land ${tileArray.length}`);
         while (tileArray.length < 9) {
             tileArray.push(GameConstants.SafariTile.ground);
         }
@@ -424,15 +414,13 @@ class ShapedLandBody extends SafariBody {
             this.grid.push(tileArray.splice(0, 3));
         }
         this.grid.push(new Array(3).fill(GameConstants.SafariTile.ground));
-        // It actually pushes and unshifts in all arrays in this.grid...
         this.grid.forEach(r => {
             r.push(GameConstants.SafariTile.ground);
-            r.unshift(GameConstants.SafariTile.ground)
+            r.unshift(GameConstants.SafariTile.ground);
         });
         this.displayLand();
-        let change;
+        let change = false;
         const UP = 1, UPRIGHT = 2, RIGHT = 4, DOWNRIGHT = 8, DOWN = 16, DOWNLEFT = 32, LEFT = 64, UPLEFT = 128;
-        console.log('toFill');
         do {
             change = false;
             this.grid.forEach((row, y) => {
@@ -455,16 +443,16 @@ class ShapedLandBody extends SafariBody {
                         mapValue += RIGHT;
                     }
 
-                    if (this.grid[y - 1]?.[x - 1] === GameConstants.SafariTile.sandC && (mapValue & UP + LEFT) === 0) {
+                    if (this.grid[y - 1]?.[x - 1] === GameConstants.SafariTile.sandC && (mapValue & (UP + LEFT)) === 0) {
                         mapValue += UPLEFT;
                     }
-                    if (this.grid[y - 1]?.[x + 1] === GameConstants.SafariTile.sandC && (mapValue & UP + RIGHT) === 0) {
+                    if (this.grid[y - 1]?.[x + 1] === GameConstants.SafariTile.sandC && (mapValue & (UP + RIGHT)) === 0) {
                         mapValue += UPRIGHT;
                     }
-                    if (this.grid[y + 1]?.[x + 1] === GameConstants.SafariTile.sandC && (mapValue & DOWN + RIGHT) === 0) {
+                    if (this.grid[y + 1]?.[x + 1] === GameConstants.SafariTile.sandC && (mapValue & (DOWN + RIGHT)) === 0) {
                         mapValue += DOWNRIGHT;
                     }
-                    if (this.grid[y + 1]?.[x - 1] === GameConstants.SafariTile.sandC && (mapValue & DOWN + LEFT) === 0) {
+                    if (this.grid[y + 1]?.[x - 1] === GameConstants.SafariTile.sandC && (mapValue & (DOWN + LEFT)) === 0) {
                         mapValue += DOWNLEFT;
                     }
                     
@@ -497,16 +485,12 @@ class ShapedLandBody extends SafariBody {
                             break;
                         default: change = true;
                             tile = GameConstants.SafariTile.sandC;
-                            console.log(mapValue.toString(2));
-                            console.log(`${x}, ${y}`);
                     }
                     this.grid[y][x] = tile;
                 });
             });
-            console.log(change ? 'redo' : 'done');
         } while (change);
         this.displayLand();
-        console.log('toTrimX');
         do {
             change = false;
             if (this.grid[this.grid.length - 1].every(tile => tile === GameConstants.SafariTile.ground)) {
@@ -519,7 +503,6 @@ class ShapedLandBody extends SafariBody {
             }
         } while (change);
         this.displayLand();
-        console.log('toTrimY');
         do {
             change = false;
             if (this.grid.every(row => row[0] === GameConstants.SafariTile.ground)) {
@@ -530,9 +513,8 @@ class ShapedLandBody extends SafariBody {
                 this.grid.forEach(r => r.pop());
                 change = true;
             }
-        } while (change)
+        } while (change);
         this.displayLand();
-        console.log('end');
     }
 }
 
