@@ -203,19 +203,19 @@ class SafariPokemonList {
             // Grass
             new SafariEncounter('Pidgeot', 4.7),
             // Water
-            new SafariEncounter('Magikarp', 2.2, [SafariEnvironments.Water]),
-            new SafariEncounter('Magikarp Skelly', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Calico (White, Orange)', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Pink Dapples', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Grey Diamonds', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Purple Bubbles', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Purple Patches', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Brown Tiger', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Orange Forehead', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Black Mask', 1, [SafariEnvironments.Water], true),
-            new SafariEncounter('Magikarp Saucy Blue', 1, [SafariEnvironments.Water], true),
-            // Both, secret Pokémon
-            new SafariEncounter('Ditto (Transforming)', 0.3, [SafariEnvironments.Grass, SafariEnvironments.Water]),
+            new SafariEncounter('Magikarp', 6.6, [SafariEnvironments.Water]),
+            new SafariEncounter('Magikarp Skelly', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Calico (White, Orange)', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Pink Dapples', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Grey Diamonds', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Purple Bubbles', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Purple Patches', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Brown Tiger', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Orange Forehead', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Black Mask', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Saucy Blue', 3, [SafariEnvironments.Water], true),
+            // Both, secret Pokémon, rare in water though
+            new SafariEncounter('Ditto (Transforming)', 0.3, [SafariEnvironments.Grass, SafariEnvironments.Water], false, false),
         ];
 
         SafariPokemonList.list[GameConstants.Region.alola](pokemon);

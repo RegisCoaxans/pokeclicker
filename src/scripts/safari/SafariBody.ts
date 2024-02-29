@@ -380,7 +380,7 @@ class TreeBody extends SafariBody {
 
 class LandBody extends SafariBody {
     constructor(x: number, y: number) {
-        super()
+        super();
 
         this.grid = new Array(y - 2).fill(new Array(x - 2).fill(GameConstants.SafariTile.sandC));
         this.grid[0].unshift(GameConstants.SafariTile.waterR);
@@ -392,11 +392,6 @@ class LandBody extends SafariBody {
 }
 
 class ShapedLandBody extends SafariBody {
-
-    displayLand() {
-        console.log('New state: ')
-        console.log(this.grid.map(r => r.map(t => GameConstants.SafariTile[t].padStart(14, ' ')).join(', ')).join('\n'));
-    }
 
     fulfill() {
         let change = false;
@@ -435,7 +430,7 @@ class ShapedLandBody extends SafariBody {
                     if (this.grid[y + 1]?.[x - 1] === GameConstants.SafariTile.sandC && (mapValue & (DOWN + LEFT)) === 0) {
                         mapValue += DOWNLEFT;
                     }
-                    
+
                     switch (mapValue) {
                         case 0: tile = GameConstants.SafariTile.ground;
                             break;
@@ -482,10 +477,9 @@ class ShapedLandBody extends SafariBody {
             }
             if (this.grid[0].every(tile => tile === GameConstants.SafariTile.ground)) {
                 this.grid.shift();
-                change = true
+                change = true;
             }
         } while (change);
-        this.displayLand();
         do {
             change = false;
             if (this.grid.every(row => row[0] === GameConstants.SafariTile.ground)) {
@@ -529,9 +523,16 @@ class ShapedLandBody extends SafariBody {
             r.unshift(GameConstants.SafariTile.ground);
         });
         this.fulfill();
-        this.displayLand();
         this.trim();
-        this.displayLand();
+        const landSize = this.grid.flat().reduce((acc, t) => acc + +(t === GameConstants.SafariTile.sandC), 0) / 25;
+        console.log(landSize / 200);
+        this.grid.forEach((r, y) => {
+            r.forEach((t, x) => {
+                if (t === GameConstants.SafariTile.sandC && Rand.chance(landSize)) {
+                    this.grid[y][x] = GameConstants.SafariTile.grass;
+                }
+            });
+        });
     }
 }
 

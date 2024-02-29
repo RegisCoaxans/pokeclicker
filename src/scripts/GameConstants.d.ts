@@ -891,9 +891,9 @@ namespace GameConstants {
         Magikarp_Biscuit,
         Big_Malasada,
     }
-    declare const Lava_Cookie_Multiplier: number;
-    declare const Magikarp_Biscuit_Multiplier: number;
-    declare const Big_Malasada_Multiplier: number;
+    declare const LAVA_COOKIE_MULTIPLIER: number;
+    declare const MAGIKARP_BISCUIT_MULTIPLIER: number;
+    declare const BIG_MALASADA_MULTIPLIER: number;
     declare const zCrystalItemType: string[];
     declare enum ZMoveStatus {
         inactive,

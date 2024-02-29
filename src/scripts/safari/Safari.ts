@@ -93,15 +93,15 @@ class Safari {
                     if (Safari.grid[i][j] === GameConstants.SafariTile.ground) {
                         Safari.grid[i][j] = GameConstants.SafariTile.waterC;
                     }
+                    // Sand was temporary, because ground was used temporary for water...
                     if (Safari.grid[i][j] === GameConstants.SafariTile.sandC) {
-                        Safari.grid[i][j] = Rand.chance(0.1) ? GameConstants.SafariTile.grass : GameConstants.SafariTile.ground;
+                        Safari.grid[i][j] = GameConstants.SafariTile.ground;
                     }
                 }
             }
 
 
         } else {
-    
             const bodyOrder = [
                 FenceBody, WaterBody, SandBody, WaterBody, WaterBody, SandBody, TreeBody, TreeBody, TreeBody, TreeBody, TreeBody, FenceBody,
                 SandBody, FenceBody, WaterBody, SandBody, WaterBody, WaterBody, SandBody, SandBody, GrassBody, GrassBody, GrassBody, GrassBody,
@@ -287,8 +287,8 @@ class Safari {
                 return new Amount(750, GameConstants.Currency.questPoint);
             case GameConstants.Region.kalos:
                 return new Amount(1000, GameConstants.Currency.questPoint);
-                case GameConstants.Region.alola:
-                    return new Amount(1250, GameConstants.Currency.questPoint);
+            case GameConstants.Region.alola:
+                return new Amount(1250, GameConstants.Currency.questPoint);
             default:
                 return new Amount(100, GameConstants.Currency.questPoint);
         }
@@ -658,9 +658,9 @@ $(document).ready(() => {
             case GameConstants.Region.kalos:
                 MapHelper.moveToTown('Friend Safari');
                 break;
-                case GameConstants.Region.alola:
-                    MapHelper.moveToTown('Hoppy Town');
-                    break;
+            case GameConstants.Region.alola:
+                MapHelper.moveToTown('Hoppy Town Fishing Pond');
+                break;
             default:
                 MapHelper.moveToTown(GameConstants.DockTowns[player.region]);
                 break;

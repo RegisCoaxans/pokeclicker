@@ -7081,8 +7081,9 @@ const MayorKarp = new NPC('Mayor Karp', [
 });
 
 const KarpFisherman = new SafariPokemonNPC('Fisherman', [
-    'This is the best place to fish. There are some Magikarp species you would not see in Kanto!',
-], GameConstants.Region.alola, 'assets/images/npcs/Fisherman.png', new OneFromManyRequirement([new ObtainedPokemonRequirement('Magikarp'), new ObtainedPokemonRequirement('Magikarp (Feebas)')]));
+    'This is the best place to fish. You came to pick a Magikarp, right ?',
+    'You can train yours here anyway...',
+], GameConstants.Region.alola, 'assets/images/npcs/Fisherman.png');
 
 const MagikarpJumpRoamerNPC = new RoamerNPC('Roddy Tackle', [
     'There are some singularly stunning individuals down at {ROUTE_NAME}! Some Magikarp with real personality!',
@@ -7150,7 +7151,7 @@ const MagikarpEyeShadySalesman = new NPC('Shady Salesman', [
 
 const FishPolice = new NPC('The Fish Police', [
     'Stop right there! This is the sacred land of Magikarp Jump. I can tell there is something suspicious about you... Yeah, I see! You have no Magikarp! How did you even make it this far without the best Pokémon, anyway?',
-    'In any case, everyone in town is too afraid of you so come back here when you get a Magikarp of your own. Then, the residents may be willing to talk to you.',
+    'In any case, everyone in town will run away from you until you get yourself a Magikarp. So, go catch one, or fish one at the Pond. Then, the residents may be willing to talk to you.',
 ],  {
     image:'assets/images/npcs/Officer Jenny.png',
     requirement: new MultiRequirement([new ObtainedPokemonRequirement('Magikarp', true), new ObtainedPokemonRequirement('Magikarp (Feebas)', true)]),
@@ -7348,10 +7349,20 @@ TownList['Hoppy Town'] = new Town(
     'Hoppy Town',
     GameConstants.Region.alola,
     GameConstants.AlolaSubRegions.MagikarpJump,
-    [new DockTownContent(), new BulletinBoard(GameConstants.BulletinBoards.Hoppy), new SafariTownContent('Fishing Pool'), MagikarpJumpGemTrade],
+    [new DockTownContent(), new BulletinBoard(GameConstants.BulletinBoards.Hoppy), MagikarpJumpGemTrade],
     {
         requirements: [new QuestLineStartedRequirement('Magikarp Jump')],
-        npcs: [MayorKarp, MagikarpJumpRoamerNPC, HoppyManOfMystery, DrSplash1, DrSplash2, DrSplash3, DrSplash4, DrSplash5, FishPolice, KarpFisherman],
+        npcs: [MayorKarp, MagikarpJumpRoamerNPC, HoppyManOfMystery, DrSplash1, DrSplash2, DrSplash3, DrSplash4, DrSplash5, FishPolice],
+    }
+);
+TownList['Hoppy Town Fishing Pond'] = new Town(
+    'Hoppy Town Fishing Pond',
+    GameConstants.Region.alola,
+    GameConstants.AlolaSubRegions.MagikarpJump,
+    [new SafariTownContent('Fishing Bond')],
+    {
+        requirements: [new QuestLineStartedRequirement('Magikarp Jump')],
+        npcs: [KarpFisherman],
     }
 );
 TownList['Friend League'] = new Town(

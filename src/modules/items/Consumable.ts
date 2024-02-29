@@ -18,7 +18,7 @@ export default class Consumable extends Item {
         this._canUse = canUse;
     }
 
-    canUse(pokemon: {id : number, [key: string]: any}): boolean {
+    canUse(pokemon: { [key: string]: any, id : number }): boolean {
         return this._canUse?.(pokemon) ?? true;
     }
 }
