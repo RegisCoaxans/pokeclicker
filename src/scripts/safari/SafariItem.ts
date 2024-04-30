@@ -98,6 +98,24 @@ class SafariItemController {
             {item: {id: 'Exeggcute (Single)', type: ItemType.item}, weight: 0.25, requirement: new MultiRequirement([new SafariLevelRequirement(5), new ObtainedPokemonRequirement('Exeggcute')])},
             {item: {id: 'Scizorite', type: ItemType.item}, weight: 1, requirement: new MultiRequirement([new MaxRegionRequirement(GameConstants.Region.kalos), new ObtainedPokemonRequirement('Scizor'), new SafariLevelRequirement(15)])},
         ],
+        [GameConstants.Region.alola]: [
+            {item: {id: 'Coba', type: ItemType.berry}, weight: 1.9},
+            {item: {id: 'Iapapa', type: ItemType.berry}, weight: 1.9},
+            {item: {id: 'Belue', type: ItemType.berry}, weight: 1.9},
+            {item: {id: 'Figy', type: ItemType.berry}, weight: 1.9},
+            {item: {id: 'Kelpsy', type: ItemType.berry}, weight: 1.9},
+            {item: {id: 'Water Stone', type: ItemType.underground}, weight: 0.5},
+            {item: {id: 'Ice Stone', type: ItemType.underground}, weight: 0.5},
+            {item: {id: 'Splash Plate', type: ItemType.underground}, weight: 1},
+            {item: {id: 'Damp Rock', type: ItemType.underground}, weight: 1},
+            {item: {id: 'Protein', type: ItemType.item}, weight: 0.25},
+            {item: {id: 'Carbos', type: ItemType.item}, weight: 0.25},
+            {item: {id: 'Lava_Cookie', type : ItemType.item}, weight : 1.62},
+            {item: {id: 'Magikarp_Biscuit', type : ItemType.item}, weight : 1.08},
+            {item: {id: 'Big_Malasada', type : ItemType.item}, weight : 0.55},
+            {item: {id: 'Diveball', type: ItemType.item}, weight: 2},
+            {item: {id: 'Repeatball', type: ItemType.item}, weight: 1.5},
+        ],
     }
 
     public static getRandomItem() {

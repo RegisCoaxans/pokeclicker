@@ -18,6 +18,7 @@ class SafariPokemonList {
         [GameConstants.Region.johto]: ko.observableArray(),
         [GameConstants.Region.sinnoh]: ko.observableArray(),
         [GameConstants.Region.kalos]: ko.observableArray(),
+        [GameConstants.Region.alola]: ko.observableArray(),
     };
 
     public static generateSafariLists() {
@@ -25,6 +26,7 @@ class SafariPokemonList {
         this.generateJohtoSafariList();
         this.generateSinnohSafariList();
         this.generateKalosSafariList();
+        this.generateAlolaSafariList();
     }
 
     private static generateKantoSafariList() {
@@ -193,6 +195,30 @@ class SafariPokemonList {
         pokemon.push(new SafariEncounter('Lapras', 2, [SafariEnvironments.Water]));
 
         SafariPokemonList.list[GameConstants.Region.kalos](pokemon);
+    }
+
+    private static generateAlolaSafariList() {
+        // Lower weighted pokemon will appear less frequently, equally weighted are equally likely to appear
+        const pokemon : SafariEncounter[] = [
+            // Grass
+            new SafariEncounter('Pidgeot', 4.7),
+            // Water
+            new SafariEncounter('Magikarp', 6.6, [SafariEnvironments.Water]),
+            new SafariEncounter('Magikarp Skelly', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Calico (White, Orange)', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Pink Dapples', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Grey Diamonds', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Purple Bubbles', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Purple Patches', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Brown Tiger', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Orange Forehead', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Black Mask', 3, [SafariEnvironments.Water], true),
+            new SafariEncounter('Magikarp Saucy Blue', 3, [SafariEnvironments.Water], true),
+            // Both, secret Pokémon, rare in water though
+            new SafariEncounter('Ditto (Transforming)', 0.3, [SafariEnvironments.Grass, SafariEnvironments.Water], false, false),
+        ];
+
+        SafariPokemonList.list[GameConstants.Region.alola](pokemon);
     }
 
     // Get SafariEnvironment according to the Pokemon types
