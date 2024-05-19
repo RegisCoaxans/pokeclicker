@@ -82,6 +82,8 @@ class MapHelper {
                 ? GymRunner.getEnvironmentArea() : undefined) ||
             (App.game.gameState == GameConstants.GameState.battleFrontier
                 ? BattleFrontierRunner.environment() : undefined) ||
+            (App.game.gameState == GameConstants.GameState.voltorbFlip
+                ? VoltorbFlipRunner.battleEnvironment : undefined) ||
             player.town?.name ||
             undefined;
 
