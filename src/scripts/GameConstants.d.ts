@@ -73,6 +73,7 @@ namespace GameConstants {
     declare const AMAZE_MULCH_PRODUCE_MULTIPLIER: number;
     declare const AMAZE_MULCH_MUTATE_MULTIPLIER: number;
     declare const FREEZE_MULCH_MULTIPLIER: number;
+    declare const GOOEY_MULCH_CATCH_BONUS: number;
     declare const WANDER_RATE: number;
     declare const BerryColor: string[];
     declare const BASE_DUNGEON_SIZE: number;
@@ -110,7 +111,7 @@ namespace GameConstants {
         'Pokerus',
         'Shadow Pokemon',
     }
-    declare enum DungeonTile {
+    declare enum DungeonTileType {
         empty = 0,
         entrance = 1,
         enemy = 2,
@@ -205,7 +206,6 @@ namespace GameConstants {
     declare const QUESTS_PER_SET: number;
     declare const BASE_EP_YIELD: number;
     declare const STONE_EP_YIELD: number;
-    declare const WANDERER_EP_YIELD: number;
     declare const SHOPMON_EP_YIELD: number;
     declare const SAFARI_EP_YIELD: number;
     declare const SHINY_EP_MODIFIER: number;
@@ -214,6 +214,8 @@ namespace GameConstants {
     declare const DUNGEON_BOSS_EP_MODIFIER: number;
     declare const ROAMER_EP_MODIFIER: number;
     declare const SHADOW_EP_MODIFIER: number;
+    declare const BASE_WANDERER_EP_MODIFIER: number;
+    declare const WANDERER_EP_MODIFIER: number;
     declare const EP_EV_RATIO: number;
     declare const EP_CHALLENGE_MODIFIER: number;
     declare const GRISEOUS_ITEM_CHANCE: number;
@@ -222,6 +224,7 @@ namespace GameConstants {
     declare const RUST_ITEM_CHANCE: number;
     declare const MANE_ITEM_CHANCE: number;
     declare const CHRISTMAS_ITEM_CHANCE: number;
+    declare const HELD_MAGIKARP_BISCUIT: number;
     declare enum GameState {
         loading,
         idle,
@@ -252,6 +255,7 @@ namespace GameConstants {
         'Nestball',
         'Repeatball',
         'Beastball',
+        'Moonball',
     }
     declare enum Currency {
         money,
@@ -406,8 +410,8 @@ namespace GameConstants {
     }
     declare enum FluteItemType {
         'Yellow_Flute' = '',
-        'Time_Flute' = '',
         'Black_Flute' = '',
+        'Time_Flute' = '',
         'Red_Flute' = '',
         'White_Flute' = '',
         'Blue_Flute' = '',
@@ -567,6 +571,7 @@ namespace GameConstants {
     declare const RegionGyms: string[][];
     declare function getGymIndex(gym: string): number;
     declare function getGymRegion(gym: string): Region;
+    declare const GymAutoRepeatRewardTiers: number[][];
     declare const KantoDungeons: string[];
     declare const JohtoDungeons: string[];
     declare const HoennDungeons: string[];
@@ -811,6 +816,43 @@ namespace GameConstants {
         [DayCyclePart.Dusk]: 17,
         [DayCyclePart.Night]: 18,
     };
+    declare const MoonCycleValues: Record<MoonCyclePhase, number> = {
+        [MoonCyclePhase.NewMoon]: 0,
+        [MoonCyclePhase.WaxingCrescent]: 1,
+        [MoonCyclePhase.FirstQuarter]: 2,
+        [MoonCyclePhase.WaxingGibbous]: 3,
+        [MoonCyclePhase.FullMoon]: 4,
+        [MoonCyclePhase.WaningGibbous]: 5,
+        [MoonCyclePhase.ThirdQuarter]: 6,
+        [MoonCyclePhase.WaningCrescent]: 7,
+    };
+    declare const MoonEvoPokemon = new Set<PokemonNameType>([
+        'Nidoran(F)', // 29
+        'Nidorina', // 30
+        'Nidoqueen', // 31
+        'Nidoran(M)', // 32
+        'Nidorino', // 33
+        'Nidoking', // 34
+        'Clefairy', // 35
+        'Clefable', // 36
+        'Jigglypuff', // 39
+        'Wigglytuff', // 40
+        'Cleffa', // 173
+        'Igglybuff', // 174
+        //'Teddiursa', // 216
+        //'Ursaring', // 217
+        'Skitty', // 300
+        'Delcatty', // 301
+        //'Lunatone', // 337
+        // 'Cresselia', // 488
+        //'Darkrai', // 491
+        'Munna', // 517
+        'Musharna', // 518
+        //'Lunala', // 792
+        //'Lunala (Full Moon)', // 792.01
+        //'Necrozma (Dawn Wings)', // 800.02
+        //'Ursaluna', // 901
+    ]);
     declare enum ShadowStatus {
         None,
         Shadow,
@@ -885,6 +927,7 @@ namespace GameConstants {
     declare const ModalCollapseList: string[];
     declare enum ConsumableType {
         Rare_Candy,
+        Magikarp_Biscuit,
     }
     declare const zCrystalItemType: string[];
     declare enum ZMoveStatus {
