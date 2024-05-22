@@ -14,6 +14,7 @@ class VoltorbFlipRunner {
     public static currentStack: KnockoutObservable<number> = ko.observable(0);
     public static board: KnockoutObservable<FlipTile[][]> = ko.observable(null);
     public static battleEnvironment: GameConstants.Environment = 'PowerPlant';
+    public static currentLevel: KnockoutObservable<number> = ko.observable(1);
 
     public static enter() {
         VoltorbFlipBattle.enemyPokemon(null);
@@ -33,15 +34,23 @@ class VoltorbFlipRunner {
         this.timeLeftPercentage(100);
         VoltorbFlipBattle.generateNewEnemy();
         this.running(true);
-        this.startLevel();
+        this.startLevel(1);
         this.totalStack(1);
         this.enemyCount(0);
     }
 
-    public static startLevel() {
-        // TODO: pass and set level number
+    public static startLevel(level: number) {
         this.currentStack(0);
-        VoltorbFlipRunner.board(VoltorbFlipRunner.generateBoard());
+        this.currentLevel(level);
+        VoltorbFlipRunner.board(VoltorbFlipRunner.generateBoard(level));
+        this.displayLevel();
+    }
+
+    public static displayLevel() {
+        console.log('=====');
+        this.board().forEach(r => {
+            console.log(r.map(t => t.flipped() ? 'x' : t.value).join(' '));
+        });
     }
 
     public static endGame() {
@@ -67,16 +76,16 @@ class VoltorbFlipRunner {
         if (!this.running()) {
             return;
         }
-        if (this.timeLeft() < 0) {
+        if (this.timeLeft() == 0) {
             return this.endGame();
         }
         this.timeLeft(this.timeLeft() - GameConstants.VOLTORB_FLIP_TICK);
-        this.timeLeftPercentage(Math.floor(this.timeLeft() / (GameConstants.VOLTORB_FLIP_TIME) * 100 * 2) / 2);
+        this.timeLeftPercentage(Math.floor(this.timeLeft() / (GameConstants.VOLTORB_FLIP_TIME) * 100));
     }
 
-    public static generateBoard(): FlipTile[][] {
+    public static generateBoard(level: number): FlipTile[][] {
         let d1Board: any[] = [];
-        const boardTiles = [6, 15, 3, 1]; // TODO: randomly pick a distribution
+        const boardTiles = Rand.fromArray(VOLTORB_FLIP_LEVELS[Math.max(level - 1, VOLTORB_FLIP_LEVELS.length - 1)]);
 
         boardTiles.forEach((count, value) => {
             for (let index = 0; index < count; index++) {
@@ -115,6 +124,15 @@ class VoltorbFlipRunner {
         return data;
     }
 
+    public static getLevelMultiplier(level: number): number {
+        if (level <= 8) {
+            return 1;
+        }
+        const extra = level - 8;
+        // Alternatively ×2 and ×3, starting with ×2 at level 9
+        return 2 ** Math.ceil(extra / 2) * 3 ** Math.floor(extra / 2);
+    }
+
     public static getXYPos(index: number): Point {
         return new Point(index % 5, Math.floor(index / 5));
     }
@@ -124,26 +142,29 @@ class VoltorbFlipRunner {
     });
 
     public static isBoardCleared() {
-        return this.currentStack() === this.board().flat(1).reduce((s, t) => s * Math.max(1, t.value), 1);
+        return !this.board().flat().some(t => t.value > 1 && !t.flipped());
     }
 
-    public static flipTile(index: number) {
-        const {x, y} = VoltorbFlipRunner.getXYPos(index);
-        const value = VoltorbFlipRunner.board()[y][x].flip();
+    public static flipTile(tile: FlipTile) {
+        if (tile.flipped()) {
+            return;
+        }
+        const value = tile.flip();
+        console.log(`Flipped ×${value}`);
         if (!value) {
-            this.startLevel();
+            this.startLevel(this.currentLevel());
             Notifier.notify({
-                message: `Level failed !`,
+                message: `Level failed...`,
                 title: 'Voltorb Flip',
                 type: NotificationConstants.NotificationOption.danger,
             });
         } else {
-            this.currentStack(Math.max(value, this.currentStack() * value));
+            this.currentStack(Math.max(value * this.getLevelMultiplier(this.currentLevel()), this.currentStack() * value));
             if (this.isBoardCleared()) {
                 GameHelper.incrementObservable(this.totalStack, this.currentStack());
-                this.startLevel();
+                this.startLevel(this.currentLevel() + 1);
                 Notifier.notify({
-                    message: `Level cleared !`,
+                    message: `Level ${this.currentLevel()} cleared !`,
                     title: 'Voltorb Flip',
                     type: NotificationConstants.NotificationOption.success,
                 });
@@ -151,63 +172,62 @@ class VoltorbFlipRunner {
         }
     }
 }
-// [VOLTORB, ×2, ×3]
-// ×1 are then computed
-const LEVELS = [
+// [VOLTORB, ×1, ×2, ×3]
+const VOLTORB_FLIP_LEVELS = [
     [
-        [6, 3, 1],
-        [6, 0, 3],
-        [6, 5, 0],
-        [6, 2, 2],
-        [6, 4, 1],
+        [6, 15, 3, 1],
+        [6, 16, 0, 3],
+        [6, 14, 5, 0],
+        [6, 15, 2, 2],
+        [6, 14, 4, 1],
     ],
     [
-        [7, 1, 3],
-        [],
-        [],
-        [],
-        [],
+        [7, 14, 1, 3],
+        [7, 12, 6, 0],
+        [7, 13, 3, 2],
+        [7, 14, 0, 4],
+        [7, 12, 5, 1],
     ],
     [
-        [],
-        [],
-        [],
-        [],
-        [],
+        [8, 12, 2, 3],
+        [8, 10, 7, 0],
+        [8, 11, 4, 2],
+        [8, 12, 1, 4],
+        [8, 10, 6, 1],
     ],
     [
-        [],
-        [],
-        [],
-        [],
-        [],
+        [8, 11, 3, 3],
+        [8, 12, 0, 5],
+        [10, 7, 8, 0],
+        [10, 8, 5, 2],
+        [10, 9, 2, 4],
     ],
     [
-        [],
-        [],
-        [],
-        [],
-        [],
+        [10, 7, 7, 1],
+        [10, 8, 4, 3],
+        [10, 9, 1, 5],
+        [10, 6, 9, 0],
+        [10, 7, 6, 2],
     ],
     [
-        [],
-        [],
-        [],
-        [],
-        [],
+        [10, 8, 3, 4],
+        [10, 9, 0, 6],
+        [10, 6, 8, 1],
+        [10, 7, 5, 3],
+        [10, 8, 2, 5],
     ],
     [
-        [],
-        [],
-        [],
-        [],
-        [],
+        [10, 6, 7, 2],
+        [10, 7, 4, 4],
+        [13, 5, 1, 6],
+        [13, 2, 9, 1],
+        [10, 6, 6, 3],
     ],
     [
-        [],
-        [],
-        [],
-        [],
-        [],
+        [10, 8, 0, 7],
+        [10, 5, 8, 2],
+        [10, 6, 5, 4],
+        [10, 7, 2, 6],
+        [10, 5, 7, 3],
     ],
 ]

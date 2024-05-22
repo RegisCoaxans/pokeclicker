@@ -86,6 +86,20 @@ class BattleFrontierTownContent extends TownContent {
     }
 }
 
+class VoltorbFlipTownContent extends TownContent {
+    public cssClass(): string {
+        return 'btn btn-primary';
+    }
+
+    public onclick(): void {
+        VoltorbFlipRunner.enter();
+    }
+
+    public text() {
+        return 'Play Voltorb Flip';
+    }
+}
+
 class NextRegionTownContent extends TownContent {
     public cssClass() {
         return 'btn btn-warning';

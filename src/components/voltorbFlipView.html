@@ -32,8 +32,14 @@
                     <td>
                         <span style="display: inline;">
                             Flip Attack:
-                            <span data-bind="
-                            text: VoltorbFlipRunner.calculateFlipAttack().toLocaleString('en-US')">
+                            <span data-bind="text: VoltorbFlipRunner.calculateFlipAttack().toLocaleString('en-US')">
+                            </span>
+                        </span>
+                    </td>
+                    <td>
+                        <span style="display: inline;">
+                            Defeated:
+                            <span data-bind="text: VoltorbFlipRunner.enemyCount().toLocaleString('en-US')">
                             </span>
                         </span>
                     </td>

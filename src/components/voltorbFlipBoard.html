@@ -23,7 +23,7 @@
             <div class="row">
                 <!-- ko foreach: VoltorbFlipRunner.board() -->
                     <!-- ko foreach: $data -->
-                    <div class="col-2 p-0">
+                    <div class="col-2 p-0" data-bind="click: () => VoltorbFlipRunner.flipTile($data)">
                         <div class="flipTile">
                             <img class="flipTileBox" src="assets/images/tileBack.svg"/>
                         </div>
