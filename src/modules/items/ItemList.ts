@@ -32,6 +32,7 @@ import UndergroundItemValueType from '../enums/UndergroundItemValueType';
 import TreasureItem from './TreasureItem';
 import { pokemonMap } from '../pokemons/PokemonList';
 import AttackGainConsumable from './AttackGainConsumable';
+import { MultiplierDecreaser } from './types';
 // eslint-disable-next-line import/prefer-default-export
 export const ItemList: { [name: string]: Item } = {};
 
@@ -346,7 +347,7 @@ ItemList['Pinkan Scyther']  = new PokemonItem('Pinkan Scyther');
 ItemList['Mr. Mime']             = new PokemonItem('Mr. Mime', 1000);
 ItemList['Pinkan Electabuzz']  = new PokemonItem('Pinkan Electabuzz');
 ItemList.Jynx                 = new PokemonItem('Jynx', 2000);
-ItemList.Magikarp             = new PokemonItem('Magikarp', 50000, Currency.money, true);
+ItemList.Magikarp             = new PokemonItem('Magikarp', 50000, Currency.money, undefined, undefined, { multiplierDecrease: false });
 ItemList['Magikarp Brown Stripes'] = new PokemonItem('Magikarp Brown Stripes', 100);
 ItemList['Magikarp Blue Raindrops'] = new PokemonItem('Magikarp Blue Raindrops', 2000, Currency.diamond);
 ItemList['Magikarp Saucy Violet'] = new PokemonItem('Magikarp Saucy Violet', 7500000000, Currency.money);
