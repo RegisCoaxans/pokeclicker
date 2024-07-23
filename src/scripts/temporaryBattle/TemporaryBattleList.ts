@@ -742,12 +742,22 @@ TemporaryBattleList.Red = new TemporaryBattle(
     }
 );
 
+const joeyHP = (base: number) => {
+    const joeyClears = App.game.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex('Youngster Joey')]();
+    let multiplier = 1;
+    SeededRand.seed(2477474);
+    for (let i = 0; i < joeyClears; i++) {
+        multiplier *= SeededRand.intBetween(150, 200) / 100;
+    }
+    return multiplier * base;
+};
+
 TemporaryBattleList['Youngster Joey'] = new TemporaryBattle(
     'Youngster Joey',
-    [new GymPokemon('Rattata', 548919101828, 100)],
+    [new GymPokemon('Rattata', 548919101828, 100, undefined, undefined, undefined, joeyHP)],
     'How?!? My Rattata is in the top percentage of all Rattata!',
     [new MultiRequirement([new GymBadgeRequirement(BadgeEnums.Elite_KantoChampion), new SpecialEventRequirement('Hoopa Day')])],
-    undefined,
+    [new NullRequirement()],
     {
         displayName: 'Youngster Joey',
         returnTown: 'Cherrygrove City',

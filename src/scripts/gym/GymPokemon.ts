@@ -1,14 +1,14 @@
 class GymPokemon {
     name: PokemonNameType;
-    maxHealth: number;
+    _maxHealth: number;
     level: number;
     shiny: boolean;
     shadow: GameConstants.ShadowStatus;
     requirements: Requirement[];
 
-    constructor(name: PokemonNameType, maxHealth: number, level: number, requirements: Requirement | Requirement[] = [], shiny?: boolean, shadow = GameConstants.ShadowStatus.None) {
+    constructor(name: PokemonNameType, maxHealth: number, level: number, requirements: Requirement | Requirement[] = [], shiny?: boolean, shadow = GameConstants.ShadowStatus.None, public modifier = (base: number) => base) {
         this.name = name;
-        this.maxHealth = maxHealth;
+        this._maxHealth = maxHealth;
         this.level = level;
         if (requirements instanceof Requirement) {
             this.requirements = [requirements];
@@ -17,5 +17,9 @@ class GymPokemon {
         }
         this.shiny = shiny;
         this.shadow = shadow;
+    }
+
+    get maxHealth() {
+        return Math.round(this.modifier(this._maxHealth));
     }
 }
