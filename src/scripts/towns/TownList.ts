@@ -5546,6 +5546,16 @@ TownList['Pokémon League Unova'] = new Town(
     }
 );
 
+TownList['Treasure Island'] = new Town(
+    'Treasure Island',
+    GameConstants.Region.unova,
+    GameConstants.UnovaSubRegions.Unova,
+    undefined,
+    {
+        requirements: [ new GymBadgeRequirement(BadgeEnums.Elite_UnovaChampion) ]
+    }
+);
+
 //Unova Dungeons
 TownList['Pledge Grove'] = new DungeonTown(
     'Pledge Grove',
