@@ -917,6 +917,7 @@ export type PokemonNameType
     | 'Gigantamax Garbodor'
     | 'Zorua'
     | 'Hisuian Zorua'
+    | 'Zorua (Pirate)'
     | 'Zoroark'
     | 'Hisuian Zoroark'
     | 'Minccino'

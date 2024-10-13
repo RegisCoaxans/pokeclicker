@@ -17684,6 +17684,26 @@ export const pokemonList = createPokemonArray(
         },
     },
     {
+        'id': 570.02,
+        'name': 'Zorua (Pirate)',
+        'type': [PokemonType.Dark],
+        'eggCycles': 25,
+        'levelType': LevelType.mediumslow,
+        'exp': 66,
+        'catchRate': 75,
+        'base': {
+            'hitpoints': 40,
+            'attack': 65,
+            'specialAttack': 80,
+            'defense': 40,
+            'specialDefense': 40,
+            'speed': 65,
+        },
+        'gender': {
+            'femaleRatio': 0.125,
+        },
+    },
+    {
         'id': 571,
         'name': 'Zoroark',
         'type': [PokemonType.Dark],

@@ -2360,6 +2360,96 @@ TemporaryBattleList['Dream Researcher'] = new TemporaryBattle(
     }
 );
 
+const generateTreasureHunt = function(): Array<Array<string>> {
+    const locations = ['Hill', 'Meadow', 'Forest', 'Swamp', 'River'];
+    SeededRand.seed(player.trainerId);
+    const order = [...SeededRand.shuffleArray(locations).map(e => [e]), ['Hideout']];
+    let current = 'Beach';
+    order.forEach(step => {
+        const altDir = SeededRand.shuffleArray(locations.filter(l => l !== step[0] && l !== current)).slice(0, 2);
+        step.push(...altDir);
+        current = step[0];
+    });
+    return order;
+};
+
+TemporaryBattleList['Zorua Hill'] = new TemporaryBattle(
+    'To the Hill',
+    [
+        new GymPokemon('Zorua (Pirate)', 125000000, 32),
+        new GymPokemon('Woobat', 125, 32),
+    ],
+    '',
+    [],
+    [new NullRequirement()],
+    {
+    }
+);
+
+TemporaryBattleList['Zorua Meadow'] = new TemporaryBattle(
+    'To the Meadow',
+    [
+        new GymPokemon('Zorua (Pirate)', 125000000, 32),
+        new GymPokemon('Venipede', 125, 32),
+    ],
+    '',
+    [],
+    [new NullRequirement()],
+    {
+    }
+);
+
+TemporaryBattleList['Zorua Forest'] = new TemporaryBattle(
+    'To the Forest',
+    [
+        new GymPokemon('Zorua (Pirate)', 125000000, 32),
+        new GymPokemon('Ursaring', 125, 32),
+    ],
+    '',
+    [],
+    [new NullRequirement()],
+    {
+    }
+);
+
+TemporaryBattleList['Zorua Swamp'] = new TemporaryBattle(
+    'To the Swamp',
+    [
+        new GymPokemon('Zorua (Pirate)', 125000000, 32),
+        new GymPokemon('Foongus', 125, 32),
+    ],
+    '',
+    [],
+    [new NullRequirement()],
+    {
+    }
+);
+
+TemporaryBattleList['Zorua River'] = new TemporaryBattle(
+    'To the River',
+    [
+        new GymPokemon('Zorua (Pirate)', 125000000, 32),
+        new GymPokemon('Patrat', 125, 32),
+    ],
+    '',
+    [],
+    [new NullRequirement()],
+    {
+    }
+);
+
+TemporaryBattleList['Zorua Hideout'] = new TemporaryBattle(
+    'To the cavern',
+    [
+        new GymPokemon('Zorua (Pirate)', 125000000, 32),
+    ],
+    '',
+    [],
+    [new NullRequirement()],
+    {
+    }
+);
+
 //Kalos Temporary Battles
 TemporaryBattleList['Shauna 1'] = new TemporaryBattle(
     'Shauna 1',
