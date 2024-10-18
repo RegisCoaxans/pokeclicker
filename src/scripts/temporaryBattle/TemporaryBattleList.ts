@@ -2373,6 +2373,10 @@ const generateTreasureHunt = function(): Array<Array<string>> {
     return order;
 };
 
+const getTreasureHuntReq = function(location: string): CustomRequirement<boolean> {
+    return new CustomRequirement(() => generateTreasureHunt()[player.itemList['Zorua (Pirate)']()]?.includes(location), true, 'Progress further in the treasure hunt.');
+}
+
 TemporaryBattleList['Zorua Hill'] = new TemporaryBattle(
     'To the Hill',
     [
@@ -2380,7 +2384,7 @@ TemporaryBattleList['Zorua Hill'] = new TemporaryBattle(
         new GymPokemon('Woobat', 125, 32),
     ],
     '',
-    [],
+    [getTreasureHuntReq('Hill')],
     [new NullRequirement()],
     {
     }
@@ -2393,7 +2397,7 @@ TemporaryBattleList['Zorua Meadow'] = new TemporaryBattle(
         new GymPokemon('Venipede', 125, 32),
     ],
     '',
-    [],
+    [getTreasureHuntReq('Meadow')],
     [new NullRequirement()],
     {
     }
@@ -2406,7 +2410,7 @@ TemporaryBattleList['Zorua Forest'] = new TemporaryBattle(
         new GymPokemon('Ursaring', 125, 32),
     ],
     '',
-    [],
+    [getTreasureHuntReq('Forest')],
     [new NullRequirement()],
     {
     }
@@ -2419,7 +2423,7 @@ TemporaryBattleList['Zorua Swamp'] = new TemporaryBattle(
         new GymPokemon('Foongus', 125, 32),
     ],
     '',
-    [],
+    [getTreasureHuntReq('Swamp')],
     [new NullRequirement()],
     {
     }
@@ -2432,19 +2436,19 @@ TemporaryBattleList['Zorua River'] = new TemporaryBattle(
         new GymPokemon('Patrat', 125, 32),
     ],
     '',
-    [],
+    [getTreasureHuntReq('River')],
     [new NullRequirement()],
     {
     }
 );
 
 TemporaryBattleList['Zorua Hideout'] = new TemporaryBattle(
-    'To the cavern',
+    'To the Hideout',
     [
         new GymPokemon('Zorua (Pirate)', 125000000, 32),
     ],
     '',
-    [],
+    [getTreasureHuntReq('Hideout')],
     [new NullRequirement()],
     {
     }

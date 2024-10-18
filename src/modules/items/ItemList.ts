@@ -364,8 +364,9 @@ ItemList['Burmy (Plant)']     = new PokemonItem('Burmy (Plant)', 6750);
 ItemList.Cherubi              = new PokemonItem('Cherubi', 6750);
 ItemList.Spiritomb            = new PokemonItem('Spiritomb', 432, Currency.diamond);
 // Unova
-ItemList.Zorua                = new PokemonItem('Zorua', 50625);
-ItemList['Meloetta (Pirouette)'] = new PokemonItem('Meloetta (Pirouette)', 200000);
+ItemList.Zorua                      = new PokemonItem('Zorua', 50625);
+ItemList['Meloetta (Pirouette)']    = new PokemonItem('Meloetta (Pirouette)', 200000);
+ItemList['Zorua (Pirate)']          = new PokemonItem('Zorua (Pirate)', 50625);
 // Kalos
 ItemList['Furfrou (Debutante)']  = new PokemonItem('Furfrou (Debutante)', 5000000000, Currency.money);
 ItemList['Furfrou (Diamond)']    = new PokemonItem('Furfrou (Diamond)', 3000, Currency.diamond);

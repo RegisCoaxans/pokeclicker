@@ -2779,7 +2779,7 @@ class Update implements Saveable {
             // Yarr !
             for (let i = 0; i < 6; i++) {
                 // We want clear amount to be 1
-                saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 132, undefined, 1);
+                saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 133, undefined, 1);
             }
         },
     };

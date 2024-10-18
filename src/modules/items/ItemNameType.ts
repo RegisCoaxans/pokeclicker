@@ -284,6 +284,7 @@ export type ItemNameType
     | 'Spiritomb'
     | 'Zorua'
     | 'Meloetta (Pirouette)'
+    | 'Zorua (Pirate)'
     | 'Furfrou (Debutante)'
     | 'Furfrou (Diamond)'
     | 'Furfrou (Matron)'
