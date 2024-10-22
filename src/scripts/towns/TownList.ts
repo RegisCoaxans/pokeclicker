@@ -5580,6 +5580,55 @@ TownList['Pokémon League Unova'] = new Town(
     }
 );
 
+TownList['Treasure Island (Beach)'] = new Town(
+    'Treasure Island (Beach)',
+    GameConstants.Region.unova,
+    GameConstants.UnovaSubRegions.Unova,
+    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+);
+
+TownList['Treasure Island (Meadow)'] = new Town(
+    'Treasure Island (Meadow)',
+    GameConstants.Region.unova,
+    GameConstants.UnovaSubRegions.Unova,
+    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+);
+    
+TownList['Treasure Island (Forest)'] = new Town(
+    'Treasure Island (Forest)',
+    GameConstants.Region.unova,
+    GameConstants.UnovaSubRegions.Unova,
+    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+);
+    
+TownList['Treasure Island (Swamp)'] = new Town(
+    'Treasure Island (Swamp)',
+    GameConstants.Region.unova,
+    GameConstants.UnovaSubRegions.Unova,
+    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+);
+    
+TownList['Treasure Island (Hill)'] = new Town(
+    'Treasure Island (Hill)',
+    GameConstants.Region.unova,
+    GameConstants.UnovaSubRegions.Unova,
+    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+);
+    
+TownList['Treasure Island (River)'] = new Town(
+    'Treasure Island (River)',
+    GameConstants.Region.unova,
+    GameConstants.UnovaSubRegions.Unova,
+    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+);
+    
+TownList['Treasure Island (Hideout)'] = new Town(
+    'Treasure Island (Hideout)',
+    GameConstants.Region.unova,
+    GameConstants.UnovaSubRegions.Unova,
+    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+);
+
 //Unova Dungeons
 TownList['Pledge Grove'] = new DungeonTown(
     'Pledge Grove',
