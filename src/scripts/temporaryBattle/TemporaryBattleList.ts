@@ -2373,8 +2373,13 @@ const generateTreasureHunt = function(): Array<Array<string>> {
     return order;
 };
 
-const getTreasureHuntReq = function(location: string): CustomRequirement<boolean> {
-    return new CustomRequirement(() => generateTreasureHunt()[player.itemList['Zorua (Pirate)']()]?.includes(location), true, 'Progress further in the treasure hunt.');
+const getTreasureHuntReq = function(direction: string): CustomRequirement<boolean> {
+    return new CustomRequirement(() => {
+            const location = player.town.name;
+            const hunt = generateTreasureHunt();
+            const step = hunt.findIndex(l => `Treasure Island ${l[0]})` === location) + 1;
+            return hunt[step]?.includes(direction) ?? false;
+        }, true, 'Progress further in the treasure hunt.');
 }
 
 TemporaryBattleList['Zorua Hill'] = new TemporaryBattle(
