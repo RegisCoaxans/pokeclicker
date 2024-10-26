@@ -5626,7 +5626,7 @@ TownList['Treasure Island (Hideout)'] = new Town(
     'Treasure Island (Hideout)',
     GameConstants.Region.unova,
     GameConstants.UnovaSubRegions.Unova,
-    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+    [ new Shop([ItemList.Zorua], 'Treasure Room')]
 );
 
 //Unova Dungeons
