@@ -2362,7 +2362,7 @@ TemporaryBattleList['Dream Researcher'] = new TemporaryBattle(
 
 const generateTreasureHunt = function(): Array<Array<string>> {
     const locations = ['Hill', 'Meadow', 'Forest', 'Swamp', 'River'];
-    SeededRand.seed(player.trainerId);
+    SeededRand.seed(123654798);
     const order = [...SeededRand.shuffleArray(locations).map(e => [e]), ['Hideout']];
     let current = 'Beach';
     order.forEach(step => {
@@ -2377,78 +2377,109 @@ const getStepHuntReq = function(direction: string): CustomRequirement<boolean> {
     return new CustomRequirement(() => {
             const location = player.town.name;
             const hunt = generateTreasureHunt();
-            const step = hunt.findIndex(l => `Treasure Island ${l[0]})` === location) + 1;
+            const step = hunt.findIndex(l => `Treasure Island (${l[0]})` === location) + 1;
             return hunt[step]?.includes(direction) ?? false;
         }, true, 'Progress further in the treasure hunt.');
 }
 
-TemporaryBattleList['Zorua Hill'] = new TemporaryBattle(
-    'To the Hill',
+const isDirToNextStep = function(direction: string): boolean {
+    const location = player.town.name;
+    const hunt = generateTreasureHunt();
+    const step = hunt.findIndex(l => `Treasure Island (${l[0]})` === location) + 1;
+    return hunt[step][0] === direction;
+}
+
+const processHuntNextStep = function(direction: string) {
+    if (isDirToNextStep(direction)) {
+        MapHelper.moveToTown(`Treasure Island (${direction})`);
+    } else {
+        Notifier.notify({ message: 'It went to a different direction... You retrace your steps to the beach.', type: NotificationConstants.NotificationOption.warning, timeout: GameConstants.MINUTE });
+        MapHelper.moveToTown('Treasure Island (Beach)');
+    }
+}
+
+TemporaryBattleList['Pirate Hunt Hill'] = new TemporaryBattle(
+    'Pirate Hunt Hill',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32),
-        new GymPokemon('Woobat', 125, 32),
+        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Hill'), true, '/')),
+        new GymPokemon('Woobat', 125, 32, new CustomRequirement(() => !isDirToNextStep('Hill'), true, '/')),
     ],
     '',
     [getStepHuntReq('Hill')],
     [new NullRequirement()],
     {
+        hideTrainer : true,
+        displayName : 'to the Hill',
+        rewardFunction : () => processHuntNextStep('Hill'),
     }
 );
 
-TemporaryBattleList['Zorua Meadow'] = new TemporaryBattle(
-    'To the Meadow',
+TemporaryBattleList['Pirate Hunt Meadow'] = new TemporaryBattle(
+    'Pirate Hunt Meadow',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32),
-        new GymPokemon('Venipede', 125, 32),
+        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Meadow'), true, '/')),
+        new GymPokemon('Venipede', 125, 32, new CustomRequirement(() => !isDirToNextStep('Meadow'), true, '/')),
     ],
     '',
     [getStepHuntReq('Meadow')],
     [new NullRequirement()],
     {
+        hideTrainer : true,
+        displayName : 'to the Meadow',
+        rewardFunction : () => processHuntNextStep('Meadow'),
     }
 );
 
-TemporaryBattleList['Zorua Forest'] = new TemporaryBattle(
-    'To the Forest',
+TemporaryBattleList['Pirate Hunt Forest'] = new TemporaryBattle(
+    'Pirate Hunt Forest',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32),
-        new GymPokemon('Ursaring', 125, 32),
+        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Forest'), true, '/')),
+        new GymPokemon('Ursaring', 125, 32, new CustomRequirement(() => !isDirToNextStep('Forest'), true, '/')),
     ],
     '',
     [getStepHuntReq('Forest')],
     [new NullRequirement()],
     {
+        hideTrainer : true,
+        displayName : 'to the Forest',
+        rewardFunction : () => processHuntNextStep('Forest'),
     }
 );
 
-TemporaryBattleList['Zorua Swamp'] = new TemporaryBattle(
-    'To the Swamp',
+TemporaryBattleList['Pirate Hunt Swamp'] = new TemporaryBattle(
+    'Pirate Hunt Swamp',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32),
-        new GymPokemon('Foongus', 125, 32),
+        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Swamp'), true, '/')),
+        new GymPokemon('Foongus', 125, 32, new CustomRequirement(() => !isDirToNextStep('Swamp'), true, '/')),
     ],
     '',
     [getStepHuntReq('Swamp')],
     [new NullRequirement()],
     {
+        hideTrainer : true,
+        displayName : 'to the Swamp',
+        rewardFunction : () => processHuntNextStep('Swamp'),
     }
 );
 
-TemporaryBattleList['Zorua River'] = new TemporaryBattle(
-    'To the River',
+TemporaryBattleList['Pirate Hunt River'] = new TemporaryBattle(
+    'Pirate Hunt River',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32),
-        new GymPokemon('Patrat', 125, 32),
+        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('River'), true, '/')),
+        new GymPokemon('Patrat', 125, 32, new CustomRequirement(() => !isDirToNextStep('River'), true, '/')),
     ],
     '',
     [getStepHuntReq('River')],
     [new NullRequirement()],
     {
+        hideTrainer : true,
+        displayName : 'to the River',
+        rewardFunction : () => processHuntNextStep('River'),
     }
 );
 
-TemporaryBattleList['Zorua Hideout'] = new TemporaryBattle(
-    'To the Hideout',
+TemporaryBattleList['Pirate Hunt Hideout'] = new TemporaryBattle(
+    'Pirate Hunt Hideout',
     [
         new GymPokemon('Zorua (Pirate)', 125000000, 32),
     ],
@@ -2456,6 +2487,36 @@ TemporaryBattleList['Zorua Hideout'] = new TemporaryBattle(
     [getStepHuntReq('Hideout')],
     [new NullRequirement()],
     {
+        hideTrainer : true,
+        displayName : 'to the Hideout',
+        rewardFunction : () => MapHelper.moveToTown('Treasure Island (Hideout)'),
+    }
+);
+
+TemporaryBattleList['Pirate Hunt Pirate'] = new TemporaryBattle(
+    'Pirate Hunt Pirate',
+    [
+        new GymPokemon('Vulpix', 35000000, 40),
+        new GymPokemon('Shiftry', 35000000, 40),
+        new GymPokemon('Mismagius', 35000000, 40),
+        new GymPokemon('Honchkrow', 35000000, 40),
+        new GymPokemon('Nidoking', 35000000, 40),
+    ],
+    'Arr! Ye defeated me crew...<br/>Quarter? Here be a fair share o\' me loots as a bounty.',
+    undefined,
+    undefined,
+    {
+        displayName : 'Pirate of the Island',
+        resetDaily : true,
+        firstTimeRewardFunction : () => {
+            const item = ItemList[Rand.fromArray(['Thunder_stone', 'Moon_stone', 'Fire_stone', 'Soothe_bell', 'Sun_stone', 'Water_stone', 'Linking_cord', 'Shiny_stone', 'Dusk_stone'])];
+            item.gain(3);
+            Notifier.notify({
+                message : `You obtained ${item.displayName} for defeating the pirate.`,
+                type : NotificationConstants.NotificationOption.success,
+                image : item.image,
+            });
+        }
     }
 );
 

@@ -5584,49 +5584,70 @@ TownList['Treasure Island (Beach)'] = new Town(
     'Treasure Island (Beach)',
     GameConstants.Region.unova,
     GameConstants.UnovaSubRegions.Unova,
-    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+    [ TemporaryBattleList['Pirate Hunt Meadow'], TemporaryBattleList['Pirate Hunt Forest'], TemporaryBattleList['Pirate Hunt Swamp'], TemporaryBattleList['Pirate Hunt Hill'], TemporaryBattleList['Pirate Hunt River'], TemporaryBattleList['Pirate Hunt Hideout'] ],
+    {
+        imageName: 'Treasure Island',
+    },
 );
 
 TownList['Treasure Island (Meadow)'] = new Town(
     'Treasure Island (Meadow)',
     GameConstants.Region.unova,
     GameConstants.UnovaSubRegions.Unova,
-    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+    [ TemporaryBattleList['Pirate Hunt Meadow'], TemporaryBattleList['Pirate Hunt Forest'], TemporaryBattleList['Pirate Hunt Swamp'], TemporaryBattleList['Pirate Hunt Hill'], TemporaryBattleList['Pirate Hunt River'], TemporaryBattleList['Pirate Hunt Hideout'] ],
+    {
+        imageName: 'Treasure Island',
+    },
 );
     
 TownList['Treasure Island (Forest)'] = new Town(
     'Treasure Island (Forest)',
     GameConstants.Region.unova,
     GameConstants.UnovaSubRegions.Unova,
-    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+    [ TemporaryBattleList['Pirate Hunt Meadow'], TemporaryBattleList['Pirate Hunt Forest'], TemporaryBattleList['Pirate Hunt Swamp'], TemporaryBattleList['Pirate Hunt Hill'], TemporaryBattleList['Pirate Hunt River'], TemporaryBattleList['Pirate Hunt Hideout'] ],
+    {
+        imageName: 'Treasure Island',
+    },
 );
     
 TownList['Treasure Island (Swamp)'] = new Town(
     'Treasure Island (Swamp)',
     GameConstants.Region.unova,
     GameConstants.UnovaSubRegions.Unova,
-    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+    [ TemporaryBattleList['Pirate Hunt Meadow'], TemporaryBattleList['Pirate Hunt Forest'], TemporaryBattleList['Pirate Hunt Swamp'], TemporaryBattleList['Pirate Hunt Hill'], TemporaryBattleList['Pirate Hunt River'], TemporaryBattleList['Pirate Hunt Hideout'] ],
+    {
+        imageName: 'Treasure Island',
+    },
 );
     
 TownList['Treasure Island (Hill)'] = new Town(
     'Treasure Island (Hill)',
     GameConstants.Region.unova,
     GameConstants.UnovaSubRegions.Unova,
-    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+    [ TemporaryBattleList['Pirate Hunt Meadow'], TemporaryBattleList['Pirate Hunt Forest'], TemporaryBattleList['Pirate Hunt Swamp'], TemporaryBattleList['Pirate Hunt Hill'], TemporaryBattleList['Pirate Hunt River'], TemporaryBattleList['Pirate Hunt Hideout'] ],
+    {
+        imageName: 'Treasure Island',
+    },
 );
     
 TownList['Treasure Island (River)'] = new Town(
     'Treasure Island (River)',
     GameConstants.Region.unova,
     GameConstants.UnovaSubRegions.Unova,
-    [ TemporaryBattle['Zorua Meadow'], TemporaryBattle['Zorua Forest'], TemporaryBattle['Zorua Swamp'], TemporaryBattle['Zorua Hill'], TemporaryBattle['Zorua River'], TemporaryBattle['Zorua Hideout'] ],
+    [ TemporaryBattleList['Pirate Hunt Meadow'], TemporaryBattleList['Pirate Hunt Forest'], TemporaryBattleList['Pirate Hunt Swamp'], TemporaryBattleList['Pirate Hunt Hill'], TemporaryBattleList['Pirate Hunt River'], TemporaryBattleList['Pirate Hunt Hideout'] ],
+    {
+        imageName: 'Treasure Island',
+    },
 );
     
 TownList['Treasure Island (Hideout)'] = new Town(
     'Treasure Island (Hideout)',
     GameConstants.Region.unova,
     GameConstants.UnovaSubRegions.Unova,
-    [ new Shop([ItemList.Zorua], 'Treasure Room')]
+    [new Shop([ItemList['Zorua (Pirate)']], 'Trade with the pirate', [new TemporaryBattleRequirement('Pirate Hunt Pirate')], true), TemporaryBattleList['Pirate Hunt Pirate']],
+    {
+        imageName: 'Treasure Island',
+    },
 );
 
 //Unova Dungeons

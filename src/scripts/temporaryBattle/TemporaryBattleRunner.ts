@@ -100,7 +100,9 @@ class TemporaryBattleRunner {
             }
             battle.optionalArgs.rewardFunction?.();
             GameHelper.incrementObservable(App.game.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex(battle.name)]);
-            player.town = battle.getTown();
+            if (!battle.parent){
+                player.town = battle.getTown();
+            }
             App.game.gameState = GameConstants.GameState.town;
         }
     }

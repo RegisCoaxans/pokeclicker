@@ -10,7 +10,8 @@
 type TownOptionalArgument = {
     requirements?: Requirement[],
     npcs?: NPC[],
-    ignoreAreaStatus?: boolean
+    ignoreAreaStatus?: boolean,
+    imageName?: string,
 };
 
 class Town implements TmpTownType {
@@ -23,6 +24,7 @@ class Town implements TmpTownType {
     public content: TownContent[];
     public subRegion: GameConstants.SubRegions;
     public ignoreAreaStatus: boolean;
+    public imageName: string;
 
     constructor(
         name: string,
@@ -41,6 +43,7 @@ class Town implements TmpTownType {
         this.content = content;
         this.subRegion = subRegion;
         this.ignoreAreaStatus = optional.ignoreAreaStatus ?? false;
+        this.imageName = optional.imageName ?? name;
 
         if (GymList[name]) {
             const gym = GymList[name];

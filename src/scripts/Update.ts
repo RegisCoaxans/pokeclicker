@@ -2777,8 +2777,9 @@ class Update implements Saveable {
             delete settingsData.showFarmModuleControls;
 
             // Yarr !
+            saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 133);
             for (let i = 0; i < 6; i++) {
-                // We want clear amount to be 1
+                // We want clear amount to be 1 for these
                 saveData.statistics.temporaryBattleDefeated = Update.moveIndex(saveData.statistics.temporaryBattleDefeated, 133, undefined, 1);
             }
         },
