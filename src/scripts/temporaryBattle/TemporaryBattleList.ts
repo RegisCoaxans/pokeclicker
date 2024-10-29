@@ -2362,11 +2362,11 @@ TemporaryBattleList['Dream Researcher'] = new TemporaryBattle(
 
 const generateTreasureHunt = function(): Array<Array<string>> {
     const locations = ['Hill', 'Meadow', 'Forest', 'Swamp', 'River'];
-    SeededRand.seed(123654798);
-    const order = [...SeededRand.shuffleArray(locations).map(e => [e]), ['Hideout']];
+    SeededDateRand.seedWithDate(GameHelper.today());
+    const order = [...SeededDateRand.shuffleArray(locations).map(e => [e]), ['Hideout']];
     let current = 'Beach';
     order.forEach(step => {
-        const altDir = SeededRand.shuffleArray(locations.filter(l => l !== step[0] && l !== current)).slice(0, 2);
+        const altDir = SeededDateRand.shuffleArray(locations.filter(l => l !== step[0] && l !== current)).slice(0, 2);
         step.push(...altDir);
         current = step[0];
     });
@@ -2392,8 +2392,13 @@ const isDirToNextStep = function(direction: string): boolean {
 const processHuntNextStep = function(direction: string) {
     if (isDirToNextStep(direction)) {
         MapHelper.moveToTown(`Treasure Island (${direction})`);
+        const location = player.town.name;
+        const hunt = generateTreasureHunt();
+        const nextStep = hunt.findIndex(l => `Treasure Island (${l[0]})` === location) + 1;
+        const dirMap = { 'Hill' : 'southeast', 'Meadow' : 'northeast', 'Forest' : 'south', 'Swamp' : 'northwest', 'River' : 'southwest', 'Hideout' : 'north' };
+        Notifier.notify({ message: `Ah! It apparently fled to the ${dirMap[hunt[nextStep][0]]} of the island.`, type: NotificationConstants.NotificationOption.warning, timeout: GameConstants.MINUTE });
     } else {
-        Notifier.notify({ message: 'It went to a different direction... You retrace your steps to the beach.', type: NotificationConstants.NotificationOption.warning, timeout: GameConstants.MINUTE });
+        Notifier.notify({ message: 'No pirate in this direction... You retrace your steps to the beach.', type: NotificationConstants.NotificationOption.warning, timeout: GameConstants.MINUTE });
         MapHelper.moveToTown('Treasure Island (Beach)');
     }
 }
