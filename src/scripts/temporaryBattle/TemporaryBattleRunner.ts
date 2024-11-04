@@ -84,7 +84,9 @@ class TemporaryBattleRunner {
                 message: `It appears you are not strong enough to defeat ${TemporaryBattleBattle.battle.getDisplayName()}.`,
                 type: NotificationConstants.NotificationOption.danger,
             });
-            player.town = TemporaryBattleBattle.battle.getTown();
+            if (!TemporaryBattleBattle.battle.parent) {
+                player.town = TemporaryBattleBattle.battle.getTown();
+            }
             App.game.gameState = GameConstants.GameState.town;
         }
     }
@@ -100,7 +102,7 @@ class TemporaryBattleRunner {
             }
             battle.optionalArgs.rewardFunction?.();
             GameHelper.incrementObservable(App.game.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex(battle.name)]);
-            if (!battle.parent){
+            if (!battle.parent) {
                 player.town = battle.getTown();
             }
             App.game.gameState = GameConstants.GameState.town;

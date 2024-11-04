@@ -2375,19 +2375,19 @@ const generateTreasureHunt = function(): Array<Array<string>> {
 
 const getStepHuntReq = function(direction: string): CustomRequirement<boolean> {
     return new CustomRequirement(() => {
-            const location = player.town.name;
-            const hunt = generateTreasureHunt();
-            const step = hunt.findIndex(l => `Treasure Island (${l[0]})` === location) + 1;
-            return hunt[step]?.includes(direction) ?? false;
-        }, true, 'Progress further in the treasure hunt.');
-}
+        const location = player.town.name;
+        const hunt = generateTreasureHunt();
+        const step = hunt.findIndex(l => `Treasure Island (${l[0]})` === location) + 1;
+        return hunt[step]?.includes(direction) ?? false;
+    }, true, 'Progress further in the treasure hunt.');
+};
 
 const isDirToNextStep = function(direction: string): boolean {
     const location = player.town.name;
     const hunt = generateTreasureHunt();
     const step = hunt.findIndex(l => `Treasure Island (${l[0]})` === location) + 1;
     return hunt[step][0] === direction;
-}
+};
 
 const processHuntNextStep = function(direction: string) {
     if (isDirToNextStep(direction)) {
@@ -2401,10 +2401,10 @@ const processHuntNextStep = function(direction: string) {
         Notifier.notify({ message: 'No pirate in this direction... You retrace your steps to the beach.', type: NotificationConstants.NotificationOption.warning, timeout: GameConstants.MINUTE });
         MapHelper.moveToTown('Treasure Island (Beach)');
     }
-}
+};
 
-TemporaryBattleList['Pirate Hunt Hill'] = new TemporaryBattle(
-    'Pirate Hunt Hill',
+TemporaryBattleList['Treasure Island Hill'] = new TemporaryBattle(
+    'Treasure Island Hill',
     [
         new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Hill'), true, '/')),
         new GymPokemon('Woobat', 125, 32, new CustomRequirement(() => !isDirToNextStep('Hill'), true, '/')),
@@ -2419,8 +2419,8 @@ TemporaryBattleList['Pirate Hunt Hill'] = new TemporaryBattle(
     }
 );
 
-TemporaryBattleList['Pirate Hunt Meadow'] = new TemporaryBattle(
-    'Pirate Hunt Meadow',
+TemporaryBattleList['Treasure Island Meadow'] = new TemporaryBattle(
+    'Treasure Island Meadow',
     [
         new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Meadow'), true, '/')),
         new GymPokemon('Venipede', 125, 32, new CustomRequirement(() => !isDirToNextStep('Meadow'), true, '/')),
@@ -2435,8 +2435,8 @@ TemporaryBattleList['Pirate Hunt Meadow'] = new TemporaryBattle(
     }
 );
 
-TemporaryBattleList['Pirate Hunt Forest'] = new TemporaryBattle(
-    'Pirate Hunt Forest',
+TemporaryBattleList['Treasure Island Forest'] = new TemporaryBattle(
+    'Treasure Island Forest',
     [
         new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Forest'), true, '/')),
         new GymPokemon('Ursaring', 125, 32, new CustomRequirement(() => !isDirToNextStep('Forest'), true, '/')),
@@ -2451,8 +2451,8 @@ TemporaryBattleList['Pirate Hunt Forest'] = new TemporaryBattle(
     }
 );
 
-TemporaryBattleList['Pirate Hunt Swamp'] = new TemporaryBattle(
-    'Pirate Hunt Swamp',
+TemporaryBattleList['Treasure Island Swamp'] = new TemporaryBattle(
+    'Treasure Island Swamp',
     [
         new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Swamp'), true, '/')),
         new GymPokemon('Foongus', 125, 32, new CustomRequirement(() => !isDirToNextStep('Swamp'), true, '/')),
@@ -2467,8 +2467,8 @@ TemporaryBattleList['Pirate Hunt Swamp'] = new TemporaryBattle(
     }
 );
 
-TemporaryBattleList['Pirate Hunt River'] = new TemporaryBattle(
-    'Pirate Hunt River',
+TemporaryBattleList['Treasure Island River'] = new TemporaryBattle(
+    'Treasure Island River',
     [
         new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('River'), true, '/')),
         new GymPokemon('Patrat', 125, 32, new CustomRequirement(() => !isDirToNextStep('River'), true, '/')),
@@ -2483,11 +2483,9 @@ TemporaryBattleList['Pirate Hunt River'] = new TemporaryBattle(
     }
 );
 
-TemporaryBattleList['Pirate Hunt Hideout'] = new TemporaryBattle(
-    'Pirate Hunt Hideout',
-    [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32),
-    ],
+TemporaryBattleList['Treasure Island Hideout'] = new TemporaryBattle(
+    'Treasure Island Hideout',
+    [new GymPokemon('Zorua (Pirate)', 125000000, 32)],
     '',
     [getStepHuntReq('Hideout')],
     [new NullRequirement()],
@@ -2498,8 +2496,8 @@ TemporaryBattleList['Pirate Hunt Hideout'] = new TemporaryBattle(
     }
 );
 
-TemporaryBattleList['Pirate Hunt Pirate'] = new TemporaryBattle(
-    'Pirate Hunt Pirate',
+TemporaryBattleList['Treasure Island Pirate'] = new TemporaryBattle(
+    'Treasure Island Pirate',
     [
         new GymPokemon('Vulpix', 35000000, 40),
         new GymPokemon('Shiftry', 35000000, 40),
@@ -2514,14 +2512,24 @@ TemporaryBattleList['Pirate Hunt Pirate'] = new TemporaryBattle(
         displayName : 'Pirate of the Island',
         resetDaily : true,
         firstTimeRewardFunction : () => {
-            const item = ItemList[Rand.fromArray(['Thunder_stone', 'Moon_stone', 'Fire_stone', 'Soothe_bell', 'Sun_stone', 'Water_stone', 'Linking_cord', 'Shiny_stone', 'Dusk_stone'])];
-            item.gain(3);
+            const item = Rand.fromArray([
+                ItemList.Thunder_stone,
+                ItemList.Moon_stone,
+                ItemList.Fire_stone,
+                ItemList.Soothe_bell,
+                ItemList.Sun_stone,
+                ItemList.Water_stone,
+                ItemList.Linking_cord,
+                ItemList.Shiny_stone,
+                ItemList.Dusk_stone,
+            ]);
+            item.gain(1);
             Notifier.notify({
-                message : `You obtained ${item.displayName} for defeating the pirate.`,
+                message : `The pirate gives you ${item.displayName} for defeating him.`,
                 type : NotificationConstants.NotificationOption.success,
                 image : item.image,
             });
-        }
+        },
     }
 );
 
