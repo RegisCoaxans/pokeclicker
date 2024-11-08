@@ -5273,6 +5273,42 @@ const Virizion3 = new NPC('Virizion', [
     image: 'assets/images/pokemon/640.png',
     requirement: new MultiRequirement([new QuestLineStepCompletedRequirement('Swords of Justice', 20, GameConstants.AchievementOption.more), new QuestLineCompletedRequirement('Swords of Justice', GameConstants.AchievementOption.less)]),
 });
+// See TemporaryBattleList for isDirToNextStep and direction-locations matches
+const PirateAlexaSouthEast = new NPC('Alexa', [
+    'This island is supposedly deserted but legend tells the story of a Pirate living there with his tr...',
+    'Hey! Did you see that ? Fur with a hat on top! It ran southeast through the bushes!'
+], {
+    requirement: new CustomRequirement(() => isDirToNextStep('Hill'), true, '/'),
+    image: 'assets/images/npcs/Alexa.png',
+});
+const PirateAlexaNorthEast = new NPC('Alexa', [
+    'This island is supposedly deserted but legend tells the story of a Pirate living there with his tr...',
+    'Hey! Did you see that ? Fur with a hat on top! It ran northeast through the bushes!'
+], {
+    requirement: new CustomRequirement(() => isDirToNextStep('Meadow'), true, '/'),
+    image: 'assets/images/npcs/Alexa.png',
+});
+const PirateAlexaSouth = new NPC('Alexa', [
+    'This island is supposedly deserted but legend tells the story of a Pirate living there with his tr...',
+    'Hey! Did you see that ? Fur with a hat on top! It ran south through the bushes!'
+], {
+    requirement: new CustomRequirement(() => isDirToNextStep('Forest'), true, '/'),
+    image: 'assets/images/npcs/Alexa.png',
+});
+const PirateAlexaNorthWest = new NPC('Alexa', [
+    'This island is supposedly deserted but legend tells the story of a Pirate living there with his tr...',
+    'Hey! Did you see that ? Fur with a hat on top! It ran northwest through the bushes!'
+], {
+    requirement: new CustomRequirement(() => isDirToNextStep('Swamp'), true, '/'),
+    image: 'assets/images/npcs/Alexa.png',
+});
+const PirateAlexaSouthWest = new NPC('Alexa', [
+    'This island is supposedly deserted but legend tells the story of a Pirate living there with his tr...',
+    'Hey! Did you see that ? Fur with a hat on top! It ran southwest through the bushes!'
+], {
+    requirement: new CustomRequirement(() => isDirToNextStep('River'), true, '/'),
+    image: 'assets/images/npcs/Alexa.png',
+});
 
 // Genesect Quest Npcs
 const InvestigateP2 = new NPC('Investigate the P2 Laboratory', [
@@ -5586,6 +5622,7 @@ TownList['Treasure Island (Beach)'] = new Town(
     [TemporaryBattleList['Treasure Island Meadow'], TemporaryBattleList['Treasure Island Forest'], TemporaryBattleList['Treasure Island Swamp'], TemporaryBattleList['Treasure Island Hill'], TemporaryBattleList['Treasure Island River'], TemporaryBattleList['Treasure Island Hideout']],
     {
         imageName: 'Treasure Island',
+        npcs: [PirateAlexaSouthEast, PirateAlexaNorthEast, PirateAlexaNorthWest, PirateAlexaSouthWest, PirateAlexaSouth],
     }
 );
 TownList['Treasure Island (Meadow)'] = new Town(

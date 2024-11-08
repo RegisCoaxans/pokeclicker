@@ -2396,7 +2396,7 @@ const processHuntNextStep = function(direction: string) {
         const hunt = generateTreasureHunt();
         const nextStep = hunt.findIndex(l => `Treasure Island (${l[0]})` === location) + 1;
         const dirMap = { 'Hill' : 'southeast', 'Meadow' : 'northeast', 'Forest' : 'south', 'Swamp' : 'northwest', 'River' : 'southwest', 'Hideout' : 'north' };
-        Notifier.notify({ message: `Ah! It apparently fled to the ${dirMap[hunt[nextStep][0]]} of the island.`, type: NotificationConstants.NotificationOption.warning, timeout: GameConstants.MINUTE });
+        Notifier.notify({ message: `Ah! It fled again! This time, the pirate went to the ${dirMap[hunt[nextStep][0]]} of the island.`, type: NotificationConstants.NotificationOption.warning, timeout: GameConstants.MINUTE });
     } else {
         Notifier.notify({ message: 'No pirate in this direction... You retrace your steps to the beach.', type: NotificationConstants.NotificationOption.warning, timeout: GameConstants.MINUTE });
         MapHelper.moveToTown('Treasure Island (Beach)');
