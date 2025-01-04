@@ -2361,6 +2361,7 @@ export enum ShardTraderLocations {
     'Striaton City',
     'Accumula Town',
     'Nuvema Town',
+    'Treasure Island (Hideout)',
     'Camphrier Town',
     'Parfum Palace',
     'Ambrette Town',

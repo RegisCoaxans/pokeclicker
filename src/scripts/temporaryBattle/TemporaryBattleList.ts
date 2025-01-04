@@ -2362,11 +2362,11 @@ TemporaryBattleList['Dream Researcher'] = new TemporaryBattle(
 
 const generateTreasureHunt = function(): Array<Array<string>> {
     const locations = ['Hill', 'Meadow', 'Forest', 'Swamp', 'River'];
-    SeededDateRand.seedWithDate(GameHelper.today());
-    const order = [...SeededDateRand.shuffleArray(locations).map(e => [e]), ['Hideout']];
+    SeededRand.seedWithDate(GameHelper.today());
+    const order = [...SeededRand.shuffleArray(locations).map(e => [e]), ['Hideout']];
     let current = 'Beach';
     order.forEach(step => {
-        const altDir = SeededDateRand.shuffleArray(locations.filter(l => l !== step[0] && l !== current)).slice(0, 2);
+        const altDir = SeededRand.shuffleArray(locations.filter(l => l !== step[0] && l !== current)).slice(0, 2);
         step.push(...altDir);
         current = step[0];
     });
@@ -2406,8 +2406,8 @@ const processHuntNextStep = function(direction: string) {
 TemporaryBattleList['Treasure Island Hill'] = new TemporaryBattle(
     'Treasure Island Hill',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Hill'), true, '/')),
-        new GymPokemon('Woobat', 125, 32, new CustomRequirement(() => !isDirToNextStep('Hill'), true, '/')),
+        new GymPokemon('Zorua (Pirate)', 174101741, 50, new CustomRequirement(() => isDirToNextStep('Hill'), true, '/')),
+        new GymPokemon('Woobat', 125, 10, new CustomRequirement(() => !isDirToNextStep('Hill'), true, '/')),
     ],
     '',
     [getStepHuntReq('Hill')],
@@ -2422,8 +2422,8 @@ TemporaryBattleList['Treasure Island Hill'] = new TemporaryBattle(
 TemporaryBattleList['Treasure Island Meadow'] = new TemporaryBattle(
     'Treasure Island Meadow',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Meadow'), true, '/')),
-        new GymPokemon('Venipede', 125, 32, new CustomRequirement(() => !isDirToNextStep('Meadow'), true, '/')),
+        new GymPokemon('Zorua (Pirate)', 174101741, 50, new CustomRequirement(() => isDirToNextStep('Meadow'), true, '/')),
+        new GymPokemon('Venipede', 125, 10, new CustomRequirement(() => !isDirToNextStep('Meadow'), true, '/')),
     ],
     '',
     [getStepHuntReq('Meadow')],
@@ -2438,8 +2438,8 @@ TemporaryBattleList['Treasure Island Meadow'] = new TemporaryBattle(
 TemporaryBattleList['Treasure Island Forest'] = new TemporaryBattle(
     'Treasure Island Forest',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Forest'), true, '/')),
-        new GymPokemon('Ursaring', 125, 32, new CustomRequirement(() => !isDirToNextStep('Forest'), true, '/')),
+        new GymPokemon('Zorua (Pirate)', 174101741, 50, new CustomRequirement(() => isDirToNextStep('Forest'), true, '/')),
+        new GymPokemon('Ursaring', 125, 10, new CustomRequirement(() => !isDirToNextStep('Forest'), true, '/')),
     ],
     '',
     [getStepHuntReq('Forest')],
@@ -2454,8 +2454,8 @@ TemporaryBattleList['Treasure Island Forest'] = new TemporaryBattle(
 TemporaryBattleList['Treasure Island Swamp'] = new TemporaryBattle(
     'Treasure Island Swamp',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('Swamp'), true, '/')),
-        new GymPokemon('Foongus', 125, 32, new CustomRequirement(() => !isDirToNextStep('Swamp'), true, '/')),
+        new GymPokemon('Zorua (Pirate)', 174101741, 50, new CustomRequirement(() => isDirToNextStep('Swamp'), true, '/')),
+        new GymPokemon('Foongus', 125, 10, new CustomRequirement(() => !isDirToNextStep('Swamp'), true, '/')),
     ],
     '',
     [getStepHuntReq('Swamp')],
@@ -2470,8 +2470,8 @@ TemporaryBattleList['Treasure Island Swamp'] = new TemporaryBattle(
 TemporaryBattleList['Treasure Island River'] = new TemporaryBattle(
     'Treasure Island River',
     [
-        new GymPokemon('Zorua (Pirate)', 125000000, 32, new CustomRequirement(() => isDirToNextStep('River'), true, '/')),
-        new GymPokemon('Patrat', 125, 32, new CustomRequirement(() => !isDirToNextStep('River'), true, '/')),
+        new GymPokemon('Zorua (Pirate)', 174101741, 50, new CustomRequirement(() => isDirToNextStep('River'), true, '/')),
+        new GymPokemon('Patrat', 125, 10, new CustomRequirement(() => !isDirToNextStep('River'), true, '/')),
     ],
     '',
     [getStepHuntReq('River')],
@@ -2485,7 +2485,7 @@ TemporaryBattleList['Treasure Island River'] = new TemporaryBattle(
 
 TemporaryBattleList['Treasure Island Hideout'] = new TemporaryBattle(
     'Treasure Island Hideout',
-    [new GymPokemon('Zorua (Pirate)', 125000000, 32)],
+    [new GymPokemon('Zorua (Pirate)', 174101741, 50)],
     '',
     [getStepHuntReq('Hideout')],
     [new NullRequirement()],
@@ -2499,11 +2499,11 @@ TemporaryBattleList['Treasure Island Hideout'] = new TemporaryBattle(
 TemporaryBattleList['Treasure Island Pirate'] = new TemporaryBattle(
     'Treasure Island Pirate',
     [
-        new GymPokemon('Vulpix', 35000000, 40),
-        new GymPokemon('Shiftry', 35000000, 40),
-        new GymPokemon('Mismagius', 35000000, 40),
-        new GymPokemon('Honchkrow', 35000000, 40),
-        new GymPokemon('Nidoking', 35000000, 40),
+        new GymPokemon('Shiftry', 36225838, 55),
+        new GymPokemon('Mismagius', 32288247, 55),
+        new GymPokemon('Honchkrow', 32467228, 55),
+        new GymPokemon('Nidoking', 33254747, 55),
+        new GymPokemon('Vulpix', 37192338, 55),
     ],
     'Arr! Ye defeated me crew...<br/>Quarter? Here be a fair share o\' me loots as a bounty.',
     undefined,
