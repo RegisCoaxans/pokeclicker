@@ -189,6 +189,7 @@ export type ItemNameType
     | 'Carbos'
     | 'Rare_Candy'
     | 'Magikarp_Biscuit'
+    | 'Sweet_Heart'
     | 'Christmas_present'
     | 'Rare_bone'
     | 'Star_piece'

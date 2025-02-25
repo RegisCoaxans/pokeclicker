@@ -101,6 +101,7 @@ ItemList.Nestball = new PokeballItem(Pokeball.Nestball, Infinity, Currency.battl
 ItemList.Repeatball = new PokeballItem(Pokeball.Repeatball, Infinity, Currency.battlePoint, undefined, 'Repeat Ball');
 ItemList.Beastball = new PokeballItem(Pokeball.Beastball, 500, Currency.questPoint, undefined, 'Beast Ball');
 ItemList.Moonball = new PokeballItem(Pokeball.Moonball, Infinity, Currency.farmPoint, undefined, 'Moon Ball');
+ItemList.Loveball = new PokeballItem(Pokeball.Loveball, Infinity, Currency.farmPoint, undefined, 'Love Ball');
 
 ItemList.Berry_Shovel   = new ShovelItem(300, 'Berry Shovel', 'Removes Berry Plants in the Farm.');
 ItemList.Mulch_Shovel = new MulchShovelItem(300, 'Mulch Shovel', 'Removes Mulch from a plot in the Farm.');
@@ -270,6 +271,7 @@ ItemList.Magikarp_Biscuit = new AttackGainConsumable(ConsumableType.Magikarp_Bis
 
 // Miscellaneous
 ItemList.Christmas_present = new ChristmasPresent();
+ItemList.Sweet_Heart = new Item('Sweet_Heart', Infinity, undefined, undefined, undefined, 'A piece of cloyingly sweet chocolate. Can be traded for valuable items.');
 
 // Underground Items
 // Sellable (Diamonds)

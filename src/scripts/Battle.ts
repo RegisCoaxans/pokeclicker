@@ -213,6 +213,20 @@ class Battle {
         if (Rand.chance(p)) {
             App.game.farming.gainRandomBerry();
         }
+        if (App.game.specialEvents.getEvent('Love at First Flight').isActive()) {
+            // Punishing trying to grind in easier regions
+            // Except when highest is Johto as the debuff hits hard
+            const vp = Math.min(1, (player.region ** 3 + 1) / player.highestRegion() ** 3) / 300;
+            console.log(vp);
+            if(Rand.chance(vp)) {
+                player.gainItem('Sweet_Heart', 1);
+                Notifier.notify({
+                    message: `You found a Sweet Heart <img src="${ItemList.Sweet_Heart.image}" height="24px"/>`,
+                    type: NotificationConstants.NotificationOption.success,
+                    setting: NotificationConstants.NotificationSetting.Items.dropped_item,
+                });
+            }
+        }
     }
 
     public static pokemonAttackTooltip: KnockoutComputed<string> = ko.pureComputed(() => {

@@ -9,6 +9,7 @@ Replace everything in this file (except for this comment) with what was copied.
 
 export type SpecialEventTitleType
     = 'Lunar New Year'
+    | 'Love at First Flight'
     | 'Hoopa Day'
     | 'Easter'
     | 'Golden Week'

@@ -93,8 +93,18 @@ export default class SpecialEvents implements Feature {
             new Date(new Date().getFullYear(), 1, 7, 23), () => {
             },
         );
-        //Hoopa Day
-        /*
+        /* Love At First Flight
+        
+        */
+        this.newEvent('Love at First Flight', 'Help Meowth impress his crush Meowzie. And feel the love in the air with some Pokémon in Hoenn.',
+            // Start
+            new Date(new Date().getFullYear(), 1, 14, 1), () => {
+            },
+            // End
+            new Date(new Date().getFullYear(), 1, 28, 1), () => {
+            },
+        );
+        /* Hoopa Day
         TownList.ts and TemporaryBattleList.ts: Youngster Joey in Cherrygrove
         QuestLineHelper.ts: Pikablu (literally Marill) quest; 'How blu mouse?'
         */
