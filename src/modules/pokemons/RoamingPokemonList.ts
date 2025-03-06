@@ -170,6 +170,8 @@ RoamingPokemonList.add(Region.galar, 2, new RoamingPokemon('Vivillon (Fancy)', n
 RoamingPokemonList.add(Region.galar, 3, new RoamingPokemon('Vivillon (Fancy)', new SpecialEventRequirement('Lunar New Year')));
 RoamingPokemonList.add(Region.kalos, 0, new RoamingPokemon('Vivillon (Meadow)', new SpecialEventRequirement('Lunar New Year')));
 RoamingPokemonList.add(Region.alola, 0, new RoamingPokemon('Vivillon (Meadow)', new SpecialEventRequirement('Lunar New Year')));
+// Love at First Flight (Fev 14 - Fev 28)
+RoamingPokemonList.add(Region.kanto, 0, new RoamingPokemon('Meowzie', new SpecialEventRequirement('Love at First Flight')));
 // Hoopa Day (Apr 1 - Apr 2)
 // Easter (Apr 8 - Apr 29)
 // Golden Week (Apr 29 - May 6)

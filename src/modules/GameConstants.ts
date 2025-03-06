@@ -1642,6 +1642,7 @@ export const HoennDungeons = [
     'Sky Pillar',
     'Victory Road Hoenn',
     'Near Space',
+    'Spinda Meadow',
     'Phenac City Battles',
     'Pyrite Town Battles',
     'Pyrite Colosseum',

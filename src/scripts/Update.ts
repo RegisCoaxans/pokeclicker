@@ -2841,6 +2841,11 @@ class Update implements Saveable {
                 }
             });
         },
+
+        '0.10.24': ({ playerData, saveData, settingsData }) => {
+            // Love at First Flight dungeon and battles
+            saveData.statistics.dungeonsCleared = Update.moveIndex(saveData.statistics.dungeonsCleared, 59);
+        },
     };
 
     constructor() {

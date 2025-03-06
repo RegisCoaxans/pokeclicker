@@ -4184,6 +4184,21 @@ class QuestLineHelper {
 
     /* Event QuestLines */
 
+    // From any bulletin board between February 14-28 (Love at First Flight).
+/*     public static createLaFFMeowthQuestLine() {
+        const laFFMeowthQuestLine = new QuestLine('Meowzie!', 'Help Meowth impress his love.', new SpecialEventRequirement('Love at First Flight'), GameConstants.BulletinBoards.All, false);
+
+        const gainSweetHeart = function(amount: number) {
+            return () => ItemList.Sweet_Heart.gain(amount);
+        }
+
+        const fightMeowzie = new DefeatTemporaryBattleQuest('LaFF_Meowzie', 'Meowzie appeared in Viridian City, go find out!').withInitialValue(0).withCustomReward(gainSweetHeart(1));
+        laFFMeowthQuestLine.addQuest(fightMeowzie);
+        
+        const fightTeamRocket = new DefeatTemporaryBattleQuest('LaFF_TeamRocket', 'At Meowth\'s instigation, Team Rocket steps in an challenge you. Defeat them.').withCustomReward(gainSweetHeart(1));
+        laFFMeowthQuestLine.addQuest(fightTeamRocket);
+    } */
+
     // From any bulletin board on April 1 (Hoopa Day).
     public static createHoopaDayPikabluQuestLine() {
         const hoopaDayPikabluQuestLine = new QuestLine('How blu mouse?', 'Apparently a strange blue mouse-like Pokémon might be out there somewhere?', new SpecialEventRequirement('Hoopa Day'), GameConstants.BulletinBoards.All);

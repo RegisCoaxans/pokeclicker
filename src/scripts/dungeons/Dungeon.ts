@@ -4020,6 +4020,22 @@ dungeonList['Near Space'] = new Dungeon('Near Space',
     () => {},
     {dungeonRegionalDifficulty: GameConstants.Region.kalos});
 
+dungeonList['Spinda Meadow'] = new Dungeon('Spinda Meadow',
+    ['Spinda', 'Spinda', 'Spinda', 'Spinda', 'Spinda', 'Spinda'],
+    {
+        common: [{loot: 'Spinda', ignoreDebuff: true}],
+        rare: [
+            {loot: 'Ochre Shard', weight: 3},
+            {loot: 'Spinda (Heart)', ignoreDebuff: true},
+        ],
+        epic: [{loot: 'Sweet_Heart', ignoreDebuff: true}],
+        legendary: [{loot: 'Loveball', ignoreDebuff: true}]
+    }, 510000,
+    [
+        new DungeonBossPokemon('Spinda', 3003003, 14, { weight: 11}),
+        new DungeonBossPokemon('Spinda (Heart)', 3003003, 14, { weight: 1}),
+    ], 35500, 113);
+
 // Orre
 
 dungeonList['Phenac City Battles'] = new Dungeon('Phenac City Battles',

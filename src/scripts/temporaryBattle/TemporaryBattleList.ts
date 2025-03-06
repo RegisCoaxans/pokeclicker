@@ -404,6 +404,22 @@ TemporaryBattleList['Santa Jynx 4'] = new TemporaryBattle(
         imageName: 'Bill\'s Grandpa without Eevee',
     }
 );
+// Meowzie, in the Love at First Flight event
+/* TemporaryBattleList['Meowzie'] = new TemporaryBattle(
+    'Meowzie',
+    [
+        new GymPokemon('Meowzie', 1e9, 1),
+    ],
+    'Phrase : Team Rocket prevents you from catching Meowzie',
+    [
+        new SpecialEventRequirement('Love at First Flight'),
+    ],
+    undefined,
+    {
+        hideTrainer: true,
+        imageName: 'Jessie and James',
+    }
+); */
 
 //Johto Temporary Battles
 TemporaryBattleList['Silver 1'] = new TemporaryBattle(

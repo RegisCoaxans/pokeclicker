@@ -70,6 +70,7 @@ export type QuestLineNameType
     | 'Victory Road'
     | 'Starfall Street'
     | 'The Way Home'
+    | 'Meowzie!'
     | 'Egg Hunt'
     | 'How blu mouse?'
     | 'Dr. Splash\'s Research Project'

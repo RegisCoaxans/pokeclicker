@@ -374,6 +374,8 @@ ItemList['Pikachu (Palaeontologist)'] = new PokemonItem('Pikachu (Palaeontologis
 // Hoenn
 ItemList['Probably Chimecho']  = new PokemonItem('Hoppip (Chimecho)', 35800, Currency.diamond, false, 'Probably Chimecho');
 ItemList.Beldum               = new PokemonItem('Beldum', 22500);
+ItemList['Kecleon (In Love)'] = new PokemonItem('Kecleon (In Love)', undefined, undefined, undefined, undefined, {visible: new ObtainedPokemonRequirement('Inteleon', true)});
+ItemList['Kecleon (In Love) (Discounted)'] = new PokemonItem('Kecleon (In Love)', undefined, undefined, undefined, undefined, {visible: new ObtainedPokemonRequirement('Inteleon')});
 // Sinnoh
 ItemList['Grotle (Acorn)']  = new PokemonItem('Grotle (Acorn)');
 ItemList.Combee               = new PokemonItem('Combee', 6750);

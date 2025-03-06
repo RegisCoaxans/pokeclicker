@@ -6,7 +6,7 @@ import { ItemList } from '../items/ItemList';
 import GameHelper from '../GameHelper';
 import { Currency } from '../GameConstants';
 
-export type GenericTraderShopIdentifier = 'Palaeontologist' | 'EverstoneDealer';
+export type GenericTraderShopIdentifier = 'Palaeontologist' | 'EverstoneDealer' | 'LaFFTradePlace';
 
 /* eslint-disable @typescript-eslint/no-shadow */
 export enum DealCostOrProfitType {
@@ -189,6 +189,41 @@ export default class GenericDeal {
                 ],
                 [
                     { type: DealCostOrProfitType.Item, item: ItemList.Everstone, amount: 1 },
+                ],
+            ),
+        ]);
+
+        GenericDeal.list.LaFFTradePlace = ko.observableArray([
+            new GenericDeal(
+                [
+                    { type: DealCostOrProfitType.Item, item: ItemList.Sweet_Heart, amount: 10 },
+                ],
+                [
+                    { type: DealCostOrProfitType.Item, item: ItemList.Heart_scale, amount: 1 },
+                ],
+            ),
+            new GenericDeal(
+                [
+                    { type: DealCostOrProfitType.Item, item: ItemList.Sweet_Heart, amount: 3 },
+                ],
+                [
+                    { type: DealCostOrProfitType.Item, item: ItemList.Loveball, amount: 1 },
+                ],
+            ),
+            new GenericDeal(
+                [
+                    { type: DealCostOrProfitType.Item, item: ItemList.Sweet_Heart, amount: 150 },
+                ],
+                [
+                    { type: DealCostOrProfitType.Item, item: ItemList['Kecleon (In Love)'], amount: 1 },
+                ],
+            ),
+            new GenericDeal(
+                [
+                    { type: DealCostOrProfitType.Item, item: ItemList.Sweet_Heart, amount: 100 },
+                ],
+                [
+                    { type: DealCostOrProfitType.Item, item: ItemList['Kecleon (In Love) (Discounted)'], amount: 1 },
                 ],
             ),
         ]);

@@ -908,7 +908,10 @@ Routes.add(new RegionRoute(
         land: ['Surskit', 'Poochyena', 'Oddish', 'Marill', 'Illumise', 'Volbeat', 'Seedot'],
         water: ['Goldeen', 'Magikarp', 'Corphish'],
         special:
-        [new SpecialRoutePokemon(['Roselia'], new ObtainedPokemonRequirement('Roselia'))],
+        [
+            new SpecialRoutePokemon(['Roselia'], new ObtainedPokemonRequirement('Roselia')),
+            new SpecialRoutePokemon(['Illumise (Illuminated)', 'Volbeat (Illuminated)'], new SpecialEventRequirement('Love at First Flight')),
+        ],
     }),
     [new TemporaryBattleRequirement('May 3')],
     110.1,

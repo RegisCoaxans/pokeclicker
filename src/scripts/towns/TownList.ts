@@ -3329,7 +3329,10 @@ TownList['Verdanturf Town'] = new Town(
     'Verdanturf Town',
     GameConstants.Region.hoenn,
     GameConstants.HoennSubRegions.Hoenn,
-    [VerdanturfTownShop, new ShardTraderShop(GameConstants.ShardTraderLocations['Verdanturf Town'])],
+    [
+        VerdanturfTownShop,
+        new ShardTraderShop(GameConstants.ShardTraderLocations['Verdanturf Town']), new GenericTraderShop('LaFFTradePlace', 'Lake May Trader', false, [new SpecialEventRequirement('Love at First Flight')], true),
+    ],
     {
         requirements: [new RouteKillRequirement(10, GameConstants.Region.hoenn, 117)],
     }
@@ -3792,6 +3795,17 @@ TownList['Near Space'] = new DungeonTown(
     GameConstants.HoennSubRegions.Hoenn,
     [
         new QuestLineCompletedRequirement('The Delta Episode'),
+    ]
+);
+TownList['Spinda Meadow'] = new DungeonTown(
+    'Spinda Meadow',
+    GameConstants.Region.hoenn,
+    GameConstants.HoennSubRegions.Hoenn,
+    [
+        new MultiRequirement([
+            new RouteKillRequirement(10, GameConstants.Region.hoenn, 113),
+            new SpecialEventRequirement('Love at First Flight'),
+        ]),
     ]
 );
 TownList['Phenac City Battles'] = new DungeonTown(

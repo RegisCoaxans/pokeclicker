@@ -1156,6 +1156,18 @@
          })
      %>
 
+     <!--Spinda Meadow-->
+     <%- include('templates/mapOverlay',
+         { name: "Spinda Meadow"
+         , x: 24, y: 1
+         , width: 5, height: 3
+         , databind: "click:function(){MapHelper.moveToTown('Spinda Meadow')}, attr:{ class: MapHelper.calculateTownCssClass('Spinda Meadow') }"
+         , visible: "App.game.specialEvents.getEvent('Love at First Flight').isActive"
+         , image: "assets/images/map/transparent.png"
+         , connectedToTown: "Spinda Meadow"
+         })
+     %>
+
      <g data-bind="visible: player.subregion == SubRegions.getSubRegion(GameConstants.Region.hoenn, 'Orre').id">
         <image width="1600" height="960" data-bind="attr: {
             'xlink:href':'assets/images/orre.png?v=$VERSION',
