@@ -4224,6 +4224,15 @@ Routes.add(new RegionRoute(
     [new GymBadgeRequirement(BadgeEnums.Elite_GalarChampion)],
 ));
 
+// Love at First Flight Event
+Routes.getRoutesByRegion(Region.hoenn).forEach(route => {
+    if(route.pokemon.water.length) {
+        route.pokemon.special.push(
+            new SpecialRoutePokemon(['Luvdisc'], new SpecialEventRequirement('Love at First Flight')),
+        );
+    }
+});
+
 // Halloween Event
 SeededRand.seed(new Date().getFullYear());
 Routes.getRoutesByRegion(Region.kanto).forEach((route) => {
