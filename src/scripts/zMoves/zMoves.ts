@@ -6,7 +6,7 @@ class ZMoves implements Feature {
     saveKey = 'zMoves';
     defaults = {
         types: Array<PokemonType>(GameConstants.ZMOVE_MAX_ENERGY),
-        charges: Array<PokemonType>(GameHelper.enumLength(PokemonType) - 1).fill(GameConstants.ZMOVE_MAX_ENERGY),
+        charges: Array<number>(GameHelper.enumLength(PokemonType) - 1).fill(GameConstants.ZMOVE_MAX_ENERGY),
     };
     public counter = 0;
 
@@ -15,9 +15,16 @@ class ZMoves implements Feature {
     public totalCost: KnockoutComputed<number> = ko.computed(() => {
         return this.types.length;
     });
+    public refillValues: Array<KnockoutComputed<number>>;
 
 
     initialize(): void {
+        this.refillValues = new Array(GameHelper.enumLength(PokemonType) - 1).fill(null).map((_, type) => {
+            return ko.computed(() => Math.round(100 * Math.sqrt(App.game.party.caughtPokemon.filter(p => {
+                const pdata = PokemonHelper.getPokemonById(p.id);
+                return pdata.type1 === type || pdata.type2 === type;
+            }).length)) / 100);
+        });
     }
 
     getTypeMultiplier(type1 = PokemonType.None, type2 = PokemonType.None): number {
@@ -27,17 +34,17 @@ class ZMoves implements Feature {
         return 1 + Math.max(...this.types.map(t => TypeHelper.getAttackModifier(t, PokemonType.None, type1, type2))) / 10;
     }
 
-    charge(type1: PokemonType, type2: PokemonType) {
-        this.charges[type1](Math.min(this.charges[type1]() + GameConstants.ZMOVE_ENERGY_PER_POKEMON, GameConstants.ZMOVE_MAX_ENERGY));
-        const actualType2 = type2 == PokemonType.None ? type1 : type2;
-        this.charges[actualType2](Math.min(this.charges[actualType2]() + GameConstants.ZMOVE_ENERGY_PER_POKEMON, GameConstants.ZMOVE_MAX_ENERGY));
+    charge() {
+        this.refillValues.forEach((valueObs, type) => {
+            GameHelper.incrementObservable(this.charges[type], valueObs());
+        });
     }
 
     pickTypeAgainst(pokemon: PokemonNameType) {
         if (!this.totalCost()) {
             return PokemonType.None;
         }
-        const {id, type1, type2} = PokemonHelper.getPokemonByName(pokemon);
+        const {type1, type2} = PokemonHelper.getPokemonByName(pokemon);
         let bestTypes = [];
         let bestMultiplier = -1;
         this.types.forEach(t => {
@@ -49,12 +56,10 @@ class ZMoves implements Feature {
                 bestTypes.push(t);
             }
         });
-        // We want to randomize the used type otherwise the first best type would always be picked and that is boring
-        // This is the code used for egg spots by the way
-        const seed = id * (type1 + 1) * Math.max(type2 + 1, 1);
-        SeededRand.seed(seed);
-        SeededRand.seed(SeededRand.intBetween(0, 1000));
-        return SeededRand.fromArray(bestTypes);
+        // Random so it always the first most efficient type
+        // Seeded so it only changes between two encounters
+        SeededRand.seed(App.game.statistics.totalPokemonDefeated());
+        return SeededRand.shuffleArray(bestTypes)[0];
     }
 
     crystalImage(type: PokemonType) {

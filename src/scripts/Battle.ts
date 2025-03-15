@@ -1,3 +1,4 @@
+/// <reference path="../declarations/TemporaryScriptTypes.d.ts" />
 ///<reference path="pokemons/PokemonFactory.ts"/>
 /// <reference path="../declarations/GameHelper.d.ts" />
 
@@ -239,3 +240,5 @@ class Battle {
     });
 
 }
+
+Battle satisfies TmpBattleType;
