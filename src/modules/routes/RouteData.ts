@@ -27,6 +27,9 @@ import SpecialEventRequirement from '../requirements/SpecialEventRequirement';
 import StatisticRequirement from '../requirements/StatisticRequirement';
 import PokemonLevelRequirement from '../requirements/PokemonLevelRequirement';
 import { getPokemonByName } from '../pokemons/PokemonHelper';
+import DayCyclePartRequirement from '../requirements/DayCyclePartRequirement';
+import DayCyclePart from '../dayCycle/DayCyclePart';
+import CustomRequirement from '../requirements/CustomRequirement';
 
 /*
 KANTO
@@ -910,7 +913,6 @@ Routes.add(new RegionRoute(
         special:
         [
             new SpecialRoutePokemon(['Roselia'], new ObtainedPokemonRequirement('Roselia')),
-            new SpecialRoutePokemon(['Illumise (Illuminated)', 'Volbeat (Illuminated)'], new SpecialEventRequirement('Love at First Flight')),
         ],
     }),
     [new TemporaryBattleRequirement('May 3')],
@@ -4232,6 +4234,21 @@ Routes.getRoutesByRegion(Region.hoenn).forEach(route => {
         );
     }
 });
+Routes.getRoutesByRegion(Region.unova).forEach(route => {
+    route.pokemon.special.push(
+        new SpecialRoutePokemon(['Woobat', 'Swoobat'], new MultiRequirement([new DayCyclePartRequirement([DayCyclePart.Night]), new SpecialEventRequirement('Love at First Flight')])),
+    );
+});
+function getLoveBugReq(status: boolean): CustomRequirement<boolean> {
+    return new CustomRequirement(ko.pureComputed(() => {
+        return Boolean((App.game.statistics.pokemonEncountered[getPokemonByName('Illumise (Illuminated)').id]()
+        + App.game.statistics.pokemonEncountered[getPokemonByName('Volbeat (Illuminated)').id]()) % 2);
+    }), status, 'Illumise (Illuminated) and Volbeat (Illuminated) take turns.');
+}
+Routes.getRoute(Region.hoenn, 117).pokemon.special.push(
+    new SpecialRoutePokemon(['Illumise (Illuminated)'], new MultiRequirement([new SpecialEventRequirement('Love at First Flight'), getLoveBugReq(false)])),
+    new SpecialRoutePokemon(['Volbeat (Illuminated)'], new MultiRequirement([new SpecialEventRequirement('Love at First Flight'), getLoveBugReq(true)])),
+);
 
 // Halloween Event
 SeededRand.seed(new Date().getFullYear());
