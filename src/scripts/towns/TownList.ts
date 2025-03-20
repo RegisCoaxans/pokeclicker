@@ -3331,7 +3331,7 @@ TownList['Verdanturf Town'] = new Town(
     GameConstants.HoennSubRegions.Hoenn,
     [
         VerdanturfTownShop,
-        new ShardTraderShop(GameConstants.ShardTraderLocations['Verdanturf Town']), new GenericTraderShop('LaFFTradePlace', 'Lake May Trader', false, [new SpecialEventRequirement('Love at First Flight')], true),
+        new ShardTraderShop(GameConstants.ShardTraderLocations['Verdanturf Town']),
     ],
     {
         requirements: [new RouteKillRequirement(10, GameConstants.Region.hoenn, 117)],
@@ -3490,6 +3490,15 @@ TownList['Southern Island'] = new Town(
     {
         requirements: [new CustomRequirement(ko.pureComputed(() => +App.game.keyItems.hasKeyItem(KeyItemType.Eon_ticket)), 1, 'Obtain an Eon Ticket')],
         npcs: [SurferDave, SouthernIsland1],
+    }
+);
+TownList['Lake May'] = new Town(
+    'Lake May',
+    GameConstants.Region.hoenn,
+    GameConstants.HoennSubRegions.Hoenn,
+    [new GenericTraderShop('LaFFTradePlace', 'Lake May Trader', false, [new SpecialEventRequirement('Love at First Flight')], true)],
+    {
+        requirements: [new MultiRequirement([new RouteKillRequirement(10, GameConstants.Region.hoenn, 117), new SpecialEventRequirement('Love at First Flight')])],
     }
 );
 
