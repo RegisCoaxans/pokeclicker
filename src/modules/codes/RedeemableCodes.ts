@@ -238,6 +238,17 @@ export default class RedeemableCodes implements Saveable {
 
                 return true;
             }),
+            new RedeemableCode('PC Access', 864861666, false, async () => {
+                App.game.party.boxUnlocked(true);
+                Notifier.notify({
+                    title: 'Code activated!',
+                    message: 'You can now use the Pokémon Storage System in any town from interacting with the PC icon.',
+                    type: NotificationConstants.NotificationOption.success,
+                    timeout: 1e4,
+                    image: 'assets/images/PC.png'
+                });
+                return true;
+            }),
         ];
     }
 

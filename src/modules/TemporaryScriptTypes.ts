@@ -307,6 +307,7 @@ export type TmpPartyPokemonType = {
 export type TmpPartyType = {
     caughtPokemon: ReadonlyArray<TmpPartyPokemonType>;
     activePartyPokemon: ReadonlyArray<TmpPartyPokemonType>;
+    boxUnlocked: KnockoutObservable<boolean>;
     gainPokemonByName: (name: PokemonNameType, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
     gainPokemonById: (id: number, shiny?: boolean, suppressNewCatchNotification?: boolean, gender?: GameConstants.BattlePokemonGender, shadow?: GameConstants.ShadowStatus) => void;
     gainExp: (exp: number, level?: number, trainer?: boolean) => void;

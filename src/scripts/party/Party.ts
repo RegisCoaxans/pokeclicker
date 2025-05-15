@@ -7,9 +7,16 @@ class Party implements Feature, TmpPartyType {
     saveKey = 'party';
 
     private _caughtPokemon: KnockoutObservableArray<PartyPokemon>;
+    private _box: KnockoutObservableArray<Partial<Record<PartyPokemonSaveKeys | 'id', any>>>;
+    boxUnlocked: KnockoutObservable<boolean>;
+    lastBoxAccess: number;
+    hasRetrievedPokemon: boolean;
 
     defaults = {
         caughtPokemon: [],
+        boxUnlocked: false,
+        box: [],
+        lastBoxAccess: 0,
     };
 
     hasMaxLevelPokemon: KnockoutComputed<boolean>;
@@ -22,6 +29,10 @@ class Party implements Feature, TmpPartyType {
 
     constructor(private multiplier: Multiplier) {
         this._caughtPokemon = ko.observableArray([]);
+        this._box = ko.observableArray([]);
+        this.boxUnlocked = ko.observable(false);
+        this.lastBoxAccess = 0;
+        this.hasRetrievedPokemon = false;
 
         this.hasMaxLevelPokemon = ko.pureComputed(() => {
             return this.caughtPokemon.some(p => p.level === 100);
@@ -347,6 +358,75 @@ class Party implements Feature, TmpPartyType {
         return true;
     }
 
+    canUseBox() : boolean {
+        return App.game.gameState === GameConstants.GameState.town && this.boxUnlocked();
+    }
+
+    eligibleForBox(id: number) {
+        return this.boxUnlocked() && this.alreadyCaughtPokemon(id);
+    }
+
+    async sendToBox(id: number) {
+        const pokemon = this.getPokemon(id);
+        if (!pokemon) {
+            return;
+        }
+        if (pokemon.breeding) {
+            return Notifier.notify({message: `${pokemon.displayName} currently is in the Hatchery.`, type: NotificationConstants.NotificationOption.danger, pokemonImage: PokemonHelper.getImage(pokemon.id)});
+        }
+        if (!this.canUseBox()) {
+            return Notifier.notify({message: 'The Pokémon Storage System is only accessible in a town.', type: NotificationConstants.NotificationOption.danger});
+        }
+        if (await Notifier.confirm({title: 'Pokémon Storage System', message: `Send ${pokemon.displayName} to the PC Box?`})) {
+            const json = pokemon.toJSON();
+            this.removePokemonByName(pokemon.name);
+            this._box.push(json);
+            this._box.sort((a, b) => a.id - b.id);
+            Notifier.notify({message: `${pokemon.displayName} has been sent to the PC Box.`, type: NotificationConstants.NotificationOption.success, pokemonImage: PokemonHelper.getImage(json.id)});
+        }
+    }
+
+    async retrieveFromBox(index: number) {
+        const json = this._box()[index];
+        if (this.lastBoxAccess > Date.now() - GameConstants.DAY) {
+            const timeLeft = (this.lastBoxAccess + GameConstants.DAY - Date.now()) / 1000;
+            return Notifier.notify({message: `${GameConstants.formatTime(timeLeft)} left until transfers are enabled again.`, type: NotificationConstants.NotificationOption.danger});
+        }
+        let pokemon = this.getPokemon(json.id);
+        if (pokemon) {
+            return Notifier.notify({message: `${pokemon.displayName} already in your party`, type: NotificationConstants.NotificationOption.danger});
+        }
+        if (await Notifier.confirm({title: 'Pokémon Storage System', message: `Retrieve ${PokemonHelper.getPokemonById(json.id).name} from the PC Box?`})) {
+            pokemon = PokemonFactory.generatePartyPokemon(json.id);
+            pokemon.fromJSON(json);
+            this._box.splice(index, 1);
+            this._caughtPokemon.push(pokemon);
+            this._caughtPokemon.sort((a, b) => a.id - b.id);
+            this.hasRetrievedPokemon = true;
+            Notifier.notify({message: `${pokemon.displayName} has been retrieved.`, type: NotificationConstants.NotificationOption.success, pokemonImage: PokemonHelper.getImage(pokemon.id)});
+        }
+    }
+
+    enterPC() {
+        if (!this.canUseBox()) {
+            return Notifier.notify({message: 'The Pokémon Storage System is only accessible in a town.', type: NotificationConstants.NotificationOption.danger});
+        }
+        $('#PCBoxModal').modal('show');
+    }
+
+    async leavePC() {
+        if (!this.hasRetrievedPokemon) {
+            $('#PCBoxModal').modal('hide');
+            return;
+        }
+        if (await Notifier.confirm({title: 'Pokémon Storage System', message: 'You can only retrieve Pokémon every 24h. Are you sure you are finished for now?'})) {
+            this.hasRetrievedPokemon = false;
+            this.lastBoxAccess = Date.now();
+            $('#PCBoxModal').modal('hide');
+            return;
+        }
+    }
+
     fromJSON(json: Record<string, any>): void {
         if (json == null) {
             return;
@@ -359,6 +439,9 @@ class Party implements Feature, TmpPartyType {
             return partyPokemon;
         });
         this._caughtPokemon(caughtPokemon);
+        this._box(json.box ?? []);
+        this.boxUnlocked(json.boxUnlocked ?? false);
+        this.lastBoxAccess = json.lastBoxAccess ?? 0;
     }
 
     initialize(): void {
@@ -367,6 +450,9 @@ class Party implements Feature, TmpPartyType {
     toJSON(): Record<string, any> {
         return {
             caughtPokemon: this._caughtPokemon().map(x => x.toJSON()),
+            box: this._box(),
+            boxUnlocked: this.boxUnlocked(),
+            lastBoxAccess: this.lastBoxAccess,
         };
     }
 
