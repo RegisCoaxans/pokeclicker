@@ -284,6 +284,54 @@ TemporaryBattleList['Blue 6'] = new TemporaryBattle(
         imageName: 'Blue2',
     }
 );
+function getCurrentPorygonProgram() {
+    const totalClears = ['Sword', 'Hammer', 'Shield'].reduce((s, t) => s + App.game.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex(`Porygon ${t}`)](), 0);
+	SeededRand.seed(totalClears * 135 + 1205);
+	SeededRand.next();
+    return SeededRand.fromArray(['Sword', 'Hammer', 'Shield']);
+}
+TemporaryBattleList['Porygon Sword'] = new TemporaryBattle(
+    'Porygon Sword',
+    [
+        new GymPokemon('Porygon (Sword)', Infinity, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Sword', '/')),
+        new GymPokemon('Porygon (Hammer)', 2 ** 18, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Hammer', '/')),
+        new GymPokemon('Porygon (Shield)', Infinity, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Shield', '/')),
+    ],
+    '', undefined, [new NullRequirement()], {
+        displayName: 'Team Rocket',
+        imageName: 'Jessie and James',
+        buttonText: 'Attack using Sword program',
+        rewardFunction: () => new PokemonItem('Porygon (Sword)').gain(1),
+    }
+);
+TemporaryBattleList['Porygon Hammer'] = new TemporaryBattle(
+    'Porygon Hammer',
+    [
+        new GymPokemon('Porygon (Sword)', Infinity, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Sword', '/')),
+        new GymPokemon('Porygon (Hammer)', Infinity, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Hammer', '/')),
+        new GymPokemon('Porygon (Shield)', 2 ** 18, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Shield', '/')),
+    ],
+    '', undefined, [new NullRequirement()], {
+        displayName: 'Team Rocket',
+        imageName: 'Jessie and James',
+        buttonText: 'Attack using Hammer program',
+        rewardFunction: () => new PokemonItem('Porygon (Hammer)').gain(1),
+    }
+);
+TemporaryBattleList['Porygon Shield'] = new TemporaryBattle(
+    'Porygon Shield',
+    [
+        new GymPokemon('Porygon (Sword)', 2 ** 18, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Sword', '/')),
+        new GymPokemon('Porygon (Hammer)', Infinity, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Hammer', '/')),
+        new GymPokemon('Porygon (Shield)', Infinity, 64, new CustomRequirement(ko.pureComputed(getCurrentPorygonProgram), 'Shield', '/')),
+    ],
+    '', undefined, [new NullRequirement()], {
+        displayName: 'Team Rocket',
+        imageName: 'Jessie and James',
+        buttonText: 'Attack using Shield program',
+        rewardFunction: () => new PokemonItem('Porygon (Shield)').gain(1),
+    }
+);
 // Kanto Christmas Temporary Battles, based on Blue 2
 TemporaryBattleList['Santa Jynx 1'] = new TemporaryBattle(
     'Santa Jynx 1',

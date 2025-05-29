@@ -10,7 +10,8 @@ type TemporaryBattleOptionalArgument = {
     environment?: GameConstants.Environment[],
     battleBackground?: GameConstants.BattleBackground,
     resetDaily?: boolean,
-    finalPokemonImage?: string // trainer image when on final pokemon
+    finalPokemonImage?: string, // trainer image when on final pokemon
+    buttonText?: string,
 };
 
 class TemporaryBattle extends TownContent implements TmpTemporaryBattleType {
@@ -22,7 +23,7 @@ class TemporaryBattle extends TownContent implements TmpTemporaryBattleType {
             'btn btn-secondary';
     }
     public text(): string {
-        return `Fight ${this.getDisplayName()}`;
+        return this.optionalArgs.buttonText ?? `Fight ${this.getDisplayName()}`;
     }
     public isVisible(): boolean {
         return (this.isUnlocked() || this.optionalArgs.visibleRequirement?.isCompleted()) && !this.completeRequirements.every(r => r.isCompleted());

@@ -2256,6 +2256,10 @@ export const TemporaryBattles = [
     'Kyurem 2',
     'Kyurem 3',
     'Twerps',
+    'Porygon Sword',
+    'Porygon Hammer',
+    'Porygon Shield',
+    // Hisui, add new battles right before this
     'Volo 1',
     'Akari 1',
     'Warden Mai',

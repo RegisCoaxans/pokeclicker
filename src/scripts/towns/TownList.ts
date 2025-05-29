@@ -475,6 +475,17 @@ const FuchsiaKantoRoamerNPC = new RoamerNPC('Youngster Wendy', [
     'There\'s been some recent sightings of roaming Pokémon on {ROUTE_NAME}!',
 ], GameConstants.Region.kanto, RoamingPokemonList.findGroup(GameConstants.Region.kanto, GameConstants.KantoSubRegions.Kanto));
 
+const FuchsiaDrAkihabara = new GiftNPC('Dr. Akihabara', [
+        'They stole Porygon! And they went into the system!',
+        'These people are now hijacking Pokémon as they are transferred!',
+        'They must be stopped. Now!! Before you go, let me update your Porygon.',
+        'Remember, though, Porygon did nothing wrong. Whatever it did for them, don\'t be too harsh on it...'
+    ],
+    () => {
+        MapHelper.moveToTown('Computer World');
+    },
+    undefined, { saveKey: 'porygonworld', image: 'assets/images/npcs/Scientist (male).png', requirement: new MultiRequirement([new ObtainedPokemonRequirement('Porygon'), new PokemonLevelRequirement('Porygon', 2)]) });
+
 const FuchsiaEusine = new NPC('Eusine', [
     'You! Not again! I\'ll be there first next time! Having followed it here, I\'m starting to understand what Suicune is after.',
     'To be honest, I would like to keep this information to myself. But I want to be an honest Trainer in front of Suicune! That\'s why I am sharing a clue with you.',
@@ -1003,13 +1014,13 @@ TownList['Fuchsia City'] = new Town(
     'Fuchsia City',
     GameConstants.Region.kanto,
     GameConstants.KantoSubRegions.Kanto,
-    [FuchsiaCityShop, new ShardTraderShop(GameConstants.ShardTraderLocations['Fuchsia City'])],
+    [FuchsiaCityShop, new ShardTraderShop(GameConstants.ShardTraderLocations['Fuchsia City']), new MoveToTown('Computer World', new ObtainedPokemonRequirement('Porygon'), true)],
     {
         requirements: [new OneFromManyRequirement([
             new RouteKillRequirement(10, GameConstants.Region.kanto, 18),
             new RouteKillRequirement(10, GameConstants.Region.kanto, 15),
         ])],
-        npcs: [FuchsiaKantoRoamerNPC, FuchsiaEusine],
+        npcs: [FuchsiaKantoRoamerNPC, FuchsiaEusine, FuchsiaDrAkihabara],
     }
 );
 TownList['Safari Zone'] = new Town(
@@ -1021,6 +1032,16 @@ TownList['Safari Zone'] = new Town(
         requirements: [new CustomRequirement(ko.pureComputed(() => +App.game.keyItems.hasKeyItem(KeyItemType.Safari_ticket)), 1, 'Obtain the Safari Ticket')],
         npcs: [BugCatcherPinsir],
     }
+);
+TownList['Computer World'] = new Town(
+    'Computer World',
+    GameConstants.Region.kanto,
+    GameConstants.KantoSubRegions.Kanto,
+    [
+        TemporaryBattleList['Porygon Sword'],
+        TemporaryBattleList['Porygon Hammer'],
+        TemporaryBattleList['Porygon Shield'],
+    ]
 );
 TownList['Cinnabar Island'] = new Town(
     'Cinnabar Island',
