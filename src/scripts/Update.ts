@@ -2919,6 +2919,13 @@ class Update implements Saveable {
 
             //Remove second AZ battle.
             saveData.statistics.temporaryBattleDefeated.splice(202, 1);
+
+            // Add held item upgrades
+            saveData.party.caughtPokemon.forEach(p => {
+                if (p[10]) {
+                    p[10] += '|1';
+                }
+            });
         },
     };
 

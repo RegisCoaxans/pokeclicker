@@ -13,7 +13,9 @@ class HeldItem extends Item {
         displayName: string,
         description: string,
         regionUnlocked: GameConstants.Region,
-        public canUse: (pokemon: PartyPokemon) => boolean) {
+        public canUse: (pokemon: PartyPokemon) => boolean,
+        public upgradeResistance = 0,
+    ) {
         super(name, basePrice, currency, shopOptions, displayName, description, 'heldItems');
         this.regionUnlocked = regionUnlocked;
     }
@@ -46,6 +48,16 @@ class HeldItem extends Item {
         };
     }
 
+    public static getBonus(upgrades: number, baseBonus: number, upgradeResistance: number): number {
+        if (!upgradeResistance) {
+            return baseBonus;
+        }
+        if (upgrades < 1) {
+            return 1;
+        }
+        return Math.pow(Math.pow(baseBonus, upgradeResistance) + (upgrades - 1) * (baseBonus - 1), 1 / upgradeResistance);
+    }
+
     public isUnlocked() {
         return player.highestRegion() >= this.regionUnlocked;
     }
@@ -63,12 +75,16 @@ class AttackBonusHeldItem extends HeldItem {
         pokemonDescription = 'the Pokémon',
         canUse = (pokemon: PartyPokemon) => true,
         protected applyBonus = () => true,
-        additionDescription = '') {
-        super(name, basePrice, currency, shopOptions, displayName, `A held item that ${_attackBonus > 1 ? 'raises' : 'lowers'} the attack of ${pokemonDescription} by ${(Math.abs(_attackBonus - 1)).toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 })}${additionDescription}.`, regionUnlocked, canUse);
+        additionDescription = '',
+        upgradeResistance = 1.5,
+    ) {
+        super(name, basePrice, currency, shopOptions, displayName,
+            `A held item that ${_attackBonus > 1 ? 'raises' : 'lowers'} the attack of ${pokemonDescription} by ${(Math.abs(_attackBonus - 1)).toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 })}${additionDescription}.`,
+            regionUnlocked, canUse, upgradeResistance);
     }
 
-    get attackBonus(): number {
-        return this.applyBonus() ? this._attackBonus : 1;
+    public attackBonus(upgrades: number = 1): number {
+        return this.applyBonus() ? HeldItem.getBonus(upgrades, this._attackBonus, this.upgradeResistance) : 1;
     }
 }
 
@@ -116,13 +132,14 @@ class HybridAttackBonusHeldItem extends AttackBonusHeldItem {
         private _clickAttackBonus: number,
         regionUnlocked: GameConstants.Region,
         canUse = (pokemon: PartyPokemon) => true,
-        applyBonus = () => true
+        applyBonus = () => true,
+        upgradeResistance = 0,
     ) {
         super(name, basePrice, currency, shopOptions, displayName, attackBonus, regionUnlocked, undefined, canUse, applyBonus,
-            ` and ${_clickAttackBonus > 1 ? 'raises' : 'lowers'} its click attack contribution by ${(Math.abs(_clickAttackBonus - 1) * 100).toFixed(0)}%`);
+            ` and ${_clickAttackBonus > 1 ? 'raises' : 'lowers'} its click attack contribution by ${(Math.abs(_clickAttackBonus - 1) * 100).toFixed(0)}%`, 0);
     }
 
-    get clickAttackBonus(): number {
+    public clickAttackBonus(): number {
         return this.applyBonus() ? this._clickAttackBonus : 1;
     }
 }
@@ -134,11 +151,17 @@ class EVsGainedBonusHeldItem extends HeldItem {
         currency: GameConstants.Currency,
         shopOptions : ShopOptions,
         displayName: string,
-        public gainedBonus: number,
-        regionUnlocked: GameConstants.Region) {
-        super(name, basePrice, currency, shopOptions, displayName, `A held item that increases EV gains for the holding Pokémon by ${(gainedBonus - 1).toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 })}.`, regionUnlocked, (pokemon: PartyPokemon) => {
+        private _gainedBonus: number,
+        regionUnlocked: GameConstants.Region,
+        upgradeResistance = 3,
+    ) {
+        super(name, basePrice, currency, shopOptions, displayName, `A held item that increases EV gains for the holding Pokémon by ${(_gainedBonus - 1).toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 })}.`, regionUnlocked, (pokemon: PartyPokemon) => {
             return pokemon.pokerus > GameConstants.Pokerus.Uninfected;
-        });
+        }, upgradeResistance);
+    }
+
+    public gainedBonus(upgrades: number = 1): number {
+        return HeldItem.getBonus(upgrades, this._gainedBonus, this.upgradeResistance);
     }
 }
 
@@ -149,11 +172,18 @@ class ExpGainedBonusHeldItem extends HeldItem {
         currency: GameConstants.Currency,
         shopOptions : ShopOptions,
         displayName: string,
-        public gainedBonus: number,
+        public _gainedBonus: number,
         regionUnlocked: GameConstants.Region,
         pokemonDescription = 'the holding Pokémon',
-        canUse = (pokemon: PartyPokemon) => true) {
-        super(name, basePrice, currency, shopOptions, displayName, `A held item that earns ${pokemonDescription} ${(gainedBonus - 1).toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 })} bonus Experience Points.`, regionUnlocked, canUse);
+        canUse = (pokemon: PartyPokemon) => true,
+        upgradeResistance = 2,
+    ) {
+        super(name, basePrice, currency, shopOptions, displayName, `A held item that earns ${pokemonDescription} ${(_gainedBonus - 1).toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 })} bonus Experience Points.`,
+        regionUnlocked, canUse, upgradeResistance);
+    }
+
+    public gainedBonus(upgrades: number = 1): number {
+        return HeldItem.getBonus(upgrades, this._gainedBonus, this.upgradeResistance);
     }
 }
 

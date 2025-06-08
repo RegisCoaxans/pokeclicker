@@ -59,6 +59,7 @@ class PartyPokemon implements Saveable, TmpPartyPokemonType {
     vitaminsUsed: Record<GameConstants.VitaminType, KnockoutObservable<number>>;
     _effortPoints: KnockoutObservable<number>;
     heldItem: KnockoutObservable<HeldItem>;
+    heldItemUpgrades: KnockoutObservable<number>;
     defaultFemaleSprite: KnockoutObservable<boolean>;
     hideShinyImage: KnockoutObservable<boolean>;
     _shadow: KnockoutObservable<GameConstants.ShadowStatus>;
@@ -110,6 +111,7 @@ class PartyPokemon implements Saveable, TmpPartyPokemonType {
             }
         });
         this.heldItem = ko.observable(undefined);
+        this.heldItemUpgrades = ko.observable(0);
         this.defaultFemaleSprite = ko.observable(false);
         this.hideShinyImage = ko.observable(false);
         this._nickname = ko.observable();
@@ -144,7 +146,7 @@ class PartyPokemon implements Saveable, TmpPartyPokemonType {
     public clickAttackBonus = ko.pureComputed((): number => {
         // Caught + Shiny + Resistant + Purified
         const bonus = 1 + +this.shiny + +(this.pokerus >= GameConstants.Pokerus.Resistant) + +(this.shadow == GameConstants.ShadowStatus.Purified);
-        const heldItemMultiplier = this.heldItem() instanceof HybridAttackBonusHeldItem ? (this.heldItem() as HybridAttackBonusHeldItem).clickAttackBonus : 1;
+        const heldItemMultiplier = this.heldItem() instanceof HybridAttackBonusHeldItem ? (this.heldItem() as HybridAttackBonusHeldItem).clickAttackBonus() : 1;
         return bonus * heldItemMultiplier;
     });
 
@@ -219,7 +221,7 @@ class PartyPokemon implements Saveable, TmpPartyPokemonType {
     private getExpMultiplier() {
         let result = 1;
         if (this.heldItem() && this.heldItem() instanceof ExpGainedBonusHeldItem) {
-            result *= (this.heldItem() as ExpGainedBonusHeldItem).gainedBonus;
+            result *= (this.heldItem() as ExpGainedBonusHeldItem).gainedBonus();
         }
         return result;
     }
@@ -428,7 +430,7 @@ class PartyPokemon implements Saveable, TmpPartyPokemonType {
     });
 
     heldItemAttackBonus = ko.pureComputed((): number => {
-        return this.heldItem && this.heldItem() instanceof AttackBonusHeldItem ? (this.heldItem() as AttackBonusHeldItem).attackBonus : 1;
+        return this.heldItem && this.heldItem() instanceof AttackBonusHeldItem ? (this.heldItem() as AttackBonusHeldItem).attackBonus() : 1;
     });
 
     shadowAttackBonus = ko.pureComputed((): number => {
@@ -655,7 +657,11 @@ class PartyPokemon implements Saveable, TmpPartyPokemonType {
         this.level = this.calculateLevelFromExp();
         this.pokerus = json[PartyPokemonSaveKeys.pokerus] ?? this.defaults.pokerus;
         this.effortPoints = json[PartyPokemonSaveKeys.effortPoints] ?? this.defaults.effortPoints;
-        this.heldItem(json[PartyPokemonSaveKeys.heldItem] && ItemList[json[PartyPokemonSaveKeys.heldItem]] instanceof HeldItem ? ItemList[json[PartyPokemonSaveKeys.heldItem]] as HeldItem : undefined);
+        console.log(ItemList[json[PartyPokemonSaveKeys.heldItem].split('|')[0]]?.displayName ?? 'NOPE');
+        if (json[PartyPokemonSaveKeys.heldItem] && ItemList[json[PartyPokemonSaveKeys.heldItem].split('|')[0]]) {
+            this.heldItem(ItemList[json[PartyPokemonSaveKeys.heldItem].split('|')[0]] as HeldItem);
+            this.heldItemUpgrades(Number(json[PartyPokemonSaveKeys.heldItem].split('|')[1]));
+        }
         this.defaultFemaleSprite(json[PartyPokemonSaveKeys.defaultFemaleSprite] ?? this.defaults.defaultFemaleSprite);
         this.hideShinyImage(json[PartyPokemonSaveKeys.hideShinyImage] ?? this.defaults.hideShinyImage);
         this._nickname(json[PartyPokemonSaveKeys.nickname] || this.defaults.nickname);
@@ -675,7 +681,7 @@ class PartyPokemon implements Saveable, TmpPartyPokemonType {
             [PartyPokemonSaveKeys.category]: this.isUncategorized() ? undefined : this.category,
             [PartyPokemonSaveKeys.pokerus]: this.pokerus,
             [PartyPokemonSaveKeys.effortPoints]: this.effortPoints,
-            [PartyPokemonSaveKeys.heldItem]: this.heldItem()?.name,
+            [PartyPokemonSaveKeys.heldItem]: this.heldItem() ? `${this.heldItem().name}|${this.heldItemUpgrades()}` : undefined,
             [PartyPokemonSaveKeys.defaultFemaleSprite]: this.defaultFemaleSprite(),
             [PartyPokemonSaveKeys.hideShinyImage]: this.hideShinyImage(),
             [PartyPokemonSaveKeys.nickname]: this.nickname || undefined,

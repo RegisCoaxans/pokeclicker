@@ -260,7 +260,7 @@ class Party implements Feature, TmpPartyType {
         let EPNum = number * App.game.multiplier.getBonus('ev');
 
         if (pokemon.heldItem() && pokemon.heldItem() instanceof EVsGainedBonusHeldItem) {
-            EPNum *= (pokemon.heldItem() as EVsGainedBonusHeldItem).gainedBonus;
+            EPNum *= (pokemon.heldItem() as EVsGainedBonusHeldItem).gainedBonus();
         }
 
         if (shiny) {
