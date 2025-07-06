@@ -109,9 +109,9 @@ class BattleCafeController {
             (new PokemonItem('Milcery (Cheesy)', 0)).gain(1);
             return;
         }
-        if (DayCycle.currentDayCyclePart() === DayCyclePart.Dusk && !clockwise && spinTime > 10) {
+        if (App.game.dayCycle.currentDayCyclePart() === DayCyclePart.Dusk && !clockwise && spinTime > 10) {
             spin = GameConstants.AlcremieSpins.at5Above10;
-        } else if ([DayCyclePart.Night, DayCyclePart.Dawn].includes(DayCycle.currentDayCyclePart())) {
+        } else if ([DayCyclePart.Night, DayCyclePart.Dawn].includes(App.game.dayCycle.currentDayCyclePart())) {
             if (clockwise && spinTime < 5) {
                 spin = GameConstants.AlcremieSpins.nightClockwiseBelow5;
             } else if (clockwise && spinTime >= 5) {

@@ -1,7 +1,6 @@
 import { AchievementOption } from '../GameConstants';
 import Requirement from './Requirement';
 import DayCyclePart from '../dayCycle/DayCyclePart';
-import DayCycle from '../dayCycle/DayCycle';
 
 export default class DayCyclePartRequirement extends Requirement {
     constructor(public dayCycleParts: DayCyclePart[], option = AchievementOption.more) {
@@ -9,7 +8,7 @@ export default class DayCyclePartRequirement extends Requirement {
     }
 
     public getProgress(): number {
-        return Number(this.dayCycleParts.includes(DayCycle.currentDayCyclePart()));
+        return Number(this.dayCycleParts.includes(App.game.dayCycle.currentDayCyclePart()));
     }
 
     public hint(): string {

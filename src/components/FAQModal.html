@@ -254,11 +254,11 @@
                     </thead>
                     <tbody data-bind="foreach: Object.values(GameConstants.DayCycleStartHours)">
                         <tr>
-                            <td class="text-center align-middle" data-bind='text: DayCycle.dayCycleMoments[$index()].description'></td>
+                            <td class="text-center align-middle" data-bind='text: App.game.dayCycle.dayCycleMoments[$index()].description'></td>
                             <td class="text-center align-middle">
                                 <img src="" data-bind="attr: {
-                                    src: `assets/images/dayCycle/${DayCycle.dayCycleMoments[$index()].description}.png`,
-                                    style: `background: ${DayCycle.dayCycleMoments[$index()].color}; width: 30px;`,
+                                    src: `assets/images/dayCycle/${App.game.dayCycle.dayCycleMoments[$index()].description}.png`,
+                                    style: `background: ${App.game.dayCycle.dayCycleMoments[$index()].color}; width: 30px;`,
                                 }"/>
                             </td>
                             <td class="text-center align-middle" data-bind='text: GameHelper.twoDigitNumber($data) + `:00`'></td>

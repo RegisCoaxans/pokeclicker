@@ -53,7 +53,7 @@ class Pokeballs implements Feature {
             new Pokeball(GameConstants.Pokeball.Duskball, (opts) => {
                 const now = new Date();
                 // If player in a dungeon or it's night time
-                if ((App.game.gameState == GameConstants.GameState.dungeon && opts.encounterType !== EncounterType.wanderer) || [DayCyclePart.Dawn, DayCyclePart.Night].includes(DayCycle.currentDayCyclePart())) {
+                if ((App.game.gameState == GameConstants.GameState.dungeon && opts.encounterType !== EncounterType.wanderer) || [DayCyclePart.Dawn, DayCyclePart.Night].includes(App.game.dayCycle.currentDayCyclePart())) {
                     return 15;
                 }
                 return 0;

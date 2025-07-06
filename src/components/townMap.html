@@ -23,14 +23,14 @@
                 </div>
             </div>`}">ⓘ</button>
         <button class='btn btn-sm' style="position: absolute; right: 96px; top: 0px; width: auto; height: 41px; cursor: default;"
-        data-bind='style: { background: DayCycle.color() },
+        data-bind='style: { background: App.game.dayCycle.color() },
             tooltip: {
-                title: DayCycle.tooltip(),
+                title: App.game.dayCycle.tooltip(),
                 html: true,
                 placement: "bottom",
                 trigger: "hover"
             }'>
-            <img width=30px src="" data-bind="attr: { src: DayCycle.image() }"/>
+            <img width=30px src="" data-bind="attr: { src: App.game.dayCycle.image() }"/>
         </button>
         <button class='btn btn-sm' style="position: absolute; right: 48px; top: 0px; width: auto; height: 41px; cursor: default;"
         data-bind='style: { background: Weather.color() },
