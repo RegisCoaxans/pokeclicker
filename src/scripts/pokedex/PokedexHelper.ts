@@ -1,5 +1,3 @@
-import TypeColor = GameConstants.TypeColor;
-
 class PokedexHelper {
 
     public static initialize() {
@@ -25,9 +23,9 @@ class PokedexHelper {
             return 'grey';
         }
         if (pokemon.type2 == PokemonType.None) {
-            return TypeColor[pokemon.type1];
+            return GameConstants.TypeColor[pokemon.type1];
         }
-        return `linear-gradient(90deg,${TypeColor[pokemon.type1]} 50%, ${TypeColor[pokemon.type2]} 50%)`;
+        return `linear-gradient(90deg,${GameConstants.TypeColor[pokemon.type1]} 50%, ${GameConstants.TypeColor[pokemon.type2]} 50%)`;
     }
 
     /**
@@ -81,7 +79,8 @@ class PokedexHelper {
             const highestEncountered = App.game.statistics.pokemonEncountered.highestID;
             const highestDefeated = App.game.statistics.pokemonDefeated.highestID;
             const highestCaught = App.game.statistics.pokemonCaptured.highestID;
-            return Math.max(highestSeen, highestEncountered, highestDefeated, highestCaught);
+            const highestRegionID = player.hasBeatenChampOfRegion() ? GameConstants.MaxIDPerRegion[player.highestRegion()] : -1;
+            return Math.max(highestSeen, highestEncountered, highestDefeated, highestCaught, highestRegionID);
         }).peek();
 
         const shadowPokemon = PokemonHelper.getAllShadowPokemon.peek();

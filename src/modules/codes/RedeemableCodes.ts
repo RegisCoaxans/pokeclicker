@@ -215,9 +215,10 @@ export default class RedeemableCodes implements Saveable {
                     quest.curQuestObject().complete();
                 }
                 App.game.wallet.gainDungeonTokens(200);
+                App.game.keyItems.gainKeyItem(KeyItemType.Dungeon_ticket, true);
                 Notifier.notify({
                     title: 'Tutorial Skip',
-                    message: 'You have skipped the tutorial, and found a stash of Dungeon Tokens.',
+                    message: 'You have skipped the tutorial, and found a stash of Dungeon Tokens with a Dungeon Ticket.',
                     type: NotificationConstants.NotificationOption.warning,
                     timeout: 1e4,
                 });
@@ -247,7 +248,7 @@ export default class RedeemableCodes implements Saveable {
 
     enterCode(code: string): void {
         // If this is a Discord code, send it to the Discord class to check
-        if (App.game.discord.enabled && this.isDiscordCode(code)) {
+        if (this.isDiscordCode(code)) {
             App.game.discord.enterCode(code);
             return;
         }

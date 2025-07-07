@@ -14,6 +14,32 @@ class BattleCafe extends TownContent {
     public text() {
         return 'Battle Café';
     }
+
+    public areaStatus(): areaStatus[] {
+        const status = super.areaStatus();
+        if (status.includes(areaStatus.locked)) {
+            return [areaStatus.locked];
+        }
+        const pokerusUnlocked = Settings.getSetting(`--${areaStatus[areaStatus.missingResistant]}`).isUnlocked();
+        const alcremieList = Object.values(BattleCafeController.evolutions).flatMap(sweet => Object.values(sweet));
+        let incomplete = false;
+        if (alcremieList.some(a => a.getCaughtStatus() == CaughtStatus.NotCaught)) {
+            status.push(areaStatus.uncaughtPokemon);
+            incomplete = true;
+        }
+        if (alcremieList.some(a => a.getCaughtStatus() == CaughtStatus.Caught)) {
+            status.push(areaStatus.uncaughtShinyPokemon);
+            incomplete = true;
+        }
+        if (pokerusUnlocked && alcremieList.some(a => a.getPokerusStatus() < GameConstants.Pokerus.Resistant)) {
+            status.push(areaStatus.missingResistant);
+            incomplete = true;
+        }
+        if (incomplete && BattleCafeController.spinsLeft() > 0) {
+            status.push(areaStatus.incomplete);
+        }
+        return status;
+    }
 }
 
 class BattleCafeSaveObject implements Saveable {
@@ -240,7 +266,7 @@ class BattleCafeController {
         return Math.min(...maxSpins);
     }
 
-    public static evolutions: Record<GameConstants.AlcremieSweet, Record<GameConstants.AlcremieSpins, PokemonItem>> = {
+    public static evolutions: Record<GameConstants.AlcremieSweet, Record<Exclude<GameConstants.AlcremieSpins, GameConstants.AlcremieSpins.Any3600>, PokemonItem>> = {
         [GameConstants.AlcremieSweet['Strawberry Sweet']]: {
             [GameConstants.AlcremieSpins.dayClockwiseBelow5]: new PokemonItem('Alcremie (Strawberry Vanilla)'),
             [GameConstants.AlcremieSpins.dayCounterclockwiseBelow5]: new PokemonItem('Alcremie (Strawberry Ruby Cream)'),

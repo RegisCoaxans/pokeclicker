@@ -37,7 +37,7 @@ class DungeonGuide {
                     case GameConstants.DungeonTileType.chest:
                     case GameConstants.DungeonTileType.boss:
                     case GameConstants.DungeonTileType.ladder:
-                        DungeonRunner.handleInteraction();
+                        DungeonRunner.handleInteraction(GameConstants.DungeonInteractionSource.DungeonGuide);
                         break;
                 }
             } catch (e) {
@@ -49,9 +49,27 @@ class DungeonGuide {
     end() {
         // Check if more clears already paid for
         if (DungeonGuides.clears() > 0) {
-            // Need to reset the map
-            DungeonRunner.map.board([]);
-            DungeonRunner.initializeDungeon(player.town.dungeon);
+            if (DungeonRunner.canStartDungeon(DungeonRunner.dungeon)) {
+                // Need to reset the map
+                DungeonRunner.map.board([]);
+                DungeonRunner.initializeDungeon(player.town.dungeon);
+            } else {
+                // Most likely, dungeon is not open anymore
+                Notifier.notify({
+                    title: `[DUNGEON GUIDE] <img src="assets/images/profile/trainer-${this.trainerSprite}.png" height="24px" class="pixelated"/> ${this.name}`,
+                    message: 'I could not enter the dungeon anymore. Here is a refund.',
+                    type: NotificationConstants.NotificationOption.danger,
+                    timeout: 5 * GameConstants.MINUTE,
+                });
+                const uncompleteRatio = DungeonGuides.clears() / DungeonGuides.totalClears;
+                const refunds = this.calcCost(DungeonGuides.totalClears, DungeonRunner.dungeon.tokenCost, DungeonRunner.dungeon.difficulty, true);
+                // Only refund for the cancelled attempts
+                refunds.forEach((a) => {
+                    a.amount = Math.round(uncompleteRatio * a.amount);
+                    App.game.wallet.addAmount(a, true);
+                });
+                this.fire();
+            }
         } else {
             // No more clears, fire the guide, reset clears to 1 for modal
             this.fire();
@@ -63,7 +81,7 @@ class DungeonGuide {
         return this.unlockRequirement?.isCompleted() ?? true;
     }
 
-    calcCost(clears, price, region): Amount[] {
+    calcCost(clears: number, price: number, region: GameConstants.Region, includeDungeonCost = false): Amount[] {
         const costs = [];
         let discount = clears ** 0.975;
         discount /= clears;
@@ -75,6 +93,14 @@ class DungeonGuide {
             newCost.amount = Math.round(cost.amount * clears * discount);
             costs.push(new Amount(newCost.amount, newCost.currency));
         });
+        if (includeDungeonCost) {
+            let dtCost = costs.find(c => c.currency === GameConstants.Currency.dungeonToken);
+            if (!dtCost) {
+                dtCost = new Amount(0, GameConstants.Currency.dungeonToken);
+                costs.push(dtCost);
+            }
+            dtCost.amount += price * clears;
+        }
         return costs;
     }
 
@@ -99,6 +125,7 @@ class DungeonGuide {
         $('.modal.show').modal('hide');
         // Reset our clears
         DungeonGuides.clears(1);
+        DungeonGuides.totalClears = 1;
         DungeonGuides.hired(null);
     }
 }
@@ -115,6 +142,7 @@ class DungeonGuides {
     public static selected: KnockoutObservable<number> = ko.observable(0).extend({ numeric: 0 });
     public static hired: KnockoutObservable<DungeonGuide> = ko.observable(null);
     public static clears: KnockoutObservable<number> = ko.observable(1).extend({ numeric: 0 });
+    public static totalClears = 1;
 
     public static startDungeon(): void {
         // Add steps and attack based on efficiency
@@ -122,11 +150,13 @@ class DungeonGuides {
     }
 
     public static endDungeon(): void {
+        // runEarly as deferred updates can fail to happen before the dungeon is started again, e.g. DefeatDungeonBossQuest
+        ko.tasks.runEarly();
         this.hired()?.end();
     }
 
-    public static calcCost(): Amount[] {
-        return this.list[this.selected()].calcCost(this.clears(), player.town.dungeon.tokenCost, player.region);
+    public static calcCost(includeDungeonCost = false): Amount[] {
+        return this.list[this.selected()].calcCost(this.clears(), player.town.dungeon.tokenCost, player.town.dungeon.difficulty, includeDungeonCost);
     }
 
     public static calcDungeonCost(): Amount {
@@ -146,7 +176,11 @@ class DungeonGuides {
     }
 
     public static hire(): void {
+        if (DungeonGuides.hired()) {
+            return;
+        }
         const guide = this.list[this.selected()];
+        const dungeon = player.town.dungeon;
         // Check player has enough currency
         if (!this.canAfford()) {
             Notifier.notify({
@@ -157,15 +191,25 @@ class DungeonGuides {
             });
             return;
         }
-        // Charge the player
+        // Just in case the dungeon is locked or something
+        if (!DungeonRunner.canStartDungeon(dungeon)) {
+            Notifier.notify({
+                title: `[DUNGEON GUIDE] <img src="assets/images/profile/trainer-${guide.trainerSprite}.png" height="24px" class="pixelated"/> ${guide.name}`,
+                message: 'You can\'t access that dungeon right now!',
+                type: NotificationConstants.NotificationOption.warning,
+                timeout: 30 * GameConstants.SECOND,
+            });
+            return;
+        }
+        // Charge the player and hire the guide
+        guide.hire();
         this.calcCost().forEach((cost) => App.game.wallet.loseAmount(cost));
         App.game.wallet.loseAmount(this.calcDungeonCost());
+        DungeonGuides.totalClears = DungeonGuides.clears();
         // Hide modals
         $('.modal.show').modal('hide');
-        // Hire the guide
-        guide.hire();
         // Start the dungeon
-        DungeonRunner.initializeDungeon(player.town.dungeon);
+        DungeonRunner.initializeDungeon(dungeon);
     }
 
     public static getRandomWeightedNearbyTile(nearbyTiles: DungeonTile[]): DungeonTile {
@@ -249,7 +293,7 @@ DungeonGuides.add(new DungeonGuide('Shelly', 'Prefers to explore the unknown!',
     }, new MaxRegionRequirement(GameConstants.Region.hoenn)));
 
 DungeonGuides.add(new DungeonGuide('Angeline', 'Can find treasure anywhere, loves to explore new areas!',
-    [[15, GameConstants.Currency.money],[10, GameConstants.Currency.dungeonToken]], [new Amount(1, GameConstants.Currency.diamond)],
+    [[15, GameConstants.Currency.money],[10, GameConstants.Currency.dungeonToken]], [new Amount(150, GameConstants.Currency.diamond)],
     1000,
     () => {
         // Get current position
@@ -288,7 +332,7 @@ DungeonGuides.add(new DungeonGuide('Angeline', 'Can find treasure anywhere, love
     }, new MaxRegionRequirement(GameConstants.Region.kalos)));
 
 DungeonGuides.add(new DungeonGuide('Georgia', 'Knows the path to the boss, avoids random encounters when possible.',
-    [[20, GameConstants.Currency.money],[20, GameConstants.Currency.dungeonToken]], [new Amount(2, GameConstants.Currency.diamond)],
+    [[20, GameConstants.Currency.money],[20, GameConstants.Currency.dungeonToken]], [new Amount(300, GameConstants.Currency.diamond)],
     900,
     () => {
         // Get current position
@@ -317,7 +361,7 @@ DungeonGuides.add(new DungeonGuide('Georgia', 'Knows the path to the boss, avoid
     }, new MaxRegionRequirement(GameConstants.Region.alola)));
 
 DungeonGuides.add(new DungeonGuide('Drake', 'Knows the shortest path to the boss!',
-    [[20, GameConstants.Currency.money],[20, GameConstants.Currency.dungeonToken]], [new Amount(3, GameConstants.Currency.diamond)],
+    [[20, GameConstants.Currency.money],[20, GameConstants.Currency.dungeonToken]], [new Amount(450, GameConstants.Currency.diamond)],
     800,
     () => {
         // Get current position
