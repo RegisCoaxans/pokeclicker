@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import { Computed } from 'knockout';
+import { Computed, Observable } from 'knockout';
 import DayCycleMoment from './DayCycleMoment';
 import DayCyclePart from './DayCyclePart';
 import { DayCycleStartHours } from '../GameConstants';
@@ -14,16 +14,16 @@ export default class DayCycle implements Feature {
     defaults: Record<string, any> = {};
 
     public currentDayCyclePart: Computed<DayCyclePart> = ko.pureComputed(() => {
-        const currentHour = GameHelper.currentTime().getHours();
+        const currentHour = GameHelper.currentTime().getHours() + this.offset() % 24;
 
         return Number(Object.entries(DayCycleStartHours).reverse().find(([, startHour]) => startHour <= currentHour)?.[0] ?? Object.keys(DayCycleStartHours).slice(-1));
     });
 
-    public image: Computed<string> = ko.pureComputed(() => `assets/images/dayCycle/${DayCyclePart[this.currentDayCyclePart()]}.png`);
+    offset: Observable<number> = ko.observable(0);
 
-    public color: Computed<string> = ko.pureComputed(() => this.dayCycleMoments[this.currentDayCyclePart()].color);
-
-    public tooltip: Computed<string> = ko.pureComputed(() => this.dayCycleMoments[this.currentDayCyclePart()].tooltip);
+    image: Computed<string> = ko.pureComputed(() => `assets/images/dayCycle/${DayCyclePart[this.currentDayCyclePart()]}.png`);
+    color: Computed<string> = ko.pureComputed(() => this.dayCycleMoments[this.currentDayCyclePart()].color);
+    tooltip: Computed<string> = ko.pureComputed(() => this.dayCycleMoments[this.currentDayCyclePart()].tooltip);
 
     public dayCycleMoments: Record<DayCyclePart, DayCycleMoment> = {
         [DayCyclePart.Dawn]:
@@ -51,7 +51,5 @@ export default class DayCycle implements Feature {
         return {};
     }
 
-    fromJSON() {
-
-    }
+    fromJSON() {}
 }
