@@ -10,7 +10,15 @@ export default class GymPokemon {
     shadow: GameConstants.ShadowStatus;
     requirements: Requirement[];
 
-    constructor(name: PokemonNameType, maxHealth: number, level: number, requirements: Requirement | Requirement[] = [], shiny?: boolean, shadow = GameConstants.ShadowStatus.None, public modifier = (base: number) => base) {
+    constructor(
+        name: PokemonNameType,
+        maxHealth: number,
+        level: number,
+        requirements: Requirement | Requirement[] = [],
+        shiny?: boolean,
+        shadow = GameConstants.ShadowStatus.None,
+        public modifier = (base: number) => base,
+    ) {
         this.name = name;
         this._maxHealth = maxHealth;
         this.level = level;
