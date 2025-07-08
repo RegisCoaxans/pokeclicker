@@ -743,32 +743,27 @@ TemporaryBattleList.Red = new TemporaryBattle(
 );
 
 const joeyHP = (base: number) => {
-    const joeyClears = App.game.statistics.temporaryBattleDefeated[GameConstants.getTemporaryBattlesIndex('Youngster Joey')]();
-    let multiplier = 1;
-    SeededRand.seed(2477474);
-    for (let i = 0; i < joeyClears; i++) {
-        multiplier *= SeededRand.intBetween(150, 200) / 100;
-    }
-    return multiplier * base;
+    const joeyClears = player.itemList.Rattatite();
+    return base * (1 + (joeyClears ** 2 + joeyClears) / 2);
 };
 
 TemporaryBattleList['Youngster Joey'] = new TemporaryBattle(
     'Youngster Joey',
-    [new GymPokemon('Rattata', 548919101828, 100, undefined, undefined, undefined, joeyHP)],
+    [new GymPokemon('Rattata', 548_919_101_828, 100, undefined, undefined, undefined, joeyHP)],
     'How?!? My Rattata is in the top percentage of all Rattata!',
-    [new MultiRequirement([new GymBadgeRequirement(BadgeEnums.Elite_KantoChampion), new SpecialEventRequirement('Hoopa Day')])],
-    [new NullRequirement()],
+    [new SpecialEventRequirement('Hoopa Day')],
+    undefined,
     {
         displayName: 'Youngster Joey',
-        returnTown: 'Cherrygrove City',
+        resetDaily: true,
         imageName: 'Youngster',
         rewardFunction: () => {
-            const reward = 64;
+            player.gainItem('Rattatite', 1);
+            const reward = 64 * player.itemList.Rattatite();
             App.game.wallet.gainMoney(reward, true);
             Notifier.notify({
-                message: TextMerger.mergeText(`Youngster Joey was defeated!
-$playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> ${reward.toLocaleString('en-US')} for winning!`),
-                type: NotificationConstants.NotificationOption.danger,
+                message: TextMerger.mergeText(`Youngster Joey was defeated!\n$playername$ got <img src="./assets/images/currency/money.svg" height="24px"/> ${reward.toLocaleString('en-US')} for winning!`),
+                type: NotificationConstants.NotificationOption.success,
                 timeout: 3.6e7,
                 title: 'You defeated Youngster Joey!',
             });
