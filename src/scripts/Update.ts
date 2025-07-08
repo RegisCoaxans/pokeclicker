@@ -2952,6 +2952,13 @@ class Update implements Saveable {
                 saveData.statistics.npcTalkedTo[GameHelper.hash('magearnamysterygift')] = 1;
             }
         },
+        '0.10.25': ({ playerData, saveData, settingsData }) => {
+            // Stronger Joey
+            if (saveData.statistics.temporaryBattleDefeated[36]) {
+                playerData._itemList.Rattatite = 1;
+                saveData.statistics.temporaryBattleDefeated[36] = 0;
+            }
+        },
     };
 
     constructor() {
