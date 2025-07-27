@@ -83,6 +83,7 @@ export enum HoennSubRegions {
 
 export enum SinnohSubRegions {
     Sinnoh = 0,
+    Almia,
 }
 
 export enum UnovaSubRegions {
@@ -486,6 +487,7 @@ export enum Pokeball {
     'Repeatball',
     'Beastball',
     'Moonball',
+    'Capturedisc'
 }
 
 export enum Currency {

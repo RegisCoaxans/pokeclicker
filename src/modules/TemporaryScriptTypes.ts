@@ -189,6 +189,7 @@ export type TmpPlayerType = {
     effectTimer: Record<string, KnockoutObservable<string>>;
     highestRegion: KnockoutObservable<GameConstants.Region>;
     highestSubRegion: KnockoutObservable<number>;
+    isRanger: boolean;
     amountOfItem: (itemName: string) => number;
     itemMultipliers: Record<string, number>;
     gainItem: (itemName: string, amount: number) => void;

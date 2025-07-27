@@ -28,7 +28,7 @@ export default class RoamingPokemonList {
         [new RoamingGroup('Kanto', [KantoSubRegions.Kanto]), new RoamingGroup('Kanto - Sevii Islands', [KantoSubRegions.Sevii123, KantoSubRegions.Sevii4567])],
         [new RoamingGroup('Johto', [JohtoSubRegions.Johto])],
         [new RoamingGroup('Hoenn', [HoennSubRegions.Hoenn]), new RoamingGroup('Hoenn - Orre', [HoennSubRegions.Orre])],
-        [new RoamingGroup('Sinnoh', [SinnohSubRegions.Sinnoh])],
+        [new RoamingGroup('Sinnoh', [SinnohSubRegions.Sinnoh]), new RoamingGroup('Almia', [SinnohSubRegions.Almia])],
         [new RoamingGroup('Unova', [UnovaSubRegions.Unova])],
         [new RoamingGroup('Kalos', [KalosSubRegions.Kalos])],
         [new RoamingGroup('Alola', [AlolaSubRegions.MelemeleIsland, AlolaSubRegions.AkalaIsland, AlolaSubRegions.UlaulaIsland, AlolaSubRegions.PoniIsland]), new RoamingGroup('Alola - Magikarp Jump', [AlolaSubRegions.MagikarpJump])],

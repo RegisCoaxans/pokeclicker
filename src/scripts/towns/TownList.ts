@@ -4758,6 +4758,15 @@ TownList['Pokémon League Sinnoh'] = new Town(
         ],
     }
 );
+TownList['Almia Town'] = new Town(
+    'Almia Town',
+    GameConstants.Region.sinnoh,
+    GameConstants.SinnohSubRegions.Almia,
+    [new Shop([ItemList.Capturedisc, ItemList.Pokeball], 'Ranger shop')],
+    {
+        requirements: [new GymBadgeRequirement(BadgeEnums.Elite_SinnohChampion)],
+    }
+);
 
 //Sinnoh Dungeons
 TownList['Oreburgh Gate'] = new DungeonTown(

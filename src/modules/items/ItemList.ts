@@ -101,6 +101,7 @@ ItemList.Nestball = new PokeballItem(Pokeball.Nestball, Infinity, Currency.battl
 ItemList.Repeatball = new PokeballItem(Pokeball.Repeatball, Infinity, Currency.battlePoint, undefined, 'Repeat Ball');
 ItemList.Beastball = new PokeballItem(Pokeball.Beastball, 500, Currency.questPoint, undefined, 'Beast Ball');
 ItemList.Moonball = new PokeballItem(Pokeball.Moonball, Infinity, Currency.farmPoint, undefined, 'Moon Ball');
+ItemList.Capturedisc = new PokeballItem(Pokeball.Capturedisc, 100, Currency.farmPoint, undefined, 'Capture Disc');
 
 ItemList.Berry_Shovel   = new ShovelItem(300, 'Berry Shovel', 'Removes Berry Plants in the Farm.');
 ItemList.Mulch_Shovel = new MulchShovelItem(300, 'Mulch Shovel', 'Removes Mulch from a plot in the Farm.');

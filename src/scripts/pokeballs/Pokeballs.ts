@@ -127,6 +127,8 @@ class Pokeballs implements Feature {
                 }
                 return moonCycleBonus;
             }, 1250, 'Increased catch rate by the light of the moon', new RouteKillRequirement(10, GameConstants.Region.johto, 34)),
+
+            new Pokeball(GameConstants.Pokeball.Capturedisc, () => 0, 1000, 'Used by rangers to befriend Pokémon', new GymBadgeRequirement(BadgeEnums.Elite_SinnohChampion)),
         ];
         this.selectedTitle = ko.observable('');
         this.selectedSelection = ko.observable();
@@ -191,8 +193,14 @@ class Pokeballs implements Feature {
             return GameConstants.Pokeball.None;
         }
 
+        if (player.isRanger && pref !== GameConstants.Pokeball.Capturedisc || !player.isRanger && pref == GameConstants.Pokeball.Capturedisc) {
+            return GameConstants.Pokeball.None;
+        }
+
         if (this.pokeballs[pref]?.quantity() > 0) {
             return pref;
+        } else if (pref == GameConstants.Pokeball.Capturedisc) {
+            return GameConstants.Pokeball.None;
         } else {
             // Use a lesser, Pokédollar purchaseable, ball if we have one
             let use: GameConstants.Pokeball = GameConstants.Pokeball.None;

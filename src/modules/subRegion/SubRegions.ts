@@ -62,6 +62,7 @@ SubRegions.addSubRegion(Region.hoenn, new SubRegion('Hoenn', HoennSubRegions.Hoe
 SubRegions.addSubRegion(Region.hoenn, new SubRegion('Orre', HoennSubRegions.Orre, new QuestLineStartedRequirement('Shadows in the Desert'), 'Outskirt Stand', undefined));
 
 SubRegions.addSubRegion(Region.sinnoh, new SubRegion('Sinnoh', SinnohSubRegions.Sinnoh));
+SubRegions.addSubRegion(Region.sinnoh, new SubRegion('Almia', SinnohSubRegions.Almia, new GymBadgeRequirement(BadgeEnums.Elite_SinnohChampion), 'Almia Town'));
 
 SubRegions.addSubRegion(Region.unova, new SubRegion('Unova', UnovaSubRegions.Unova));
 

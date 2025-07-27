@@ -164,6 +164,10 @@ class Player implements TmpPlayerType {
         this._town(value);
     }
 
+    get isRanger(): boolean {
+        return this.region == GameConstants.Region.sinnoh && this.subregion == GameConstants.SinnohSubRegions.Almia;
+    }
+
     public gainItem(itemName: string, amount: number) {
         this.itemList[itemName](this.itemList[itemName]() + amount);
     }

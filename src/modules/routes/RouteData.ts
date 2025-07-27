@@ -1,6 +1,7 @@
 import BadgeEnums from '../enums/Badges';
 import {
     Region, KantoSubRegions, getDungeonIndex, AlolaSubRegions, GalarSubRegions, HoennSubRegions, AchievementOption, DayOfWeek,
+    SinnohSubRegions,
 } from '../GameConstants';
 import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
 import GymBadgeRequirement from '../requirements/GymBadgeRequirement';
@@ -1328,6 +1329,17 @@ Routes.add(new RegionRoute(
         water: ['Tentacruel', 'Magikarp', 'Gyarados', 'Remoraid', 'Octillery', 'Wailmer', 'Wailord', 'Sealeo'],
     }),
     [new RouteKillRequirement(10, Region.sinnoh, 229)],
+));
+Routes.add(new RegionRoute(
+    'Almia Route 1', Region.sinnoh, 231,
+    new RoutePokemon({
+        land: ['Bidoof'],
+    }),
+    [new GymBadgeRequirement(BadgeEnums.Elite_SinnohChampion)],
+    undefined,
+    SinnohSubRegions.Almia,
+    true,
+    3000000,
 ));
 
 /*
