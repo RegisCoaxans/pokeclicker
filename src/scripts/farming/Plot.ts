@@ -469,7 +469,9 @@ class Plot implements Saveable {
                     createLogContent.wildWander({ pokemon : wanderer.name })
                 );
             }
-
+            const pokemon = PokemonHelper.getPokemonByName(wanderer.name);
+            PokemonHelper.incrementPokemonStatistics(pokemon.id, GameConstants.PokemonStatisticsType.Encountered, wanderer.shiny,
+                PokemonFactory.generateGender(pokemon.gender.femaleRatio, pokemon.gender.type), GameConstants.ShadowStatus.None);
             return wanderer;
         }
         return undefined;

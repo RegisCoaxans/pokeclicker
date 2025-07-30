@@ -390,7 +390,7 @@ class PokemonFactory {
         berry.wander.forEach((p, i) => {
             if (pokemonMap[p].nativeRegion <= player.highestRegion()) {
                 availablePokemon.push(p);
-                weights.push(mulch === MulchType.Gooey_Mulch && i >= Berry.baseWander.length ? 2 : 1);
+                weights.push(mulch === MulchType.Gooey_Mulch && i >= Berry.baseWander.length ? 3 : 1);
             }
         });
         const pokemon = Rand.fromWeightedArray(availablePokemon, weights);
