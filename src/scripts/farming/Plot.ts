@@ -470,8 +470,7 @@ class Plot implements Saveable {
                 );
             }
             const pokemon = PokemonHelper.getPokemonByName(wanderer.name);
-            PokemonHelper.incrementPokemonStatistics(pokemon.id, GameConstants.PokemonStatisticsType.Encountered, wanderer.shiny,
-                PokemonFactory.generateGender(pokemon.gender.femaleRatio, pokemon.gender.type), GameConstants.ShadowStatus.None);
+            PokemonHelper.incrementPokemonStatistics(pokemon.id, GameConstants.PokemonStatisticsType.Encountered, wanderer.shiny, wanderer.gender, GameConstants.ShadowStatus.None);
             return wanderer;
         }
         return undefined;

@@ -397,7 +397,8 @@ class PokemonFactory {
         const pokemonData = pokemonMap[pokemon];
         const shiny = PokemonFactory.generateShiny(GameConstants.SHINY_CHANCE_FARM);
         const catchChance = PokemonFactory.catchRateHelper(pokemonData.catchRate + 25, true);
-        const wanderer = new WandererPokemon(pokemon, berry.type, catchChance, shiny);
+        const gender = PokemonFactory.generateGenderById(pokemonData.id);
+        const wanderer = new WandererPokemon(pokemon, berry.type, catchChance, gender, shiny);
         return wanderer;
     }
 }
