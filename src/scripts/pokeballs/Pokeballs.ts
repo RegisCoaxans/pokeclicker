@@ -1,7 +1,13 @@
 /// <reference path="../../declarations/GameHelper.d.ts" />
 /// <reference path="Pokeball.ts" />
 
-const maxGenderRatioDiff = [...pokemonList.reduce((a, p) => { a.add(Math.abs((p as PokemonListData).gender.femaleRatio - 0.5)); return a; }, new Set([]))].sort((a, b) => a - b).at(-2);
+const maxGenderRatioDiff = [
+    ...pokemonList.reduce((a, p) => {
+        a.add(Math.abs((p as PokemonListData).gender.femaleRatio - 0.5)); return a;
+    },
+    new Set([])
+    ),
+].sort((a, b) => a - b).at(-2);
 
 class Pokeballs implements Feature {
     name = 'Pokeballs';
@@ -122,7 +128,7 @@ class Pokeballs implements Feature {
 
             new Pokeball(GameConstants.Pokeball.Moonball, (opts) => {
                 const moonCycleMod = MoonCycle.currentMoonCyclePhase();
-                const moonCycleBonus = (4 - Math.abs((moonCycleMod % 8) - 4)) * 5;
+                const moonCycleBonus = MoonCycle.catchChanceBonus(moonCycleMod);
 
                 if (GameConstants.MoonEvoPokemon.has(opts.pokemon)) {
                     return Math.min(20, moonCycleBonus + 10);
