@@ -1162,9 +1162,21 @@
          , x: 24, y: 1
          , width: 5, height: 3
          , databind: "click:function(){MapHelper.moveToTown('Spinda Meadow')}, attr:{ class: MapHelper.calculateTownCssClass('Spinda Meadow') }"
-         , visible: "App.game.specialEvents.getEvent('Love at First Flight').isActive"
+         , visible: "App.game.specialEvents.getEvent('Love at First Flight').isActive()"
          , image: "assets/images/map/transparent.png"
          , connectedToTown: "Spinda Meadow"
+         })
+     %>
+
+     <!--Lake May-->
+     <%- include('templates/mapOverlay',
+         { name: "Lake May"
+         , x: 24, y: 27
+         , width: 3, height: 3
+         , databind: "click:function(){MapHelper.moveToTown('Lake May')}, attr:{ class: MapHelper.calculateTownCssClass('Lake May') }"
+         , visible: "App.game.specialEvents.getEvent('Love at First Flight').isActive()"
+         , image: "assets/images/map/transparent.png"
+         , connectedToTown: "Lake May"
          })
      %>
 

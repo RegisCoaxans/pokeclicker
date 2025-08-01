@@ -230,6 +230,7 @@ export default class Battle {
         if (App.game.specialEvents.getEvent('Love at First Flight').isActive()) {
             // 0.3333% chance if in highest region, lower when returning to early regions
             const vp = Math.min(1, (player.region ** 3 + 1) / player.highestRegion() ** 3) / 300;
+            console.log(vp);
             if (Rand.chance(vp)) {
                 player.gainItem('Sweet_Heart', 1);
                 Notifier.notify({
