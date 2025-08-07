@@ -4212,19 +4212,32 @@ class QuestLineHelper {
     /* Event QuestLines */
 
     // From any bulletin board between February 14-28 (Love at First Flight).
-    /* public static createLaFFMeowthQuestLine() {
+    public static createLaFFMeowthQuestLine() {
         const laFFMeowthQuestLine = new QuestLine('Meowzie!', 'Help Meowth impress his love.', new SpecialEventRequirement('Love at First Flight'), GameConstants.BulletinBoards.All, false);
 
-        const gainSweetHeart = function(amount: number) {
-            return () => ItemList.Sweet_Heart.gain(amount);
-        }
+        // const fightMeowzie = new DefeatTemporaryBattleQuest('LaFF_Meowzie', 'Meowzie appeared in Viridian City, go find out!').withInitialValue(0);
+        // laFFMeowthQuestLine.addQuest(fightMeowzie);
 
-        const fightMeowzie = new DefeatTemporaryBattleQuest('LaFF_Meowzie', 'Meowzie appeared in Viridian City, go find out!').withInitialValue(0).withCustomReward(gainSweetHeart(1));
-        laFFMeowthQuestLine.addQuest(fightMeowzie);
+        // const fightTeamRocket = new DefeatTemporaryBattleQuest('LaFF_TeamRocket', 'At Meowth\'s instigation, Team Rocket steps in and challenge you. Defeat them.');
+        // laFFMeowthQuestLine.addQuest(fightTeamRocket);
 
-        const fightTeamRocket = new DefeatTemporaryBattleQuest('LaFF_TeamRocket', 'At Meowth\'s instigation, Team Rocket steps in an challenge you. Defeat them.').withCustomReward(gainSweetHeart(1));
-        laFFMeowthQuestLine.addQuest(fightTeamRocket);
-    } */
+        const catchPokemon = new CustomQuest(50, 0, 'Catch wild Pokémon in order to cheer Meowth up.',
+            () => pokemonList.reduce((c, p) => c + App.game.statistics.pokemonCaptured[p.id]() - App.game.statistics.pokemonHatched[p.id](), 0),
+        );
+        laFFMeowthQuestLine.addQuest(catchPokemon);
+
+        const catchStrongPokemon = new CustomQuest(20, 0, 'Catch some strong wild Pokémon for Meowth and gain his trust.',
+            () => pokemonList.filter(p => (p as PokemonListData).attack >= 150).reduce((c, p) => c + App.game.statistics.pokemonCaptured[p.id]() - App.game.statistics.pokemonHatched[p.id](), 0),
+        );
+        laFFMeowthQuestLine.addQuest(catchStrongPokemon);
+
+        const defeatMeowth = new CustomQuest(20, 0, 'Defeat wild Meowth', App.game.statistics.pokemonDefeated[PokemonHelper.getPokemonByName('Meowth').id]);
+        const defeatPersian = new CustomQuest(5, 0, 'Defeat wild Persian', App.game.statistics.pokemonDefeated[PokemonHelper.getPokemonByName('Persian').id]);
+        const defeatMeowthGang = new MultipleQuestsQuest([defeatMeowth, defeatPersian], 'Ask the Meowth Gang where Meowzie is.');
+        laFFMeowthQuestLine.addQuest(defeatMeowthGang);
+
+        App.game.quests.questLines().push(laFFMeowthQuestLine);
+    }
 
     // From any bulletin board on April 1 (Hoopa Day).
     public static createHoopaDayPikabluQuestLine() {

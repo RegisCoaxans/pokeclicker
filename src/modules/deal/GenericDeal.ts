@@ -432,6 +432,12 @@ export default class GenericDeal {
 
         GenericDeal.list.LaFFTradePlace = ko.observableArray([
             new GenericDeal({
+                costs: [{ type: DealCostOrProfitType.Berry, berryType: BerryType.Occa, amount: 10 }],
+                profits: [{ type: DealCostOrProfitType.Item, item: ItemList.Sweet_Heart, amount: 1 }],
+                visibleRequirement: new SpecialEventRequirement('Love at First Flight'),
+                tradeButtonOverride: 'Produce',
+            }),
+            new GenericDeal({
                 costs: [{ type: DealCostOrProfitType.Item, item: ItemList.Sweet_Heart, amount: 10 }],
                 profits: [{ type: DealCostOrProfitType.Item, item: ItemList.Heart_scale, amount: 1 }],
                 visibleRequirement: new SpecialEventRequirement('Love at First Flight'),
