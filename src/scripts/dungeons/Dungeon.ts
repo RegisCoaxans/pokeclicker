@@ -4033,19 +4033,25 @@ dungeonList['Near Space'] = new Dungeon('Near Space',
     {dungeonRegionalDifficulty: GameConstants.Region.kalos});
 
 dungeonList['Spinda Meadow'] = new Dungeon('Spinda Meadow',
-    ['Spinda', 'Spinda', 'Spinda', 'Spinda', 'Spinda', 'Spinda'],
+    ['Spinda'],
     {
-        common: [{loot: 'Spinda', ignoreDebuff: true}],
+        common: [
+            {loot: 'Spinda', ignoreDebuff: true},
+            {loot: 'Iapapa'},
+            {loot: 'Figy'},
+        ],
         rare: [
-            {loot: 'Ochre Shard', weight: 3},
-            {loot: 'Spinda (Heart)', ignoreDebuff: true},
+            {loot: 'Ochre Shard', weight: 9},
+            {loot: 'Spinda (Heart)', ignoreDebuff: true, weight: 1},
+            {loot: 'Heart Scale', ignoreDebuff: true, requirement: new ObtainedPokemonRequirement('Spinda (Heart)'), weight: 1},
         ],
         epic: [{loot: 'Sweet_Heart', ignoreDebuff: true}],
         legendary: [{loot: 'Loveball', ignoreDebuff: true}],
     }, 510000,
     [
-        new DungeonBossPokemon('Spinda', 3003003, 14, { weight: 11}),
-        new DungeonBossPokemon('Spinda (Heart)', 3003003, 14, { weight: 1}),
+        ...[...new Array(7)].map(_ => new DungeonBossPokemon('Spinda', 2142412, 14)),
+        new DungeonBossPokemon('Spinda (Heart)', 2802082, 14, { weight: 2, requirement: new ObtainedPokemonRequirement('Spinda (Heart)'), hide: true}),
+        new DungeonTrainer('Spinda (Heart)', [new GymPokemon('Spinda (Heart)', 2802082, 14, undefined, true)], {requirement: new ObtainedPokemonRequirement('Spinda (Heart)', true), hide: true, hideTrainer: true}),
     ], 35500, 113);
 
 // Orre
