@@ -93,7 +93,6 @@ class DreamOrbController implements Feature {
             lastAttemptTime -= GameConstants.DREAM_ORBS_ATTEMP_TIME;
             const diff = Math.floor(lastOrbTime / GameConstants.DREAM_ORBS_ATTEMP_TIME);
             const chance = 1 / (GameConstants.DREAM_ORBS_MAX_TIME - diff);
-            console.log(`${chance} orb`);
             if (Rand.chance(chance)) {
                 lastOrbTime = 0;
                 const orbIndex = Rand.fromArray(Object.keys(orbs));
@@ -107,7 +106,6 @@ class DreamOrbController implements Feature {
             Object.keys(orbs).forEach((index) => {
                 if (orbs[index]) {
                     GameHelper.incrementObservable(this.orbs[index].amount, orbs[index]);
-                    console.log(`${this.orbs[index].color} : +${orbs[index]}`);
                     Notifier.notify({
                         message: `You collected ${orbs[index]} ${this.orbs[index].color} Dream Orb${orbs[index] > 1 ? 's' : ''}`,
                         image: `assets/images/dreamOrbs/dream_orb_${this.orbs[index].color.toLowerCase()}.png`,
