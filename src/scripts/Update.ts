@@ -2953,6 +2953,11 @@ class Update implements Saveable {
                 saveData.statistics.npcTalkedTo[GameHelper.hash('magearnamysterygift')] = 1;
             }
         },
+
+        '0.10.25': ({ playerData, saveData, settingsData }) => {
+            // Change boolean into number
+            saveData.farming?.unlockedBerries?.forEach((v, i) => saveData.farming.unlockedBerries[i] = +v);
+        }
     };
 
     constructor() {

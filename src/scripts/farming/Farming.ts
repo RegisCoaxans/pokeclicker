@@ -17,7 +17,7 @@ class Farming implements Feature {
 
     defaults = {
         berryList: Array<number>(GameHelper.enumLength(BerryType) - 1).fill(0),
-        unlockedBerries: Array<boolean>(GameHelper.enumLength(BerryType) - 1).fill(false),
+        unlockedBerries: Array<number>(GameHelper.enumLength(BerryType) - 1).fill(0),
         mulchList: Array<number>(GameHelper.enumLength(MulchType)).fill(0),
         plotList: new Array(GameConstants.FARM_PLOT_WIDTH * GameConstants.FARM_PLOT_HEIGHT).fill(null).map((value, index) => {
             const middle = Math.floor(GameConstants.FARM_PLOT_HEIGHT / 2) * GameConstants.FARM_PLOT_WIDTH + Math.floor(GameConstants.FARM_PLOT_WIDTH / 2);
@@ -28,7 +28,7 @@ class Farming implements Feature {
     };
 
     berryList: KnockoutObservable<number>[];
-    unlockedBerries: KnockoutObservable<boolean>[];
+    unlockedBerries: KnockoutObservable<number>[];
     mulchList: KnockoutObservable<number>[];
     plotList: Array<Plot>;
     unlockedPlotCount: KnockoutObservable<number>;
@@ -40,7 +40,7 @@ class Farming implements Feature {
 
     constructor(private multiplier: Multiplier) {
         this.berryList = this.defaults.berryList.map((v) => ko.observable<number>(v));
-        this.unlockedBerries = this.defaults.unlockedBerries.map((v) => ko.observable<boolean>(v));
+        this.unlockedBerries = this.defaults.unlockedBerries.map((v) => ko.observable<number>(v));
         this.mulchList = this.defaults.mulchList.map((v) => ko.observable<number>(v));
         this.plotList = this.defaults.plotList;
         this.unlockedPlotCount = ko.observable(0);
@@ -1335,7 +1335,7 @@ class Farming implements Feature {
             [[25, 80], [0, 5], [0, 5], [0, 5], [0, 5]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings get too spicy!',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Cheri]();
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Cheri]());
                 },
             }
         ));
@@ -1344,7 +1344,7 @@ class Farming implements Feature {
             [[0, 5], [25, 80], [0, 5], [0, 5], [0, 5]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings get too dry!',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Chesto]();
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Chesto]());
                 },
             }
         ));
@@ -1353,7 +1353,7 @@ class Farming implements Feature {
             [[0, 5], [0, 5], [25, 80], [0, 5], [0, 5]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings get too sweet!',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Pecha]();
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Pecha]());
                 },
             }
         ));
@@ -1362,7 +1362,7 @@ class Farming implements Feature {
             [[0, 5], [0, 5], [0, 5], [25, 80], [0, 5]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings get too bitter!',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Rawst]();
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Rawst]());
                 },
             }
         ));
@@ -1371,7 +1371,7 @@ class Farming implements Feature {
             [[0, 5], [0, 5], [0, 5], [0, 5], [25, 80]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings get too sour!',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Aspear]();
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Aspear]());
                 },
             }
         ));
@@ -1412,9 +1412,9 @@ class Farming implements Feature {
             [[10, 15], [0, 0], [10, 15], [0, 0], [10, 15]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings match its flavor profile! If I recall, it tasted a little spicy, a little sweet, and a little sour at the same time.',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Cheri]() &&
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Cheri]() &&
                     App.game.farming.unlockedBerries[BerryType.Pecha]() &&
-                    App.game.farming.unlockedBerries[BerryType.Aspear]();
+                    App.game.farming.unlockedBerries[BerryType.Aspear]());
                 },
             }));
         // Hondew
@@ -1422,9 +1422,9 @@ class Farming implements Feature {
             [[15, 15], [15, 15], [0, 0], [15, 15], [0, 0]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings match its flavor profile! If I recall, it tasted fairly spicy, dry, and bitter at the same time.',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Figy]() &&
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Figy]() &&
                     App.game.farming.unlockedBerries[BerryType.Wiki]() &&
-                    App.game.farming.unlockedBerries[BerryType.Aguav]();
+                    App.game.farming.unlockedBerries[BerryType.Aguav]());
                 },
             }));
         // Grepa
@@ -1538,8 +1538,8 @@ class Farming implements Feature {
             [[10, 15], [0, 0], [0, 0], [15, 20], [0, 0]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings match its flavor profile! If I recall, it tasted a little spicy and fairly bitter at the same time.',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Aguav]() &&
-                    App.game.farming.unlockedBerries[BerryType.Cheri]();
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Aguav]() &&
+                    App.game.farming.unlockedBerries[BerryType.Cheri]());
                 },
             }));
         // Rindo Overgrow
@@ -1561,8 +1561,8 @@ class Farming implements Feature {
             [[0, 0], [10, 15], [0, 0], [15, 20], [0, 0]], {
                 hint: 'I\'ve heard that a special Berry can appear if its surroundings match its flavor profile! If I recall, it tasted a little dry and fairly bitter at the same time.',
                 unlockReq: function(): boolean {
-                    return App.game.farming.unlockedBerries[BerryType.Chesto]() &&
-                    App.game.farming.unlockedBerries[BerryType.Aguav]();
+                    return Boolean(App.game.farming.unlockedBerries[BerryType.Chesto]() &&
+                    App.game.farming.unlockedBerries[BerryType.Aguav]());
                 },
             }));
         // Payapa
@@ -1633,22 +1633,22 @@ class Farming implements Feature {
         // Micle
         this.mutations.push(new FieldFlavorMutation(.0003, BerryType.Micle, [0, 600, 0, 0, 0], {
             hint: 'I\'ve heard of a Berry that only appears in the driest of fields.',
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Pamtre](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Pamtre]()),
         }));
         // Custap
         this.mutations.push(new FieldFlavorMutation(.0003, BerryType.Custap, [0, 0, 600, 0, 0], {
             hint: 'I\'ve heard of a Berry that only appears in the sweetest of fields.',
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Watmel](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Watmel]()),
         }));
         // Jaboca
         this.mutations.push(new FieldFlavorMutation(.0003, BerryType.Jaboca, [0, 0, 0, 600, 0], {
             hint: 'I\'ve heard of a Berry that only appears in the most bitter of fields.',
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Durin](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Durin]()),
         }));
         // Rowap
         this.mutations.push(new FieldFlavorMutation(.0003, BerryType.Rowap, [0, 0, 0, 0, 600], {
             hint: 'I\'ve heard of a Berry that only appears in the most sour of fields.',
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Belue](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Belue]()),
         }));
         // Kee
         this.mutations.push(new GrowNearBerryMutation(.0003, BerryType.Kee,
@@ -1693,31 +1693,31 @@ class Farming implements Feature {
         // Enigma Mutations
         this.mutations.push(new EvolveNearBerryMutation(.0004, BerryType.Liechi, BerryType.Passho, [BerryType.Enigma], {
             showHint: false,
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Liechi](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Liechi]()),
         }));
         this.mutations.push(new EvolveNearBerryMutation(.0004, BerryType.Ganlon, BerryType.Shuca, [BerryType.Enigma], {
             showHint: false,
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Ganlon](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Ganlon]()),
         }));
         this.mutations.push(new EvolveNearBerryMutation(.0004, BerryType.Salac, BerryType.Coba, [BerryType.Enigma], {
             showHint: false,
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Salac](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Salac]()),
         }));
         this.mutations.push(new EvolveNearBerryMutation(.0004, BerryType.Petaya, BerryType.Payapa, [BerryType.Enigma], {
             showHint: false,
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Petaya](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Petaya]()),
         }));
         this.mutations.push(new EvolveNearBerryMutation(.0004, BerryType.Apicot, BerryType.Chilan, [BerryType.Enigma], {
             showHint: false,
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Apicot](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Apicot]()),
         }));
         this.mutations.push(new EvolveNearBerryMutation(.0004, BerryType.Lansat, BerryType.Roseli, [BerryType.Enigma], {
             showHint: false,
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Lansat](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Lansat]()),
         }));
         this.mutations.push(new EvolveNearBerryMutation(.0004, BerryType.Starf, BerryType.Haban, [BerryType.Enigma], {
             showHint: false,
-            unlockReq: () => App.game.farming.unlockedBerries[BerryType.Starf](),
+            unlockReq: () => Boolean(App.game.farming.unlockedBerries[BerryType.Starf]()),
         }));
 
         // Hopo
@@ -2161,8 +2161,8 @@ class Farming implements Feature {
         return App.game.keyItems.hasKeyItem(KeyItemType.Wailmer_pail);
     }
 
-    unlockBerry(berry: BerryType) {
-        if (!this.unlockedBerries[berry]()) {
+    unlockBerry(berry: BerryType, depth = 1) {
+        if (this.unlockedBerries[berry]() < depth) {
             Notifier.notify({
                 message: `You've discovered the ${BerryType[berry]} Berry!`,
                 image: FarmController.getBerryImage(berry),
@@ -2173,7 +2173,7 @@ class Farming implements Feature {
             App.game.logbook.newLog(
                 LogBookTypes.NEW,
                 createLogContent.registeredBerry({ berry: BerryType[berry] }));
-            this.unlockedBerries[berry](true);
+            this.unlockedBerries[berry](depth);
         }
     }
 
@@ -2215,9 +2215,9 @@ class Farming implements Feature {
 
         const savedUnlockedBerries = json.unlockedBerries;
         if (savedUnlockedBerries == null) {
-            this.unlockedBerries = this.defaults.unlockedBerries.map((v) => ko.observable<boolean>(v));
+            this.unlockedBerries = this.defaults.unlockedBerries.map((v) => ko.observable<number>(v));
         } else {
-            (savedUnlockedBerries as boolean[]).forEach((value: boolean, index: number) => {
+            (savedUnlockedBerries as number[]).forEach((value: number, index: number) => {
                 this.unlockedBerries[index](value);
             });
         }

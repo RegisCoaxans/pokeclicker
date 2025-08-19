@@ -61,7 +61,11 @@ class FarmController {
         } else if (plot.stage() === PlotStage.Sprout) {
             return 'assets/images/farm/AllTreeSprout.png';
         }
-        return `assets/images/farm/${BerryType[plot.berry]}Tree${PlotStage[plot.stage()]}.png`;
+        let variation = '';
+        if (App.game.farming.unlockedBerries[plot.berry]() > 1 && plot.stage() === PlotStage.Berry) {
+            variation = ['', '', 'Golden'][App.game.farming.unlockedBerries[plot.berry]()];
+        }
+        return `assets/images/farm/${BerryType[plot.berry]}Tree${PlotStage[plot.stage()]}${variation}.png`;
     }
 
     public static calculateCssClassFromTool(plot: Plot, tool: FarmingTool) {
@@ -250,7 +254,8 @@ class FarmController {
     }
 
     public static getBerryImage(index: number) {
-        return `assets/images/items/berry/${BerryType[index]}.png`;
+        const variation = ['', '', 'Golden_'][App.game?.farming.unlockedBerries[index]() ?? 0];
+        return `assets/images/items/berry/${variation}${BerryType[index]}.png`;
     }
 
     public static getHint(index: number, checkSeen = false, checkUnlocked = false) {
