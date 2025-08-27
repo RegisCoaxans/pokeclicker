@@ -405,10 +405,10 @@ TemporaryBattleList['Santa Jynx 4'] = new TemporaryBattle(
     }
 );
 // Meowzie, in the Love at First Flight event
-/* TemporaryBattleList['Meowzie'] = new TemporaryBattle(
-    'Meowzie',
+TemporaryBattleList['LaFF_Meowzie'] = new TemporaryBattle(
+    'LaFF_Meowzie',
     [
-        new GymPokemon('Meowzie', 1e9, 1),
+        new GymPokemon('Meowzie', 5555555, 1),
     ],
     'Phrase : Team Rocket prevents you from catching Meowzie',
     [
@@ -416,10 +416,30 @@ TemporaryBattleList['Santa Jynx 4'] = new TemporaryBattle(
     ],
     undefined,
     {
+        displayName: 'Meowzie',
         hideTrainer: true,
         imageName: 'Jessie and James',
+        rewardFunction: () => App.game.quests.getQuestLine('Meowzie').beginQuest(0, undefined, true),
     }
-); */
+);
+TemporaryBattleList['LaFF_Rocket'] = new TemporaryBattle(
+    'LaFF_Rocket',
+    [
+        new GymPokemon('Seviper', 2812500, 1),
+        new GymPokemon('Cacnea', 3194444, 1),
+        new GymPokemon('Meowth', 2000, 1),
+    ],
+    'Phrase : Team Rocket prevents you from catching Meowzie',
+    [
+        new SpecialEventRequirement('Love at First Flight'),
+        new QuestLineStepCompletedRequirement('Meowzie!', 0, GameConstants.AchievementOption.less),
+    ],
+    undefined,
+    {
+        displayName: 'Jessie and James',
+        imageName: 'Jessie and James',
+    }
+);
 
 //Johto Temporary Battles
 TemporaryBattleList['Silver 1'] = new TemporaryBattle(

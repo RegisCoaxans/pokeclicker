@@ -137,18 +137,8 @@ class Pokeballs implements Feature {
             }, 1250, 'Increased catch rate by the light of the moon', new RouteKillRequirement(10, GameConstants.Region.johto, 34)),
 
             new Pokeball(GameConstants.Pokeball.Loveball, (opts) => {
-                // 0 for genderless, 5 for 0.5, 15 for highest before 1, 15 during event
-                const pokemon = PokemonHelper.getPokemonByName(opts.pokemon);
-                if (pokemon.gender.type === GameConstants.Genders.Genderless) {
-                    return 0;
-                }
-                if (App.game.specialEvents.getEvent('Love at First Flight').isActive()) {
-                    return 15;
-                }
-                const genderRatioPower = Math.min(1, Math.abs(pokemon.gender.femaleRatio - 0.5) / maxGenderRatioDiff);
-                console.log(`${genderRatioPower} ${maxGenderRatioDiff}`);
-                return genderRatioPower * 10 + 5;
-            }, 1250, 'Increased catch rate on Pokémon with more uneven gender distribution or during Love at First Flight', new RouteKillRequirement(10, GameConstants.Region.johto, 34)),
+                return App.game.specialEvents.getEvent('Love at First Flight').isActive() ? 15 : 0;
+            }, 1250, '+15% Increased catch rate during Love at First Flight', new SpecialEventRequirement('Love at First Flight')),
         ];
         this.selectedTitle = ko.observable('');
         this.selectedSelection = ko.observable();

@@ -4042,16 +4042,15 @@ dungeonList['Spinda Meadow'] = new Dungeon('Spinda Meadow',
         ],
         rare: [
             {loot: 'Ochre Shard', weight: 9},
-            {loot: 'Spinda (Heart)', ignoreDebuff: true, weight: 1},
             {loot: 'Heart Scale', ignoreDebuff: true, requirement: new ObtainedPokemonRequirement('Spinda (Heart)'), weight: 1},
         ],
         epic: [{loot: 'Sweet_Heart', ignoreDebuff: true}],
         legendary: [{loot: 'Loveball', ignoreDebuff: true}],
     }, 510000,
     [
-        ...[...new Array(7)].map(_ => new DungeonBossPokemon('Spinda', 2142412, 14)),
-        new DungeonBossPokemon('Spinda (Heart)', 2802082, 14, { weight: 2, requirement: new ObtainedPokemonRequirement('Spinda (Heart)'), hide: true}),
-        new DungeonTrainer('Spinda (Heart)', [new GymPokemon('Spinda (Heart)', 2802082, 14, undefined, true)], {requirement: new ObtainedPokemonRequirement('Spinda (Heart)', true), hide: true, hideTrainer: true}),
+        ...[...new Array(5)].map(_ => new DungeonBossPokemon('Spinda', 2142412, 14)),
+        new DungeonBossPokemon('Spinda (Heart)', 2802082, 14, { weight: 2 }),
+        new DungeonTrainer('Not the Spinda you\'re looking for', [new GymPokemon('Spinda (Heart)', 2142412, 28, undefined, true)], {requirement: new InDungeonRequirement('Spinda Meadow'), hide: true, hideTrainer: true}),
     ], 35500, 113);
 
 // Orre

@@ -4221,18 +4221,18 @@ class QuestLineHelper {
         // const fightTeamRocket = new DefeatTemporaryBattleQuest('LaFF_TeamRocket', 'At Meowth\'s instigation, Team Rocket steps in and challenge you. Defeat them.');
         // laFFMeowthQuestLine.addQuest(fightTeamRocket);
 
-        const catchPokemon = new CustomQuest(50, 0, 'Catch wild Pokémon in order to cheer Meowth up.',
+        const catchPokemon = new CustomQuest(50, 0, 'Capture wild Pokémon in order to cheer Meowth up.',
             () => pokemonList.reduce((c, p) => c + App.game.statistics.pokemonCaptured[p.id]() - App.game.statistics.pokemonHatched[p.id](), 0),
         );
         laFFMeowthQuestLine.addQuest(catchPokemon);
 
-        const catchStrongPokemon = new CustomQuest(20, 0, 'Catch some strong wild Pokémon for Meowth and gain his trust.',
+        const catchStrongPokemon = new CustomQuest(20, 0, 'Catch some wild mighty Pokémon for Meowth and gain his trust.',
             () => pokemonList.filter(p => (p as PokemonListData).attack >= 150).reduce((c, p) => c + App.game.statistics.pokemonCaptured[p.id]() - App.game.statistics.pokemonHatched[p.id](), 0),
         );
         laFFMeowthQuestLine.addQuest(catchStrongPokemon);
 
-        const defeatMeowth = new CustomQuest(20, 0, 'Defeat wild Meowth', App.game.statistics.pokemonDefeated[PokemonHelper.getPokemonByName('Meowth').id]);
-        const defeatPersian = new CustomQuest(5, 0, 'Defeat wild Persian', App.game.statistics.pokemonDefeated[PokemonHelper.getPokemonByName('Persian').id]);
+        const defeatMeowth = new CustomQuest(30, 0, 'Defeat wild Meowth', App.game.statistics.pokemonDefeated[PokemonHelper.getPokemonByName('Meowth').id]);
+        const defeatPersian = new CustomQuest(10, 0, 'Defeat wild Persian', App.game.statistics.pokemonDefeated[PokemonHelper.getPokemonByName('Persian').id]);
         const defeatMeowthGang = new MultipleQuestsQuest([defeatMeowth, defeatPersian], 'Ask the Meowth Gang where Meowzie is.');
         laFFMeowthQuestLine.addQuest(defeatMeowthGang);
 

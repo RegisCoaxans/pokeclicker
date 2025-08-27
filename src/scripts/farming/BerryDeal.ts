@@ -77,18 +77,6 @@ class BerryDeal {
                     SeededRand.intBetween(20, 40),
                     SeededRand.intBetween(5, 15),
                 ],
-                ItemList.Loveball,
-                1
-            ),
-            new BerryDeal(
-                [
-                    this.randomBerry(firstGen),
-                    this.randomBerry(secondGen),
-                ],
-                [
-                    SeededRand.intBetween(20, 40),
-                    SeededRand.intBetween(5, 15),
-                ],
                 ItemList.Quickball,
                 1
             ),
