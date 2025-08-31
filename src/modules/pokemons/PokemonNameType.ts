@@ -349,6 +349,7 @@ export type PokemonNameType
     | 'Galarian Zapdos'
     | 'Moltres'
     | 'Galarian Moltres'
+    | 'Thu-Fi-Zer'
     | 'Dratini'
     | 'Dragonair'
     | 'Dragonite'

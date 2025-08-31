@@ -6652,6 +6652,29 @@ export const pokemonList = createPokemonArray(
         },
     },
     {
+        // Negative until made obtainable
+        // Stats: best of three Birds + 10
+        // Dark just like Rocket's birds from TCG, can be changed later
+        'id': -146.02,
+        'name': 'Thu-Fi-Zer',
+        'catchRate': 3,
+        'type': [PokemonType.Flying, PokemonType.Dark],
+        'levelType': LevelType.slow,
+        'exp': 261,
+        'eggCycles': 80,
+        'base': {
+            'hitpoints': 105,
+            'attack': 115,
+            'specialAttack': 140,
+            'defense': 115,
+            'specialDefense': 140,
+            'speed': 115,
+        },
+        'gender': {
+            'type': Genders.Genderless,
+        },
+    },
+    {
         'id': 147,
         'name': 'Dratini',
         'catchRate': 45,
