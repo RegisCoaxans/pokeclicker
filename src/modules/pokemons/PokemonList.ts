@@ -31581,6 +31581,29 @@ export const pokemonList = createPokemonArray(
         },
     },
 
+    // Actually Sabrina's Kadabra
+    {
+        'id': -64,
+        'name': 'Professor Oak?',
+        'nativeRegion': Region.none,
+        'catchRate': 100,
+        'type': [PokemonType.Psychic],
+        'levelType': LevelType.mediumslow,
+        'exp': 140,
+        'eggCycles': 20,
+        'base': {
+            'hitpoints': 40,
+            'attack': 35,
+            'specialAttack': 120,
+            'defense': 30,
+            'specialDefense': 70,
+            'speed': 105,
+        },
+        'gender': {
+            'femaleRatio': 0,
+        },
+    },
+
     // ???
     {
         'id': -793,

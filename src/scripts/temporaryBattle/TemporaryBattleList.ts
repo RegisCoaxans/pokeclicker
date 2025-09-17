@@ -253,6 +253,67 @@ TemporaryBattleList['Bill\'s Grandpa'] = new TemporaryBattle(
     undefined,
     {imageName: 'Bill\'s Grandpa with Eevee'}
 );
+TemporaryBattleList['WingedLegends Grunts'] = new TemporaryBattle(
+    'WingedLegends Grunts',
+    [
+        new GymPokemon('Gengar', 125405, 35),
+        new GymPokemon('Moltres', 150486, 50),
+    ],
+    'Retreat! Moltres, return!',
+    [new QuestLineStepCompletedRequirement('The Winged Legends', 1)],
+    undefined,
+    {
+        displayName: 'Team Rocket Grunts',
+        imageName: 'Team Rocket Grunts',
+    }
+);
+TemporaryBattleList['WingedLegends Professor Oak'] = new TemporaryBattle(
+    'WingedLegends Professor Oak',
+    [
+        new GymPokemon('Professor Oak?', 263351, 38),
+    ],
+    'Hahahahaha... How do you like Kadabra\'s hypnosis power?\nIf you want to save Professor Oak and the citizens of Pallet Town... Come to Saffron City.',
+    [new QuestLineStepCompletedRequirement('The Winged Legends', 4)],
+    undefined,
+    {
+        displayName: 'Professor Oak',
+        imageName: 'Sabrina',
+        hideTrainer: true,
+    }
+);
+TemporaryBattleList['WingedLegends Mr. Mime'] = new TemporaryBattle(
+    'WingedLegends Mr. Mime',
+    [
+        new GymPokemon('Mr. Mime', 300972, 37),
+    ],
+    '<i>Mr. Mime tries to run away, but you knock it out just in time!</i>',
+    [new QuestLineStepCompletedRequirement('The Winged Legends', 6)],
+    undefined,
+    {
+        displayName: 'Mr. Mime\'s Barrier',
+        imageName: '../pokemon/122',
+        hideTrainer: true,
+    }
+);
+TemporaryBattleList['WingedLegends Lt. Surge'] = new TemporaryBattle(
+    'WingedLegends Lt. Surge',
+    [
+        new GymPokemon('Voltorb', 52753, 35),
+        new GymPokemon('Electrode', 58028, 35),
+        new GymPokemon('Voltorb', 52753, 35),
+        new GymPokemon('Electrode', 58028, 35),
+        new GymPokemon('Magneton', 58320, 35),
+        new GymPokemon('Zapdos', 59795, 50),
+
+    ],
+    'Gyaaah!!!\n<i>With his team defeated, Lt. Surge\'s electrical power backfires upon him.</i>',
+    [new QuestLineStepCompletedRequirement('The Winged Legends', 8)],
+    undefined,
+    {
+        displayName: 'Lt. Surge',
+        imageName: 'Lt. Surge',
+    }
+);
 TemporaryBattleList['Blue 6'] = new TemporaryBattle(
     'Blue 6',
     [

@@ -12,6 +12,7 @@ export type QuestLineNameType
     | 'Team Rocket'
     | 'Bill\'s Grandpa Treasure Hunt'
     | 'Mining Expedition'
+    | 'The Winged Legends'
     | 'Bill\'s Errand'
     | 'Persons of Interest'
     | 'The Sick Ampharos'

@@ -1271,7 +1271,11 @@ dungeonList['Seafoam Islands'] = new Dungeon('Seafoam Islands',
     17226,
     [
         new DungeonBossPokemon('Seel', 86130, 35),
-        new DungeonBossPokemon('Articuno', 129195, 50),
+        new DungeonTrainer('Team Rocket Grunt',
+            [
+                new GymPokemon('Muk', 89575, 20),
+            ], { hide: true, requirement: new MultiRequirement([new QuestLineStepCompletedRequirement('The Winged Legends', 0, GameConstants.AchievementOption.less), new QuestLineStartedRequirement('The Winged Legends')]) }, undefined, '(male)'),
+        new DungeonBossPokemon('Articuno', 129195, 50, { requirement: new QuestLineCompletedRequirement('The Winged Legends') }),
         new DungeonBossPokemon('Pikachu (Easter)', 2700000, 23, {
             requirement: new MultiRequirement([
                 new PokemonDefeatedSelectNRequirement('Pikachu (Easter)', 4, 6, 1),

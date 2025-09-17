@@ -496,6 +496,49 @@ const FuchsiaEusine = new NPC('Eusine', [
     requirement: new MultiRequirement([new QuestLineStepCompletedRequirement('Eusine\'s Chase', 7), new QuestLineStepCompletedRequirement('Eusine\'s Chase', 9, GameConstants.AchievementOption.less )]),
 });
 
+const WingedLegendsBlaine = new NPC('Blaine', ['It doesn\'t concern you, kid.', 'I\'m the one they want, so stay out of this.'],
+    {
+        requirement: new QuestLineStepCompletedRequirement('The Winged Legends', 1),
+        image: 'assets/images/npcs/Blaine.png',
+    }
+);
+
+const WingedLegendsBlaine2 = new NPC('Blaine', 
+    [
+        'It seems you\'re quite brave. You risked you\'re life for me...',
+        'Hmm. Does that mean you\'re worthy enough of what I guard?',
+        'Come and challenge me: if you win, you get to leave with the Volcano badge.'],
+    {
+        requirement: new QuestLineStepCompletedRequirement('The Winged Legends', 3),
+        image: 'assets/images/npcs/Blaine.png',
+    }
+);
+
+const WingedLegendsBlue = new NPC('Blue',
+    [
+        'I had a bad premonition and sure enough...',
+        'Team Rocket is waiting for us in Saffron City? Well, too bad, I just come from there.',
+        'The entire city is surrounded by a psychic barrier. Team Rocket must be using it for their headquarters.',
+        'And they told us to go to Saffron City... The final battle between our two forces is about to begin.'
+    ],
+    {
+        requirement: new QuestLineStepCompletedRequirement('The Winged Legends', 5),
+        image: 'assets/images/npcs/Blue-lgpe.png',
+    }
+);
+
+const WingedLegendsBlue2 = new NPC('Blue', 
+    [
+        'When my Pokémon perceived Mr. Mime\'s presence, there were more foes around here.',
+        'It\'s a central localtion, they got to be in this building. Where are... $playername$, watch out!',
+        '<i>A hidden trapdoor drops you down. Below, Lt. Surge awaits, ready for battle.</i>'
+    ],
+    {
+        requirement: new QuestLineStepCompletedRequirement('The Winged Legends', 7),
+        image: 'assets/images/npcs/Blue-lgpe.png',
+    }
+);
+
 const CinnabarIslandResearcher = new NPC('Researcher', [
     'They were trying to clone an ancient Pokémon in the mansion... I wonder if they succeeded.',
     'Apparently the ancient Pokémon escaped, and can be found roaming around Kanto!',

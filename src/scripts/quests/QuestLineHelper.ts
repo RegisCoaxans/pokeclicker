@@ -318,6 +318,56 @@ class QuestLineHelper {
         App.game.quests.questLines().push(undergroundQuestLine);
     }
 
+    // Available in Bulletin Board upon unlocking Seafoam Islands
+    public static createWingedLegendsQuestLine() {
+        const theWingedLegendsQuestLine = new QuestLine('The Winged Legends', 'Team Rocket wants to experiment on the legendary birds.', new GymBadgeRequirement(BadgeEnums.Rainbow), GameConstants.BulletinBoards.Kanto);
+        
+        const clearSeafoam = new DefeatDungeonBossQuest('Seafoam Islands', 'Team Rocket Grunt').withDescription('Defeat Team Rocket on Seafoam Islands.').withOptionalArgs({
+            clearedMessage: 'While you were busy fighting, Articuno could flee, but you have a feeling Team Rocket won\'t stop just now...',
+            npcImageName: '../pokemon/144',
+        });
+        theWingedLegendsQuestLine.addQuest(clearSeafoam);
+
+        const talkToBlaine = new TalkToNPCQuest(WingedLegendsBlaine, 'Continue your journey to Cinnabar Island. Meet with Blaine.');
+        theWingedLegendsQuestLine.addQuest(talkToBlaine);
+
+        const defeatCinnabarGrunt = new DefeatTemporaryBattleQuest('WingedLegends Grunts', 'Anyway, you\'re kind of stubborn and decide to take these punks down yourself.');
+        theWingedLegendsQuestLine.addQuest(defeatCinnabarGrunt);
+
+        const talkToBlaine2 = new TalkToNPCQuest(WingedLegendsBlaine2, 'Report to Blaine.');
+        theWingedLegendsQuestLine.addQuest(talkToBlaine2);
+
+        const defeatBlaine = new DefeatGymQuest(1, undefined, 'Cinnabar Island').withDescription('Blaine wants you to prove your abilities once again. Defeat his gym at Cinnabar Island.');
+        theWingedLegendsQuestLine.addQuest(defeatBlaine);
+
+        const defeatSabrina = new DefeatTemporaryBattleQuest('WingedLegends Professor Oak', 'With Blaine on your side, head to Pallet Town and report to Professor Oak.');
+        theWingedLegendsQuestLine.addQuest(defeatSabrina);
+
+        const talkToBlue = new TalkToNPCQuest(WingedLegendsBlue, 'You should definitely prepare for troubles... Ah, Blue just arrived, have a talk with him.');
+        theWingedLegendsQuestLine.addQuest(talkToBlue);
+
+        const defeatSaffronCityBarrier = new DefeatTemporaryBattleQuest('WingedLegends Mr. Mime', 'Approach Saffron City and take down whoever raised that psychic barrier.');
+        theWingedLegendsQuestLine.addQuest(defeatSaffronCityBarrier);
+
+        const talkToBlue2 = new TalkToNPCQuest(WingedLegendsBlue2, 'The barrier has only just faded, but Blue run headfirst toward Silph Co. Hurry after him to learn what\'s going on.');
+        theWingedLegendsQuestLine.addQuest(talkToBlue2);
+
+        const defeatSurge = new DefeatTemporaryBattleQuest('WingedLegends Lt. Surge', 'Your only way out of this is to defeat Lt. Surge.');
+        theWingedLegendsQuestLine.addQuest(defeatSurge);
+
+        const defeatKoga = new DefeatTemporaryBattleQuest('WingedLegends Koga', 'Meanwhile, Blue\'s in a tight spot! Help him take on Koga.');
+        theWingedLegendsQuestLine.addQuest(defeatKoga);
+
+        // Blue goes after citizens, Meet with Green disguised as Sabrina
+        // Battle against Sabrina (try to use the device on the last attack but it fails, Sabrina take it back and she manages to use it)
+        // Meet with the newly appearing creature
+        // Try your best to defend against it until you find a strategy
+        // "It's unstable, let's try and overwhelm it with combined attacks!"
+        // Battle a second time against the creature, according to the plan
+
+        App.game.quests.questLines().push(theWingedLegendsQuestLine);
+    }
+
     // Started upon defeating Cinnabar Island's gym.
     public static createBillSeviiQuestLine() {
         const billSeviiQuestLine = new QuestLine('Bill\'s Errand', 'Bill has asked you to journey to the Sevii Islands with him to set up a digital connection to mainland Kanto.');
@@ -4249,6 +4299,7 @@ class QuestLineHelper {
         this.createTutorial();
         this.createRocketKantoQuestLine();
         this.createBillsGrandpaQuestLine();
+        this.createWingedLegendsQuestLine();
         this.createUndergroundQuestLine();
         this.createBillSeviiQuestLine();
         this.createPersonsofInterestQuestLine();
