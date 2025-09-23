@@ -554,6 +554,14 @@ class PartyPokemon implements Saveable, TmpPartyPokemonType {
     });
 
     public giveHeldItem = (heldItem: HeldItem): void => {
+        if (this.name == 'Squad Leader Squirtle' && heldItem.name == 'Black_Glasses') {
+            Notifier.notify({
+                message: 'Squad Leader Squirtle already wears Black Glasses all the time!',
+                type: NotificationConstants.NotificationOption.danger,
+                image: heldItem.image,
+            });
+            return;
+        }
         if (!this.heldItem() || heldItem.name != this.heldItem().name) {
             if (heldItem && !heldItem.canUse(this)) {
                 Notifier.notify({
