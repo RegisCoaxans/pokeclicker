@@ -1119,7 +1119,10 @@ class Farming implements Feature {
             BerryColor.Yellow,
             5.7,
             BerryFirmness.Very_Hard,
-            ['This Berry remains poisonous until fully ripened. Once ripe it has a spicy and sweet complex flavor.']
+            [
+                'This Berry remains poisonous until fully ripened. Once ripe it has a spicy and sweet complex flavor.',
+                'Its scent causes nearby Pokémon to evolve.',
+            ]
         );
 
         this.berryData[BerryType.Maranga] = new Berry(

@@ -384,16 +384,28 @@ class PokemonFactory {
 
     public static generateWandererData(plot: Plot): WandererPokemon {
         const berry = plot.berryData;
-        const mulch = plot.mulch;
-        const availablePokemon = [];
-        const weights = [];
-        berry.wander.forEach((p, i) => {
-            if (pokemonMap[p].nativeRegion <= player.highestRegion()) {
-                availablePokemon.push(p);
-                weights.push(mulch === MulchType.Gooey_Mulch && i >= Berry.baseWander.length ? 2 : 1);
+        const useGooey = plot.mulch === MulchType.Gooey_Mulch;
+        const availablePokemon = new Set<PokemonNameType>();
+        const evolve = App.game.farming.berryInFarm(BerryType.Kee);
+        berry.wander.forEach(p => {
+            const wanderers = [];
+            if (evolve) {
+                wanderers.push(
+                    ...PokemonHelper.getPokemonByName(p).evolutions?.filter(evo => evo.trigger == EvoTrigger.LEVEL
+                        && App.game.statistics.pokemonCaptured[PokemonHelper.getPokemonByName(evo.evolvedPokemon).id]()).map(evo => evo.evolvedPokemon)
+                        ?? []
+                );
             }
+            if (!wanderers.length) {
+                wanderers.push(p);
+            }
+            wanderers.forEach(w => {
+                if (pokemonMap[w].nativeRegion <= player.highestRegion()) {
+                    availablePokemon.add(w);
+                }
+            });
         });
-        const pokemon = Rand.fromWeightedArray(availablePokemon, weights);
+        const pokemon = Rand.fromWeightedArray<PokemonNameType>([...new Set(availablePokemon)], [...new Set(availablePokemon)].map((p: PokemonNameType) => useGooey && !Berry.baseWander.includes(p) ? 2 : 1));
         const pokemonData = pokemonMap[pokemon];
         const shiny = PokemonFactory.generateShiny(GameConstants.SHINY_CHANCE_FARM);
         const catchChance = PokemonFactory.catchRateHelper(pokemonData.catchRate + 25, true);
