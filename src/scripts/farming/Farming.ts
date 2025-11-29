@@ -1970,14 +1970,15 @@ class Farming implements Feature {
         this.plotList[index].isSafeLocked = !this.plotList[index].isSafeLocked;
     }
 
-    plant(index: number, berry: BerryType) {
+    plant(index: number, berry: BerryType): boolean {
         const plot = this.plotList[index];
         if (!plot.isEmpty() || !plot.isUnlocked || !this.hasBerry(berry) || plot.isSafeLocked) {
-            return;
+            return false;
         }
 
         GameHelper.incrementObservable(this.berryList[berry], -1);
         plot.plant(berry);
+        return true;
     }
 
     plantAll(berry: BerryType) {
@@ -1990,10 +1991,10 @@ class Farming implements Feature {
      * Harvest a plot at the given index
      * @param index The index of the plot to harvest
      */
-    harvest(index: number): void {
+    harvest(index: number): boolean {
         const plot = this.plotList[index];
         if (plot.berry === BerryType.None || plot.stage() != PlotStage.Berry || plot.isSafeLocked) {
-            return;
+            return false;
         }
 
         App.game.wallet.gainFarmPoints(this.berryData[plot.berry].farmValue);
@@ -2008,6 +2009,7 @@ class Farming implements Feature {
         player.lowerItemMultipliers(MultiplierDecreaser.Berry, this.berryData[plot.berry].exp);
 
         plot.die(true);
+        return true;
     }
 
     /**
@@ -2023,46 +2025,48 @@ class Farming implements Feature {
      * Handles using the Berry Shovel to remove a Berry plant
      * @param index The plot index
      */
-    public shovel(index: number): void {
+    public shovel(index: number): boolean {
         const plot = this.plotList[index];
         if (!plot.isUnlocked) {
-            return;
+            return false;
         }
         if (plot.isSafeLocked) {
-            return;
+            return false;
         }
         if (plot.isEmpty()) {
-            return;
+            return false;
         }
         if (plot.stage() == PlotStage.Berry) {
-            this.harvest(index);
-            return;
+            return this.harvest(index);
         }
         if (this.shovelAmt() <= 0) {
-            return;
+            return false;
         }
         plot.die(true);
         GameHelper.incrementObservable(this.shovelAmt, -1);
         GameHelper.incrementObservable(App.game.statistics.totalShovelsUsed, 1);
+        return true;
     }
 
     /**
      * Handles using the Mulch Shovel to remove mulch from a plot
      * @param index The plot index
      */
-    public shovelMulch(index: number): void {
+    public shovelMulch(index: number): boolean {
         const plot = this.plotList[index];
         if (!plot.isUnlocked || plot.isSafeLocked) {
-            return;
+            return false;
         }
         if (this.mulchShovelAmt() <= 0) {
-            return;
+            return false;
         }
 
         if (plot.clearMulch()) {
             GameHelper.incrementObservable(this.mulchShovelAmt, -1);
             GameHelper.incrementObservable(App.game.statistics.totalShovelsUsed, 1);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -2071,10 +2075,10 @@ class Farming implements Feature {
      * @param mulch The MulchType to be added
      * @param amount The amount of mulch to apply. Defaults to 1
      */
-    public addMulch(index: number, mulch: MulchType, amount = 1) {
+    public addMulch(index: number, mulch: MulchType, amount = 1): boolean {
         const plot = this.plotList[index];
         if (!this.canMulch(index, mulch)) {
-            return;
+            return false;
         }
 
         amount = Math.min(this.mulchList[mulch](), amount);
@@ -2085,6 +2089,7 @@ class Farming implements Feature {
 
         plot.mulch = +mulch;
         plot.mulchTimeLeft += GameConstants.MULCH_USE_TIME * amount;
+        return true;
     }
 
     /**
@@ -2289,9 +2294,9 @@ class Farming implements Feature {
         return `×${App.game.farming.berryData[berry].aura.auraMultipliers[stage].toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 3 })}`;
     }
 
-    public handleWanderer(plot: Plot) {
+    public handleWanderer(plot: Plot): boolean {
         if (!plot.canCatchWanderer()) {
-            return;
+            return false;
         }
         const wanderer = plot.wanderer;
         const pokemonData = PokemonHelper.getPokemonByName(wanderer.name);
@@ -2312,7 +2317,7 @@ class Farming implements Feature {
         } else {
             this.wandererIsFleeing(plot);
         }
-
+        return true;
     }
 
     public attemptCatchWanderer(plot: Plot) {
