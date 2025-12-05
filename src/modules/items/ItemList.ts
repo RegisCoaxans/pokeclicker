@@ -268,6 +268,7 @@ ItemList.Magikarp_Biscuit = new AttackGainConsumable(ConsumableType.Magikarp_Bis
 
 // Miscellaneous
 ItemList.Christmas_present = new ChristmasPresent();
+ItemList.Gold_Bottle_Cap = new Item('Gold_Bottle_Cap', 100000, undefined, undefined, undefined, 'A beautiful bottle cap that gives off a golden gleam. Some people are happy to receive one.'); // TODO: CollectibleItem
 
 // Underground Items
 // Sellable (Diamonds)

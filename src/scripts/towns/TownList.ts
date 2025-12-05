@@ -7740,6 +7740,38 @@ const NecrozmaLooker = new NPC('Looker', [
     image: 'assets/images/npcs/Looker.png',
     requirement: new QuestLineCompletedRequirement('Ultra Beast Hunt'),
 });
+const MrHyperCap = new GiftNPC('Mr. Hyper', [
+    'The name\'s Hyper! You want to know why I\'m hyper ? Because I can help Pokémon do Hyper Training! Allow me to explain!',
+    'Hyper Training is a way for your Pokémon to get even stronger! This special training is worth a few dozens of Effort Points!',
+    'If you want me to train up your Pokémon, bring me a Gold Bottle Cap. No regular one! Gold!',
+    '...',
+    'Ah! You got yourself one Gold Bottle Cap! That\'s hyper! Did you chose what Pokemon you want me to train?',
+    '<strong>$hyperpokemon$</strong>, you say? OK. Then get hyped! I\'m going to train your <strong>$hyperpokemon$</strong> up until it gains 50EV in exchange for this Gold Bottle Cap!',
+], () => {
+    const power = App.game.challenges.list.slowEVs.active.peek() ? GameConstants.EP_CHALLENGE_MODIFIER : 1;
+    const addedEP = 50 * GameConstants.EP_EV_RATIO * power;
+    const pokemon = App.game.party.getPokemonByName(NPCController.mrHyperPokemon());
+    pokemon.effortPoints += addedEP;
+    Notifier.notify({
+        message: `${pokemon.name} gained 50EV!`,
+        pokemonImage: PokemonHelper.getImage(pokemon.id),
+        type : NotificationConstants.NotificationOption.success,
+    });
+    player.loseItem('Gold_Bottle_Cap', 1);
+}, undefined, {
+    requirement: new ItemOwnedRequirement('Gold_Bottle_Cap', 1),
+    saveKey: 'MrHyperTraining',
+});
+const MrHyperNoCap = new NPC('Mr. Hyper', [
+    'The name\'s Hyper! You want to know why I\'m hyper ? Because I can help Pokémon do Hyper Training! Allow me to explain!',
+    'Hyper Training is a way for your Pokémon to get even stronger! This special training is worth a few dozen Effort Points!',
+    'If you want me to train up your Pokémon, bring me a Gold Bottle Cap. No regular one! Gold!',
+], {
+    requirement: new MultiRequirement([
+        new ItemOwnedRequirement('Gold_Bottle_Cap', 1, GameConstants.AchievementOption.less),
+        new StatisticRequirement(['npcTalkedTo', MrHyperCap.saveKey], 1, 'Hyper Training already happened.', GameConstants.AchievementOption.less),
+    ]),
+});
 const BattleTreeRed = new NPC('Red', [
     '...',
 ], {image: 'assets/images/npcs/Red-masters.png'});
@@ -7871,7 +7903,7 @@ TownList['Hau\'oli City'] = new Town(
     [HauoliCityShop, new ShardTraderShop(GameConstants.ShardTraderLocations['Hau\'oli City']), TemporaryBattleList.Ilima],
     {
         requirements: [new ClearDungeonRequirement(1, GameConstants.getDungeonIndex('Trainers\' School'))],
-        npcs: [NecrozmaLooker],
+        npcs: [NecrozmaLooker, MrHyperCap, MrHyperNoCap],
     }
 );
 TownList['Melemele Woods'] = new Town(

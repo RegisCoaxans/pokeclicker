@@ -190,6 +190,7 @@ export type ItemNameType
     | 'Rare_Candy'
     | 'Magikarp_Biscuit'
     | 'Christmas_present'
+    | 'Gold_Bottle_Cap'
     | 'Rare_bone'
     | 'Star_piece'
     | 'Revive'

@@ -17,6 +17,7 @@ class Discord implements Saveable {
         new DiscordPokemonCode(pokemonMap['Surfing Pikachu'], 1500, 'It\'s a Pikachu on a surfboard!'),
         new DiscordPokemonCode(pokemonMap['Rotom (Discord)'], 10000, 'A Discord-style Rotom!'),
         new DiscordItemCode('HatcheryHelperLeslie', 'Someone to hire in your Daycare.'),
+        new DiscordItemCode('Gold_Bottle_Cap'),
     ];
 
     get enabled(): boolean {

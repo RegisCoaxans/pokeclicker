@@ -2,7 +2,7 @@ import type { Observable } from 'knockout';
 
 export default class TextMerger {
     private static tempElementForEscape = document.createElement('textarea');
-    private static mergeValues : { [name: string]: Observable<string> };
+    private static mergeValues : { [name: string]: Observable<string> | (() => string) };
 
     public static mergeText(text: string) : string {
         if (this.mergeValues == null) {
@@ -27,6 +27,7 @@ export default class TextMerger {
     private static buildMergeValues() {
         this.mergeValues = {
             playername: App.game.profile.name,
+            hyperpokemon: NPCController.mrHyperPokemon,
         };
     }
 
