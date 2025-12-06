@@ -320,7 +320,7 @@ class QuestLineHelper {
 
     // Available in Bulletin Board upon unlocking Seafoam Islands
     public static createWingedLegendsQuestLine() {
-        const theWingedLegendsQuestLine = new QuestLine('The Winged Legends', 'Team Rocket wants to experiment on the legendary birds.', new GymBadgeRequirement(BadgeEnums.Rainbow), GameConstants.BulletinBoards.Kanto);
+        const theWingedLegendsQuestLine = new QuestLine('The Winged Legends', 'Team Rocket is plotting something that involves the legendary birds.', new GymBadgeRequirement(BadgeEnums.Rainbow), GameConstants.BulletinBoards.Kanto);
         
         const clearSeafoam = new DefeatDungeonBossQuest('Seafoam Islands', 'Team Rocket Grunt').withDescription('Defeat Team Rocket on Seafoam Islands.').withOptionalArgs({
             clearedMessage: 'While you were busy fighting, Articuno could flee, but you have a feeling Team Rocket won\'t stop just now...',

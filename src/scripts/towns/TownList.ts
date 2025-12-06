@@ -505,7 +505,7 @@ const WingedLegendsBlaine = new NPC('Blaine', ['It doesn\'t concern you, kid.', 
 
 const WingedLegendsBlaine2 = new NPC('Blaine', 
     [
-        'It seems you\'re quite brave. You risked you\'re life for me...',
+        'It seems you\'re quite brave. You risked your life for me...',
         'Hmm. Does that mean you\'re worthy enough of what I guard?',
         'Come and challenge me: if you win, you get to leave with the Volcano badge.'],
     {
