@@ -78,15 +78,6 @@ class FarmHandInstructionConditionPlot extends FarmHandInstructionCondition {
     }
 }
 
-class FarmHandInstructionConditionPokemon extends FarmHandInstructionCondition {
-    public static key = 'Pokemon';
-    static legalValues = ['None', 'Regular', 'Shiny'];
-
-    test(plot: Plot): boolean {
-        return this.values.includes(plot.wanderer ? (plot.wanderer.shiny ? 'Shiny' : 'Regular') : 'None');
-    }
-}
-
 class FarmHandInstructionConditionStage extends FarmHandInstructionCondition {
     public static key = 'Stage';
     static legalValues = GameHelper.enumStrings(PlotStage);
@@ -195,7 +186,6 @@ class FarmHandInstructions {
         FarmHandInstructionConditionBerry,
         FarmHandInstructionConditionMulch,
         FarmHandInstructionConditionStage,
-        FarmHandInstructionConditionPokemon,
         FarmHandInstructionConditionPlot,
     ];
     public static BLOCK_ACTION_LIST = [
