@@ -7759,7 +7759,7 @@ const MrHyperCap = new GiftNPC('Mr. Hyper', [
     });
     player.loseItem('Gold_Bottle_Cap', 1);
 }, undefined, {
-    requirement: new MultiRequirement([new PokerusStatusRequirement(1, GameConstants.Pokerus.Contagious), new ItemOwnedRequirement('Gold_Bottle_Cap', 1)]),
+    requirement: new ItemOwnedRequirement('Gold_Bottle_Cap', 1),
     saveKey: 'MrHyperTraining',
 });
 const MrHyperNoCap = new NPC('Mr. Hyper', [
@@ -7770,7 +7770,6 @@ const MrHyperNoCap = new NPC('Mr. Hyper', [
     requirement: new MultiRequirement([
         new ItemOwnedRequirement('Gold_Bottle_Cap', 1, GameConstants.AchievementOption.less),
         new StatisticRequirement(['npcTalkedTo', MrHyperCap.saveKey], 1, 'Hyper Training already happened.', GameConstants.AchievementOption.less),
-        new PokerusStatusRequirement(1, GameConstants.Pokerus.Contagious),
     ]),
 });
 const BattleTreeRed = new NPC('Red', [
