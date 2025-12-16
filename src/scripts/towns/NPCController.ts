@@ -14,19 +14,16 @@ class NPCController {
         }
     }
 
-    public static mrHyperPokemon = (function() {
-        let pokemon: PokemonNameType;
-        const getRandomPokemon = () => {
-            if (pokemon) {
-                return pokemon;
-            }
-            let eligible = App.game.party.caughtPokemon.filter(p => p.pokerus == GameConstants.Pokerus.Contagious).map(p => p.name);
-            if (!eligible.length) {
-                eligible = App.game.party.caughtPokemon.filter(p => p.pokerus == GameConstants.Pokerus.Resistant).map(p => p.name);
-            }
-            return pokemon = Rand.fromArray(eligible);
-        };
-        return getRandomPokemon;
-    })();
+    public static mrHyperPokemon = function() {
+        SeededRand.seed(App.game.statistics.totalPokemonDefeated());
+        SeededRand.next();
+        SeededRand.next();
+        SeededRand.next();
+        let eligible = App.game.party.caughtPokemon.filter(p => p.pokerus == GameConstants.Pokerus.Contagious);
+        if (!eligible.length) {
+            eligible = App.game.party.caughtPokemon.filter(p => p.pokerus == GameConstants.Pokerus.Resistant);
+        }
+        return SeededRand.fromArray(eligible).name;
+    };
 }
 
