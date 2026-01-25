@@ -43,6 +43,11 @@ class Quests implements Saveable {
 
     constructor() { }
 
+    initialize() {
+        // Generate the questLines (statistics not yet loaded when constructing)
+        QuestLineHelper.loadQuestLines();
+    }
+
     static questCompareBy(quest1, quest2): number {
         if (Quests.getQuestSortStatus(quest1) < Quests.getQuestSortStatus(quest2)) {
             return -1;
@@ -365,9 +370,6 @@ class Quests implements Saveable {
     }
 
     fromJSON(json: any) {
-        // Generate the questLines (statistics not yet loaded when constructing)
-        QuestLineHelper.loadQuestLines();
-
         if (!json) {
             // Generate the questList
             this.generateQuestList();

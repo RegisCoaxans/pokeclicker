@@ -92,11 +92,12 @@ const DungeonGainGymBadge = (gym: Gym) => {
 };
 
 /**
- * Gym class.
+ * Dungeon class.
  */
  interface optionalDungeonParameters {
     dungeonRegionalDifficulty?: GameConstants.Region,
     requirement?: MultiRequirement | OneFromManyRequirement | Requirement,
+    achievement?: boolean,
 }
 class Dungeon {
     private mimicList: PokemonNameType[] = [];
@@ -109,7 +110,7 @@ class Dungeon {
         public baseTokenCost: number,
         public difficultyRoute: number, // Closest route in terms of difficulty, used for egg steps, dungeon tokens etc.
         public rewardFunction = () => {},
-        private optionalParameters: optionalDungeonParameters = {}
+        public optionalParameters: optionalDungeonParameters = {}
     ) {
         // Keep a list of mimics to use with getCaughtMimics()
         Object.entries(this.lootTable).forEach(([_, itemList]) => {
@@ -458,14 +459,21 @@ class Dungeon {
             if (typeof enemy === 'string' || enemy.hasOwnProperty('pokemon')) {
                 let pokemonName: PokemonNameType;
                 let hideEncounter = false;
+                let lock = false;
+                let lockMessage = '';
                 if (enemy.hasOwnProperty('pokemon')) {
                     const pokemon = <DetailedPokemon>enemy;
                     pokemonName = pokemon.pokemon;
                     hideEncounter = pokemon.options?.hide ? (pokemon.options?.requirement ? !pokemon.options?.requirement.isCompleted() : pokemon.options?.hide) : false;
+                    lock = !(pokemon.options?.requirement?.isCompleted() ?? true);
+                    lockMessage = pokemon.options?.requirement?.hint() ?? '';
                 } else {
                     pokemonName = <PokemonNameType>enemy;
                 }
-                encounterInfo.push(this.getEncounterInfo(pokemonName, null, hideEncounter));
+                const encounterData = this.getEncounterInfo(pokemonName, null, hideEncounter);
+                encounterData.lock = lock;
+                encounterData.lockMessage = lockMessage;
+                encounterInfo.push(encounterData);
             // Handling Trainers (only those with shadow Pokemon)
             } else if (enemy instanceof DungeonTrainer) {
                 const hideEncounter = (enemy.options?.requirement && !enemy.options.requirement.isCompleted());
@@ -488,7 +496,7 @@ class Dungeon {
         // Handling Mimics
         this.getCaughtMimics().forEach(enemy => {
             const pokemonName = enemy;
-            encounterInfo.push(this.getEncounterInfo(pokemonName, this.getMimicData(pokemonName)));
+            encounterInfo.push(this.getEncounterInfo(pokemonName, this.getMimicData(pokemonName), true));
         });
 
         return encounterInfo;
@@ -1500,15 +1508,28 @@ dungeonList['New Island'] = new Dungeon('New Island',
                 new GymPokemon('Nidoqueen', 18500, 40),
                 new GymPokemon('Ninetales', 18500, 40),
             ], { weight: 1 }, ''),
-        new DungeonTrainer('Armored Mewtwo',
-            [new GymPokemon('Blastoise (Clone)', 20000, 50)],
-            { weight: 2 }, ''),
-        new DungeonTrainer('Armored Mewtwo',
-            [new GymPokemon('Venusaur (Clone)', 20000, 50)]
-            , { weight: 2 }, ''),
-        new DungeonTrainer('Armored Mewtwo',
-            [new GymPokemon('Charmander (Clone)', 20000, 50)],
-            { weight: 2 }, ''),
+        ...[
+            ['Venusaur', 'Ivysaur'],
+            ['Charizard', 'Charmeleon'],
+            ['Blastoise', 'Wartortle'],
+        ].map(clones => {
+            return [
+                {pokemon: `${clones[1]} (Clone)` as PokemonNameType, options: { hide: true, requirement: new MultiRequirement([
+                    new ObtainedPokemonRequirement(`${clones[0]} (Clone)` as PokemonNameType),
+                    new ClearDungeonRequirement(50, GameConstants.getDungeonIndex('New Island')),
+                ]) }},
+                {pokemon: `${clones[0]} (Clone)` as PokemonNameType, options: { hide: true, requirement: new MultiRequirement([
+                    new ObtainedPokemonRequirement(`${clones[0]} (Clone)` as PokemonNameType),
+                    new ClearDungeonRequirement(50, GameConstants.getDungeonIndex('New Island')),
+                ]) }},
+                new DungeonTrainer('Armored Mewtwo',
+                    [new GymPokemon(`${clones[0]} (Clone)` as PokemonNameType, 20000, 50)],
+                    { weight: 2, requirement:  new OneFromManyRequirement([
+                        new ObtainedPokemonRequirement(`${clones[0]} (Clone)` as PokemonNameType, true),
+                        new ClearDungeonRequirement(50, GameConstants.getDungeonIndex('New Island'), GameConstants.AchievementOption.less),
+                    ])}, ''),
+            ];
+        }).flat(1),
         new DungeonTrainer('Armored Mewtwo',
             [
                 new GymPokemon('Vulpix', 18500, 40),
@@ -1533,7 +1554,7 @@ dungeonList['New Island'] = new Dungeon('New Island',
     },
     18500,
     [new DungeonBossPokemon('Armored Mewtwo', 131500, 70)],
-    1800, 40);
+    1800, 40 , undefined, {achievement : false});
 
 dungeonList['Victory Road'] = new Dungeon('Victory Road',
     [
