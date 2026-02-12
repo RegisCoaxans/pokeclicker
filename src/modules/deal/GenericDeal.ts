@@ -429,12 +429,12 @@ export default class GenericDeal {
         ]);
         GenericDeal.list.ScentTrader = ko.observableArray([
             new GenericDeal({
-                costs: [{ type: DealCostOrProfitType.Item, item: ItemList.Joy_Scent, amount: 4 }],
+                costs: [{ type: DealCostOrProfitType.Item, item: ItemList.Joy_Scent, amount: 12 }],
                 profits: [{ type: DealCostOrProfitType.Item, item: ItemList.Excite_Scent, amount: 1 }],
                 tradeButtonOverride: 'Refine',
             }),
             new GenericDeal({
-                costs: [{ type: DealCostOrProfitType.Item, item: ItemList.Excite_Scent, amount: 4 }],
+                costs: [{ type: DealCostOrProfitType.Item, item: ItemList.Excite_Scent, amount: 12 }],
                 profits: [{ type: DealCostOrProfitType.Item, item: ItemList.Vivid_Scent, amount: 1 }],
                 tradeButtonOverride: 'Refine',
             }),
