@@ -2954,7 +2954,12 @@ class Update implements Saveable {
             }
         },
 
-        '0.10.25': ({ playerData, saveData, settingsData }) => {
+        '0.10.26': ({ playerData, saveData, settingsData }) => {
+            // Fix old saves missing Johto Rocket questline blocking them from entering the Mahogany Town hideout, hopefully for good
+            if (saveData.badgeCase[17]) {
+                Update.startQuestLine(saveData, 'Team Rocket Again');
+            }
+          
             saveData.farming?.plotList?.forEach(plot => {
                 if (plot.wanderer) {
                     // Force genderless

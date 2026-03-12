@@ -74,13 +74,14 @@ class Farming implements Feature {
         this.possiblePlotMutations = ko.pureComputed(() => {
             const plotMutations = [...Array(GameConstants.FARM_PLOT_WIDTH * GameConstants.FARM_PLOT_HEIGHT)].map(() => []);
             App.game.farming.mutations.forEach((mutation) => {
-                const isUnlocked = App.game.farming.unlockedBerries[mutation.mutatedBerry]();
-                if (!isUnlocked && !mutation.hintSeen) {
+                if (!mutation.unlocked) {
                     return;
                 }
+                const isUnlocked = App.game.farming.unlockedBerries[mutation.mutatedBerry]();
                 mutation.getMutationPlots().forEach((plot) => {
                     if (mutation.getTotalMutationChance(plot) > 0) {
-                        plotMutations[plot].push(isUnlocked ? BerryType[mutation.mutatedBerry] : '???');
+                        const berry = isUnlocked || mutation.hintSeen ? BerryType[mutation.mutatedBerry] : '???';
+                        plotMutations[plot].push(berry);
                     }
                 });
             });
@@ -1070,7 +1071,7 @@ class Farming implements Feature {
 
         this.berryData[BerryType.Jaboca] = new Berry(
             BerryType.Jaboca,
-            [4320, 8640, 16560, 33480, 66960],
+            [1875, 3750, 7500, 15000, 30000],
             1,
             0.05,
             2800,
@@ -1084,7 +1085,7 @@ class Farming implements Feature {
                 'The cluster of drupelets that make up this Berry pop rhythmically if the Berry is handled roughly.',
                 'The sound of these Berries attracts rare wild Pokémon.',
             ],
-            new Aura(AuraType.Roaming, [1.005, 1.01, 1.015])
+            new Aura(AuraType.Roaming, [1.01, 1.02, 1.03])
         );
 
         this.berryData[BerryType.Rowap] = new Berry(
