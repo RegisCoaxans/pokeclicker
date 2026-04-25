@@ -9,10 +9,10 @@ export default class RegionRoute {
         public number: number,
         public pokemon: RoutePokemon,
         public requirements: Requirement[] = [],
-        public orderNumber?: number,
+        public orderNumber = number,
         public subRegion?: number,
         public ignoreRouteInCalculations = false,
-        public routeHealth = undefined,
+        public routeHealth?: number,
     ) {
         this.orderNumber = orderNumber || number;
     }
