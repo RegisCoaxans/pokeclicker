@@ -31,6 +31,7 @@ export const TEMP_BATTLE_TIME = 60 * SECOND;
 export const TEMP_BATTLE_TICK = 0.1 * SECOND;
 export const SPECIAL_EVENT_TICK = 1 * SECOND;
 export const ZMOVE_TICK = 1 * SECOND;
+export const POKEPELAGO_TICK = 1 * SECOND;
 
 // Update the requirement for "Final Region Town" in TownList, when adding new regions.
 // Else the professor NPC won't work.
@@ -98,6 +99,7 @@ export enum AlolaSubRegions {
     AkalaIsland,
     UlaulaIsland,
     PoniIsland,
+    'PokéPelago',
     MagikarpJump,
 }
 
@@ -2684,3 +2686,7 @@ export const ZMOVE_ACTIVE_MULTIPLIER = 1.5;
 export const ZMOVE_COUNTERACTIVE_MULTIPLIER = 0.75;
 export const ZMOVE_ACTIVE_TIME = 1 * MINUTE;
 export const ZMOVE_COUNTERACTIVE_TIME = 4 * MINUTE;
+
+export const BEANS_MIN_TIME = 37 * SECOND;
+export const BEANS_CHANCE = 90;
+export const BEAN_MERGE_TIME = [10, 10, 10, 10, 20, 20, 20, 20, 30, 30, 30, 40, 40, 50, Infinity].map(m => m * SECOND);

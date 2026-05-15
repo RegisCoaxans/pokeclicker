@@ -20,6 +20,8 @@ import * as GameConstants from '../GameConstants';
 import SubRegion from './SubRegion';
 import QuestLineStartedRequirement from '../requirements/QuestLineStartedRequirement';
 import LazyRequirementWrapper from '../requirements/LazyRequirementWrapper';
+import CustomRequirement from '../requirements/CustomRequirement';
+import KeyItemType from '../enums/KeyItemType';
 
 export default class SubRegions {
     public static list: Record<number, SubRegion[]> = {};
@@ -71,6 +73,7 @@ SubRegions.addSubRegion(Region.alola, new SubRegion('Melemele Island', AlolaSubR
 SubRegions.addSubRegion(Region.alola, new SubRegion('Akala Island', AlolaSubRegions.AkalaIsland, new GymBadgeRequirement(BadgeEnums.Melemele_Stamp), 'Heahea City'));
 SubRegions.addSubRegion(Region.alola, new SubRegion('Ula\'ula Island', AlolaSubRegions.UlaulaIsland, new TemporaryBattleRequirement('Ultra Wormhole'), 'Malie City'));
 SubRegions.addSubRegion(Region.alola, new SubRegion('Poni Island', AlolaSubRegions.PoniIsland, new QuestLineStartedRequirement('Emissary of Light'), 'Seafolk Village'));
+SubRegions.addSubRegion(Region.alola, new SubRegion('Poké Pelago', AlolaSubRegions['PokéPelago'], new CustomRequirement(ko.pureComputed(() => App.game.keyItems.hasKeyItem(KeyItemType.Bean_Pouch)), true, 'Obtain the Bean Pouch'), 'Raft Hut'));
 SubRegions.addSubRegion(Region.alola, new SubRegion('Magikarp Jump', AlolaSubRegions.MagikarpJump, new QuestLineStartedRequirement('Magikarp Jump'), 'Hoppy Town'));
 
 SubRegions.addSubRegion(Region.galar, new SubRegion('South Galar', GalarSubRegions.SouthGalar, undefined, 'Hulbury'));

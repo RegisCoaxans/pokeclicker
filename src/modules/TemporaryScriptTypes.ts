@@ -34,6 +34,7 @@ import type WeatherType from './weather/WeatherType';
 import type { MultiplierDecreaser } from './items/types';
 import type BagItem from './interfaces/BagItem';
 import type BattlePokemon from './battles/BattlePokemon';
+import Pokepelago from './pokepelago/Pokepelago';
 
 /*
     These types are only temporary while we are converting things to modules. As things are converted,
@@ -138,6 +139,7 @@ export type TmpGameType = {
     purifyChamber: TmpPurifyChamberType;
     weatherApp: TmpWeatherAppType;
     zMoves: TmpZMovesType;
+    pokePelago: Pokepelago;
 
     // functions
     load: () => void;

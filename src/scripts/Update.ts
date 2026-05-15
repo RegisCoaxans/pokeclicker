@@ -2966,6 +2966,15 @@ class Update implements Saveable {
                     plot.wanderer.gender = 0;
                 }
             });
+            // Unlock Poké Pelago key item if Wela Volcano Park is cleared
+            if (saveData.statistics.dungeonsCleared[147]) {
+                saveData.keyItems.Bean_Pouch = true;
+                KeyItemController.showGainModal(KeyItemType.Bean_Pouch);
+            }
+            if (playerData.region == 6 && playerData.subRegion == 4) {
+                // If in Alola and in Magikarp Jump, increment the subRegion
+                playerData.subRegion++;
+            }
         },
     };
 

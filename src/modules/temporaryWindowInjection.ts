@@ -234,6 +234,8 @@ import CollectibleItem from './items/CollectibleItem';
 import areaStatus from './enums/AreaStatus';
 import TranslationHelper from './translation/TranslationHelper';
 import * as DownloadUtil from './utilities/DownloadUtil';
+import Pokepelago from './pokepelago/Pokepelago';
+import PokepelagoController from './pokepelago/PokepelagoController';
 
 Object.assign(<any>window, {
     SaveSelector,
@@ -483,4 +485,6 @@ Object.assign(<any>window, {
     areaStatus,
     TranslationHelper,
     DownloadUtil,
+    Pokepelago,
+    PokepelagoController,
 });

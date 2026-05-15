@@ -134,6 +134,8 @@ export default class Statistics implements Saveable {
     // DungeonGuides
     dungeonGuideAttempts: Array<KnockoutObservable<number>>;
     dungeonGuideClears: Array<KnockoutObservable<number>>;
+    // Poké Pelago
+    beansCollected: Array<KnockoutObservable<number>>;
 
     /*
      * objectObservables
@@ -212,6 +214,7 @@ export default class Statistics implements Saveable {
         'temporaryBattleDefeated',
         'dungeonGuideAttempts',
         'dungeonGuideClears',
+        'beansCollected',
     ];
     // These will allow negative values (special events etc)
     objectObservables = [

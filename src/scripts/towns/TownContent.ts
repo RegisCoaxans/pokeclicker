@@ -228,3 +228,14 @@ class PickStarterContent extends TownContent {
         return 'Pick your Starter';
     }
 }
+
+class PokePelagoOverview extends TownContent {
+    public cssClass(): string {
+        return 'btn btn-secondary';
+    }
+    public text(): string {
+        return 'Check on your islands';
+    }
+    public onclick(): void {
+    }
+}

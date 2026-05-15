@@ -8111,6 +8111,12 @@ TownList['A Tree Maybe'] = new Town(
         npcs: [BattleTreeRed, BattleTreeBlue, RyukiSilvally],
     }
 );
+TownList['Raft Hut'] = new Town(
+    'Raft Hut',
+    GameConstants.Region.alola,
+    GameConstants.AlolaSubRegions['PokéPelago'],
+    []
+);
 
 // Magikarp Jump Towns
 TownList['Hoppy Town'] = new Town(

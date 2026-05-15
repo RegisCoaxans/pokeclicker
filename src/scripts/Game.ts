@@ -46,6 +46,7 @@ class Game implements TmpGameType {
     public purifyChamber: PurifyChamber;
     public weatherApp: WeatherApp;
     public zMoves: ZMoves;
+    public pokePelago: Pokepelago;
 
     constructor() {
         // Needs to be loaded first so save data can be updated (specifically "player" data)
@@ -85,6 +86,7 @@ class Game implements TmpGameType {
         this.purifyChamber = new PurifyChamber();
         this.weatherApp = new WeatherApp();
         this.zMoves = new ZMoves();
+        this.pokePelago = new Pokepelago(this.multiplier);
 
         this._gameState = ko.observable(GameConstants.GameState.loading);
     }
@@ -529,6 +531,12 @@ class Game implements TmpGameType {
 
         // Farm
         this.farming.update(GameConstants.TICK_TIME / GameConstants.SECOND);
+
+        // Poké Pelago
+        this.pokePelago.counter += GameConstants.TICK_TIME;
+        if (this.pokePelago.counter >= GameConstants.POKEPELAGO_TICK) {
+            this.pokePelago.tick();
+        }
 
         // Effect Engine (battle items and flutes)
         EffectEngineRunner.counter += GameConstants.TICK_TIME;
