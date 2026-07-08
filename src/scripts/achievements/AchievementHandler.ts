@@ -565,7 +565,7 @@ class AchievementHandler {
             }
             // Dungeons
             GameConstants.RegionDungeons[region]?.forEach(dungeon => {
-                if (TownList[dungeon].requirements.some((req) => req instanceof DevelopmentRequirement) || dungeonList[dungeon].optionalParameters.achievement) {
+                if (TownList[dungeon].requirements.some((req) => req instanceof DevelopmentRequirement) || dungeonList[dungeon].optionalParameters.achievement === false) {
                     return;
                 }
                 let category = region;
