@@ -664,7 +664,7 @@ class AchievementHandler {
         AchievementHandler.addAchievement('Rumor Master', 'Complete the \'Hoopa Day\' Pokédex', new QuestLineCompletedRequirement('How blu mouse?'), 1, GameConstants.ExtraAchievementCategories.events);
         addEventPokemonAchievements('Egghunt', 'Easter', (p: PokemonListData) => ['Pikachu (Easter)', 'Togepi (Flowering Crown)', 'Torchic (Egg)'].includes(p.name));
         addEventPokemonAchievements('Blossom', '\'Golden Week\'', (p: PokemonListData) => p.name.endsWith('(Rose)'));
-        addEventPokemonAchievements('Anniversary', '\'Flying Pikachu\'', (p: PokemonListData) => p.name == 'Flying Pikachu' || p.name == 'Red Spearow');
+        addEventPokemonAchievements('Party', '\'Flying Pikachu\'', (p: PokemonListData) => p.name == 'Flying Pikachu' || p.name == 'Red Spearow');
 
         // Secret achievements
         AchievementHandler.addSecretAchievement(
