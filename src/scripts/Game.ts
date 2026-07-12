@@ -108,7 +108,6 @@ class Game implements TmpGameType {
     }
 
     initialize() {
-        this.quests.initialize();
         AchievementHandler.initialize(this.multiplier, this.challenges);
         FarmController.initialize();
         EffectEngineRunner.initialize(this.multiplier, GameHelper.enumStrings(GameConstants.BattleItemType).map((name) => ItemList[name]));

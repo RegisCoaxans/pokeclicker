@@ -19,10 +19,11 @@ export default class QuestLineCompletedRequirement extends AchievementRequiremen
     }
 
     public getProgress(): number {
-        return this.quest.state() === QuestLineState.ended ? 1 : 0;
+        // Quest lines may not be loaded yet when achievements are first evaluated
+        return this.quest?.state() === QuestLineState.ended ? 1 : 0;
     }
 
     public hint(): string {
-        return `Questline ${this.quest.displayName} needs to be ${this.option !== AchievementOption.less ? 'completed' : 'incomplete'}.`;
+        return `Questline ${this.quest?.displayName ?? this.questLineName} needs to be ${this.option !== AchievementOption.less ? 'completed' : 'incomplete'}.`;
     }
 }
