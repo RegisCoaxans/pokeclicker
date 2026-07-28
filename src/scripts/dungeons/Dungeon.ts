@@ -434,7 +434,7 @@ class Dungeon {
             pkrsImage: pokerus > GameConstants.Pokerus.Uninfected ? `assets/images/breeding/pokerus/${GameConstants.Pokerus[pokerus]}.png` : '',
             EVs: pokerus >= GameConstants.Pokerus.Contagious ? `EVs: ${partyPokemon.evs().toLocaleString('en-US')}` : '',
             shiny: shinyCaught,
-            hide: hideEncounter,
+            hide: mimicData ? !!mimicData.lockedMessage : hideEncounter,
             uncaught: !caught,
             lock: !!mimicData?.lockedMessage,
             lockMessage: mimicData?.lockedMessage ?? '',
@@ -497,7 +497,7 @@ class Dungeon {
         // Handling Mimics
         this.getCaughtMimics().forEach(enemy => {
             const pokemonName = enemy;
-            encounterInfo.push(this.getEncounterInfo(pokemonName, this.getMimicData(pokemonName), true));
+            encounterInfo.push(this.getEncounterInfo(pokemonName, this.getMimicData(pokemonName)));
         });
 
         return encounterInfo;
