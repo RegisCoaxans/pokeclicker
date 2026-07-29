@@ -14,7 +14,7 @@ export default class RegionRoute {
         public ignoreRouteInCalculations = false,
         public routeHealth?: number,
     ) {
-        this.orderNumber = orderNumber || number;
+
     }
 
     public isUnlocked() {
