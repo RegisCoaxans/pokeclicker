@@ -621,6 +621,13 @@ class Farming implements Feature {
             .reduce((acc, plot) => acc * (1 - mutation.getTotalMutationChance(plot)), 1);
     }
 
+    // Whether any plot currently qualifies for a mutation into the given Berry.
+    // Purposely does not use getMutationChance to avoid the overhead of checking auras.
+    isMutationPossible(berry: BerryType): boolean {
+        const mutation = this.mutations.find((m) => m.mutatedBerry === berry);
+        return (mutation?.getMutationPlots().length ?? 0) > 0;
+    }
+
     update(delta: number): void {
         const timeToReduce = delta;
 
