@@ -612,6 +612,15 @@ class Farming implements Feature {
         return multiplier;
     }
 
+    getMutationChance(berry: BerryType): number {
+        const mutation = this.mutations.find((m) => m.mutatedBerry === berry);
+        if (!mutation) {
+            return 0;
+        }
+        return 1 - mutation.getMutationPlots()
+            .reduce((acc, plot) => acc * (1 - mutation.getTotalMutationChance(plot)), 1);
+    }
+
     update(delta: number): void {
         const timeToReduce = delta;
 

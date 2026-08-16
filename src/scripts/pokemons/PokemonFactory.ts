@@ -263,6 +263,16 @@ class PokemonFactory {
             case ItemType.underground:
                 chance = GameConstants.HELD_UNDERGROUND_ITEM_CHANCE;
                 break;
+            case ItemType.berry:
+                if (item.id === BerryType.Snover) {
+                    // Snover Berries drop at the rate the Snover mutation would occur on the players farm
+                    const mutationChance = App.game.farming.getMutationChance(BerryType.Snover);
+                    if (mutationChance <= 0) {
+                        return null;
+                    }
+                    chance = 1 / mutationChance;
+                }
+                break;
         }
 
         // Apply drop chance by item ID
@@ -306,14 +316,9 @@ class PokemonFactory {
             case 'Relic_gold':
                 chance = GameConstants.RELIC_GOLD_ITEM_CHANCE;
                 break;
-            case BerryType.Snover:
-                const snoverMutation = App.game.farming.mutations.find(m => m.mutatedBerry == BerryType.Snover);
-                chance = 1 - snoverMutation.getMutationPlots().reduce((c, p) => c * (1 - snoverMutation.getTotalMutationChance(p)), 1);
-                break;
         }
 
         chance /= modifier;
-
         chance /= App.game.multiplier.getBonus('rareItemDropRate');
 
         if (Rand.chance(chance)) {
