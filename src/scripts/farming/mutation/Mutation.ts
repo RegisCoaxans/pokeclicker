@@ -3,7 +3,7 @@ interface MutationOptions {
     hint?: string,
     unlockReq?: () => boolean,
     showHint?: boolean,
-    chanceModifier?: (chance: number) => number
+    chanceModifier?: (chance: number, idx: number) => number,
 }
 
 abstract class Mutation {
@@ -17,7 +17,7 @@ abstract class Mutation {
     _hint?: string;
     showHint: boolean;
     _unlockReq?: (() => boolean);
-    _chanceModifier?: (chance: number) => number
+    _chanceModifier: (chance: number, idx: number) => number;
 
     _hintSeen: KnockoutObservable<boolean>;
 
@@ -80,7 +80,7 @@ abstract class Mutation {
      * @param idx The plot index
      */
     mutationChance(idx: number): number {
-        return this._chanceModifier?.(this._mutationChance) ?? this._mutationChance;
+        return this._chanceModifier(this._mutationChance, idx);
     }
 
     /**

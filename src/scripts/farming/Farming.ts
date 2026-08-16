@@ -356,19 +356,19 @@ class Farming implements Feature {
         }));
         // Chople
         this.mutations.push(new EvolveNearBerryStrictMutation(.0001, BerryType.Chople, BerryType.Spelon, {[BerryType.Spelon]: 3}, PlotStage.Taller, {
-            hint: 'I\'ve heard that growing a Spelon Berry near exactly three of its kind will cause it to change, especially when in contact with Magma Stone!',
+            hint: 'I\'ve heard that growing a Spelon Berry beside exactly three of its kind, with nothing else growing nearby, will cause it to change, especially when using the Magma Stone!',
             chanceModifier: (chance: number) => chance * (App.game.oakItems.isActive(OakItemType.Magma_Stone) ? 2 : 1),
         }));
         // Kebia
         this.mutations.push(new EvolveNearBerryStrictMutation(.0001, BerryType.Kebia, BerryType.Pamtre, {[BerryType.Pamtre]: 3}, PlotStage.Taller, {
-            hint: 'I\'ve heard that growing a Pamtre Berry near exactly three of its kind will cause it to change, especially when in contact with Rocky Helmet!',
+            hint: 'I\'ve heard that growing a Pamtre Berry beside exactly three of its kind, with nothing else growing nearby, will cause it to change, especially when using the Rocky Helmet!',
             chanceModifier: (chance: number) => chance * (App.game.oakItems.isActive(OakItemType.Rocky_Helmet) ? 2 : 1),
         }));
         // Kebia Parasite
         this.mutations.push(new ParasiteMutation(.0004, BerryType.Kebia));
         // Shuca
         this.mutations.push(new EvolveNearBerryStrictMutation(.0001, BerryType.Shuca, BerryType.Watmel, {[BerryType.Watmel]: 3}, PlotStage.Taller, {
-            hint: 'I\'ve heard that growing a Watmel Berry near exactly three of its kind will cause it to change, especially when in contact with Sprinklotad!',
+            hint: 'I\'ve heard that growing a Watmel Berry beside exactly three of its kind, with nothing else growing nearby, will cause it to change, especially when using the Sprinklotad!',
             chanceModifier: (chance: number) => chance * (App.game.oakItems.isActive(OakItemType.Sprinklotad) ? 2 : 1),
         }));
         // Coba
@@ -396,7 +396,7 @@ class Farming implements Feature {
         }));
         // Charti
         this.mutations.push(new EvolveNearBerryStrictMutation(.0001, BerryType.Charti, BerryType.Cornn, {[BerryType.Cornn]: 3}, PlotStage.Taller, {
-            hint: 'I\'ve heard that growing a Cornn Berry near exactly three of its kind will cause it to change, especially when in contact with Cell Battery!',
+            hint: 'I\'ve heard that growing a Cornn Berry beside exactly three of its kind, with nothing else growing nearby, will cause it to change, especially when using the Cell Battery!',
             chanceModifier: (chance: number) => chance * (App.game.oakItems.isActive(OakItemType.Cell_Battery) ? 2 : 1),
         }));
         // Kasib
