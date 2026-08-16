@@ -612,9 +612,11 @@ class Farming implements Feature {
         return multiplier;
     }
 
-    getMutationChance(berry: BerryType): number {
+    // The chance that a mutation into the given Berry can occur.
+    // Pass false to also count mutations the player hasn't unlocked yet.
+    getMutationChance(berry: BerryType, requireUnlocked = true): number {
         const mutation = this.mutations.find((m) => m.mutatedBerry === berry);
-        if (!mutation) {
+        if (!mutation || (requireUnlocked && !mutation.unlocked)) {
             return 0;
         }
         return 1 - mutation.getMutationPlots()
@@ -623,9 +625,13 @@ class Farming implements Feature {
 
     // Whether any plot currently qualifies for a mutation into the given Berry.
     // Purposely does not use getMutationChance to avoid the overhead of checking auras.
-    isMutationPossible(berry: BerryType): boolean {
+    // Pass false to also count mutations the player hasn't unlocked yet.
+    isMutationPossible(berry: BerryType, requireUnlocked = true): boolean {
         const mutation = this.mutations.find((m) => m.mutatedBerry === berry);
-        return (mutation?.getMutationPlots().length ?? 0) > 0;
+        if (!mutation || (requireUnlocked && !mutation.unlocked)) {
+            return false;
+        }
+        return mutation.getMutationPlots().length > 0;
     }
 
     update(delta: number): void {

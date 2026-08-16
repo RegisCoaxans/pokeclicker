@@ -14860,7 +14860,7 @@ export const pokemonList = createPokemonArray(
             'specialDefense': 60,
             'speed': 40,
         },
-        'heldItem': { type: ItemType.berry, id: BerryType.Snover, requirement: new BerryMutationPossibleRequirement(BerryType.Snover) },
+        'heldItem': { type: ItemType.berry, id: BerryType.Snover, requirement: new BerryMutationPossibleRequirement(BerryType.Snover, false) },
         'gender': {
             'visualDifference': true,
         },

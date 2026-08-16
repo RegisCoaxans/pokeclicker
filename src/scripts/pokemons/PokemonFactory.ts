@@ -265,8 +265,9 @@ class PokemonFactory {
                 break;
             case ItemType.berry:
                 if (item.id === BerryType.Snover) {
-                    // Snover Berries drop at the rate the Snover mutation would occur on the players farm
-                    const mutationChance = App.game.farming.getMutationChance(BerryType.Snover);
+                    // Snover Berries drop at the rate the Snover mutation would occur on the players farm,
+                    // going by the layout alone even when the mutation isn't unlocked yet
+                    const mutationChance = App.game.farming.getMutationChance(BerryType.Snover, false);
                     if (mutationChance <= 0) {
                         return null;
                     }
