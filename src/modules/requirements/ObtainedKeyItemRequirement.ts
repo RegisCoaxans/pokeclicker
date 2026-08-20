@@ -2,7 +2,7 @@ import { AchievementOption } from '../GameConstants';
 import Requirement from './Requirement';
 import KeyItemType from '../enums/KeyItemType';
 
-export default class ObtainedKeytemRequirement extends Requirement {
+export default class ObtainedKeyItemRequirement extends Requirement {
     constructor(public keyItem: KeyItemType, obtained = true) {
         super(1, obtained ? AchievementOption.more : AchievementOption.less);
     }
