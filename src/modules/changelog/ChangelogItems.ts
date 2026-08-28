@@ -10,6 +10,37 @@ import ChangelogUpdate from './ChangelogUpdate';
  */
 const ChangelogItems = [
     // note that month is 0 indexed
+    // v0.10.26
+    new ChangelogUpdate('v0.10.26', new Date(2026, 7, 30)),
+    new Changelog(changelogType.NEW, 'New Pokémon'),
+    new Changelog(changelogType.NEW, 'New Event - A Pirate\'s Life - and its pirate-themed Pokémon'),
+    new Changelog(changelogType.NEW, 'Event achievement category and new achievements'),
+    new Changelog(changelogType.NEW, 'Veteran Shop allowing early access to features in new files'),
+    new Changelog(changelogType.NEW, 'Trophy Garden added to Sinnoh'),
+    new Changelog(changelogType.NEW, '"Perfumer" trader in Orre will trade scents for stronger ones'),
+    new Changelog(changelogType.NEW, 'New Safari bait type, Pinap, which adds a second item roll upon capturing a Pokémon'),
+    new Changelog(changelogType.NEW, 'Rindo berry now increases rare hold item chances'),
+    new Changelog(changelogType.CHANGE, 'Battle Café spins now accumulate instead of resetting; spins are no longer consumed if the resulting Alcremie is already resistant to Pokérus'),
+    new Changelog(changelogType.CHANGE, 'Jaboca has been rebalanced - stronger aura and shorter growth time'),
+    new Changelog(changelogType.CHANGE, 'Berry mutations that required an Oak Item to be equipped or a Pokémon to be obtained have been revisited'),
+    new Changelog(changelogType.CHANGE, 'Medichamite is more likely to drop at higher quest level'),
+    new Changelog(changelogType.CHANGE, 'Improved formula for Contest Tokens obtained in the Bug Catching Contest'),
+    new Changelog(changelogType.CHANGE, 'Master Balls no longer have a price cap and will continue to get more expensive indefinitely'),
+    new Changelog(changelogType.CHANGE, 'Time Flute now additionally affects Flow gain'),
+    new Changelog(changelogType.CHANGE, 'Updated some Pokémon locations and evolution methods'),
+    new Changelog(changelogType.CHANGE, 'Swapped the Safari effects of the Razz and Nanab bait'),
+    new Changelog(changelogType.CHANGE, 'Power Herb now boosts Attack in Battle Frontier rather than against Dungeon bosses'),
+    new Changelog(changelogType.CHANGE, 'Some hatchery and Pokédex filters now support selecting multiple options'),
+    new Changelog(changelogType.CHANGE, 'Poké Mart shortcut shop now includes Farm items'),
+    new Changelog(changelogType.CHANGE, 'Halloween Pokémon can now drop Rare Candy'),
+    new Changelog(changelogType.CHANGE, 'Several UI changes and improvements'),
+    new Changelog(changelogType.CHANGE, 'Misc text changes'),
+    new Changelog(changelogType.FIXED, 'Lum berry incorrectly interacting with Micle berry'),
+    new Changelog(changelogType.FIXED, 'Dungeon Guides potentially getting stuck when the player makes a manual movement'),
+    new Changelog(changelogType.FIXED, 'Issues downloading/copying save data on iOS devices'),
+    new Changelog(changelogType.FIXED, 'Various styling issues accross several themes'),
+    new Changelog(changelogType.FIXED, 'Magic Ball correctly gains XP from capturing Pokémon in the Safari'),
+
     // v0.10.25
     new ChangelogUpdate('v0.10.25', new Date(2025, 7, 13)),
     new Changelog(changelogType.NEW, 'New Pokémon'),
