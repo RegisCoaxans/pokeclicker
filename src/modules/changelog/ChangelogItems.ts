@@ -15,7 +15,7 @@ const ChangelogItems = [
     new Changelog(changelogType.NEW, 'New Pokémon'),
     new Changelog(changelogType.NEW, 'New Event - A Pirate\'s Life - and its pirate-themed Pokémon'),
     new Changelog(changelogType.NEW, 'Event achievement category and new achievements'),
-    new Changelog(changelogType.NEW, 'Veteran Shop allowing early access to features in new files'),
+    new Changelog(changelogType.NEW, 'Veteran Shop allowing early access to unlocks for experienced players'),
     new Changelog(changelogType.NEW, 'Trophy Garden added to Sinnoh'),
     new Changelog(changelogType.NEW, '"Perfumer" trader in Orre will trade scents for stronger ones'),
     new Changelog(changelogType.NEW, 'New Safari bait type, Pinap, which adds a second item roll upon capturing a Pokémon'),
