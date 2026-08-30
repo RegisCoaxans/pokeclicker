@@ -879,7 +879,6 @@ const NewIslandAsh2 = new NPC('Ash Ketchum',
 
 const CaptainGyarados = new NPC('Captain Gyarados', [
     'Pirate crew battles are part of our everyday life out here. According to the old pirate code, I must hand over a reward if you manage to defeat us…',
-    'But be warned: if you triumph over my crew, even stronger pirates may start roaming in this area.',
 ], {
     image: 'assets/images/pokemon/130.02.png',
 }
@@ -1204,7 +1203,7 @@ TownList['Gyarados Galleon'] = new Town(
     'Gyarados Galleon',
     GameConstants.Region.kanto,
     GameConstants.KantoSubRegions.Kanto,
-    [TemporaryBattleList['Gyarados Crew'], new GenericTraderShop('CoinChanger', 'Pirate Coin Changer'), new GenericTraderShop('PirateFence', 'Shady Fence')],
+    [TemporaryBattleList['Gyarados Crew'], new GenericTraderShop('PirateFence', 'Shady Fence')],
     {
         requirements: [new SpecialEventRequirement('A Pirate\'s Life')],
         npcs: [CaptainGyarados],
@@ -6972,7 +6971,7 @@ TownList['Pirate Island'] = new DungeonTown(
     GameConstants.Region.kalos,
     GameConstants.KalosSubRegions.Kalos,
     [new SpecialEventRequirement('A Pirate\'s Life')],
-    [new GenericTraderShop('CoinChanger', 'Pirate Coin Changer'), new GenericTraderShop('PirateFence', 'Shady Fence')],
+    [new GenericTraderShop('PirateFence', 'Shady Fence')],
     {
         npcs: [WorkingPirate],
 
@@ -8050,16 +8049,6 @@ TownList['Roadside Motel'] = new Town(
     {
         requirements: [new QuestLineStartedRequirement('Ultra Beast Hunt')],
         npcs: [RoadsideMotelLooker1, RoadsideMotelAnabel1, RoadsideMotelLooker2, RoadsideMotelAnabel2, RoadsideMotelAnabel3, RoadsideMotelMina, RoadsideMotelNanu1, RoadsideMotelNanu2, RoadsideMotelAnabel4, RoadsideMotelAnabel5],
-    }
-);
-TownList['Tsareena Sloop'] = new Town(
-    'Tsareena Sloop',
-    GameConstants.Region.alola,
-    GameConstants.AlolaSubRegions.MelemeleIsland,
-    [TemporaryBattleList['Tsareena Crew'], new GenericTraderShop('CoinChanger', 'Pirate Coin Changer'), new GenericTraderShop('PirateFence', 'Shady Fence')],
-    {
-        requirements: [new SpecialEventRequirement('A Pirate\'s Life')],
-        npcs: [],
     }
 );
 TownList['Heahea City'] = new Town(

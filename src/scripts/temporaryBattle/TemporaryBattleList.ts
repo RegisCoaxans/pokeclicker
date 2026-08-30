@@ -4850,36 +4850,6 @@ TemporaryBattleList['Team Rainbow Leader Giovanni'] = new TemporaryBattle(
     [new QuestLineStepCompletedRequirement('Defeat Rainbow Rocket', 5)]
 );
 
-TemporaryBattleList['Tsareena Crew'] = new TemporaryBattle(
-    'Tsareena Crew',
-    [
-        new GymPokemon('Bounsweet (Pirate)', 91233520, 20),
-        new GymPokemon('Bounsweet (Pirate)', 91233520, 20),
-        new GymPokemon('Steenee (Pirate)', 114041900, 25),
-        new GymPokemon('Steenee (Pirate)', 114041900, 25),
-        new GymPokemon('Steenee (Pirate)', 114041900, 25),
-        new GymPokemon('Tsareena (Captain)', 228083800, 50),
-    ],
-    'You beat us fair and square. Take this reward.',
-    [new SpecialEventRequirement('A Pirate\'s Life')],
-    undefined,
-    {
-        rewardFunction: () => {
-
-            player.gainItem('Pirate_Compass', 1);
-            Notifier.notify({
-                message: 'You were awarded a Pirate Compass!',
-                type: NotificationConstants.NotificationOption.success,
-                image: ItemList.Pirate_Compass.image,
-            });
-        },
-        resetDaily: true,
-        returnTown: 'Tsareena Sloop',
-        finalPokemonImage: 'specialNPCs/Transparent',
-        imageName: '../pokemon/763.01',
-    }
-);
-
 // Magikarp Jump Temp Battles
 TemporaryBattleList['Magikarp Jump Koylee'] = new TemporaryBattle(
     'Magikarp Jump Koylee',
